@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <link
+            crossorigin=""
+            href="https://fonts.gstatic.com/"
+            rel="preconnect"
+        />
+        <link
+            as="style"
+            href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900"
+            onload="this.rel='stylesheet'"
+            rel="stylesheet"
+        />
+        <title>Stitch Design</title>
+        <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <style type="text/tailwindcss">
+            :root {
+                --primary-color: #3d98f4;
+                --secondary-color: #e0f2fe;
+                --background-color: #f9f9f9;
+                --text-primary: #111827;
+                --text-secondary: #6b7280;
+                --accent-color: #bfdbfe;
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: var(--background-color);
+                color: var(--text-primary);
+            }
+            .main_container {
+                @apply container mx-auto px-4 py-8;
+            }
+            .card {
+                @apply bg-white rounded-lg shadow-md p-6;
+            }
+            .button_primary {
+                @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md;
+            }
+            .button_secondary {
+                @apply bg-[var(--secondary-color)] hover:bg-blue-100 text-[var(--primary-color)] font-bold py-2 px-4 rounded-md;
+            }
+            .input {
+                @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+            }
+            .typography_h1 {
+                @apply text-3xl font-bold text-[var(--text-primary)];
+            }
+            .typography_h2 {
+                @apply text-2xl font-semibold text-[var(--text-primary)];
+            }
+            .typography_body {
+                @apply text-base text-[var(--text-secondary)];
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            class="relative flex size-full min-h-screen flex-col bg-background-color group/design-root"
+        >
+            <div class="flex h-full grow flex-col">
+                <div class="flex flex-1">
+                    <aside
+                        class="flex flex-col w-64 bg-white p-4 border-r border-gray-200"
+                    >
+                        <div class="flex flex-col gap-4">
+                            <h1 class="text-xl font-bold text-text-primary">
+                                MotoCorp
+                            </h1>
+                            <nav class="flex flex-col gap-2">
+                                <a
+                                    class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:bg-secondary-color hover:text-primary-color rounded-md"
+                                    href="#"
+                                >
+                                    <svg
+                                        fill="currentColor"
+                                        height="24px"
+                                        viewBox="0 0 256 256"
+                                        width="24px"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"
+                                        ></path>
+                                    </svg>
+                                    <span class="text-sm font-medium"
+                                        >Dashboard</span
+                                    >
+                                </a>
+                                <a
+                                    class="flex items-center gap-3 px-3 py-2 bg-secondary-color text-primary-color rounded-md"
+                                    href="#"
+                                >
+                                    <svg
+                                        fill="currentColor"
+                                        height="24px"
+                                        viewBox="0 0 256 256"
+                                        width="24px"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M164.47,195.63a8,8,0,0,1-6.7,12.37H10.23a8,8,0,0,1-6.7-12.37,95.83,95.83,0,0,1,47.22-37.71,60,60,0,1,1,66.5,0A95.83,95.83,0,0,1,164.47,195.63Zm87.91-.15a95.87,95.87,0,0,0-47.13-37.56A60,60,0,0,0,144.7,54.59a4,4,0,0,0-1.33,6A75.83,75.83,0,0,1,147,150.53a4,4,0,0,0,1.07,5.53,112.32,112.32,0,0,1,29.85,30.83,23.92,23.92,0,0,1,3.65,16.47,4,4,0,0,0,3.95,4.64h60.3a8,8,0,0,0,7.73-5.93A8.22,8.22,0,0,0,252.38,195.48Z"
+                                        ></path>
+                                    </svg>
+                                    <span class="text-sm font-medium"
+                                        >Customers</span
+                                    >
+                                </a>
+                                <a
+                                    class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:bg-secondary-color hover:text-primary-color rounded-md"
+                                    href="#"
+                                >
+                                    <svg
+                                        fill="currentColor"
+                                        height="24px"
+                                        viewBox="0 0 256 256"
+                                        width="24px"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"
+                                        ></path>
+                                    </svg>
+                                    <span class="text-sm font-medium"
+                                        >Inventory</span
+                                    >
+                                </a>
+                                <a
+                                    class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:bg-secondary-color hover:text-primary-color rounded-md"
+                                    href="#"
+                                >
+                                    <svg
+                                        fill="currentColor"
+                                        height="24px"
+                                        viewBox="0 0 256 256"
+                                        width="24px"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.36L57.75,219a8,8,0,0,0,12.5,10l29.59-37h56.32l29.59,37a8,8,0,1,0,12.5-10l-21.61-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,136H40V56H216V176ZM104,120v24a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0Zm32-16v40a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm32-16v56a8,8,0,0,1-16,0V88a8,8,0,0,1,16,0Z"
+                                        ></path>
+                                    </svg>
+                                    <span class="text-sm font-medium"
+                                        >Sales</span
+                                    >
+                                </a>
+                                <a
+                                    class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:bg-secondary-color hover:text-primary-color rounded-md"
+                                    href="#"
+                                >
+                                    <svg
+                                        fill="currentColor"
+                                        height="24px"
+                                        viewBox="0 0 256 256"
+                                        width="24px"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M226.76,69a8,8,0,0,0-12.84-2.88l-40.3,37.19-17.23-3.7-3.7-17.23,37.19-40.3A8,8,0,0,0,187,29.24,72,72,0,0,0,88,96,72.34,72.34,0,0,0,94,124.94L33.79,177c-.15.12-.29.26-.43.39a32,32,0,0,0,45.26,45.26c.13-.13.27-.28.39-.42L131.06,162A72,72,0,0,0,232,96,71.56,71.56,0,0,0,226.76,69ZM160,152a56.14,56.14,0,0,1-27.07-7,8,8,0,0,0-9.92,1.77L67.11,211.51a16,16,0,0,1-22.62-22.62L109.18,133a8,8,0,0,0,1.77-9.93,56,56,0,0,1,58.36-82.31l-31.2,33.81a8,8,0,0,0-1.94,7.1L141.83,108a8,8,0,0,0,6.14,6.14l26.35,5.66a8,8,0,0,0,7.1-1.94l33.81-31.2A56.06,56.06,0,0,1,160,152Z"
+                                        ></path>
+                                    </svg>
+                                    <span class="text-sm font-medium"
+                                        >Service</span
+                                    >
+                                </a>
+                            </nav>
+                        </div>
+                        <div class="mt-auto">
+                            <a
+                                class="flex items-center gap-3 px-3 py-2 text-text-secondary hover:bg-secondary-color hover:text-primary-color rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24px"
+                                    viewBox="0 0 256 256"
+                                    width="24px"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"
+                                    ></path>
+                                </svg>
+                                <span class="text-sm font-medium"
+                                    >Settings</span
+                                >
+                            </a>
+                        </div>
+                    </aside>
+                    <main class="flex-1 p-8">
+                        <header class="flex items-center justify-between mb-8">
+                            <h1 class="typography_h1">Customers</h1>
+                            <button class="button_primary">New Customer</button>
+                        </header>
+                        <div class="mb-6">
+                            <div class="relative">
+                                <div
+                                    class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                                >
+                                    <svg
+                                        class="h-5 w-5 text-text-secondary"
+                                        fill="currentColor"
+                                        viewBox="0 0 256 256"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"
+                                        ></path>
+                                    </svg>
+                                </div>
+                                <input
+                                    class="input w-full pl-10"
+                                    placeholder="Search customers"
+                                    type="text"
+                                    value=""
+                                />
+                            </div>
+                        </div>
+                        <div class="border-b border-gray-200 mb-6">
+                            <nav class="flex gap-8 -mb-px">
+                                <a
+                                    class="py-4 px-1 border-b-2 border-primary-color text-primary-color text-sm font-bold"
+                                    href="#"
+                                    >All Customers</a
+                                >
+                                <a
+                                    class="py-4 px-1 border-b-2 border-transparent text-text-secondary hover:text-text-primary hover:border-gray-300 text-sm font-bold"
+                                    href="#"
+                                    >Leads</a
+                                >
+                                <a
+                                    class="py-4 px-1 border-b-2 border-transparent text-text-secondary hover:text-text-primary hover:border-gray-300 text-sm font-bold"
+                                    href="#"
+                                    >Active Customers</a
+                                >
+                            </nav>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-sm">
+                            <table class="w-full">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-medium text-text-secondary uppercase tracking-wider"
+                                        >
+                                            Name
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-medium text-text-secondary uppercase tracking-wider"
+                                        >
+                                            Email
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-medium text-text-secondary uppercase tracking-wider"
+                                        >
+                                            Phone
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-medium text-text-secondary uppercase tracking-wider"
+                                        >
+                                            Status
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-medium text-text-secondary uppercase tracking-wider"
+                                        >
+                                            Last Interaction
+                                        </th>
+                                        <th
+                                            class="px-6 py-4 text-left text-xs font-medium text-text-secondary uppercase tracking-wider"
+                                        >
+                                            Sales Rep
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Ethan Carter
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            ethan.carter@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-123-4567
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                            >
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-15
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Olivia Bennett
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Sophia Clark
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            sophia.clark@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-987-6543
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                                            >
+                                                Lead
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-20
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Liam Davis
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Noah Harris
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            noah.harris@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-246-8013
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                            >
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-10
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Ava Wilson
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Isabella Martinez
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            isabella.martinez@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-369-1470
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                                            >
+                                                Lead
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-22
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Lucas Taylor
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            James Anderson
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            james.anderson@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-789-0123
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                            >
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-05
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Mia Evans
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Emily Thomas
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            emily.thomas@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-456-7890
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                                            >
+                                                Lead
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-18
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Jackson Moore
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Daniel Jackson
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            daniel.jackson@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-654-3210
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                            >
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-12
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Chloe Hall
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Charlotte White
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            charlotte.white@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-012-3456
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                                            >
+                                                Lead
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-25
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Aiden Scott
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Michael Lee
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            michael.lee@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-321-6540
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                                            >
+                                                Active
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-08
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Grace Green
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body text-text-primary font-medium"
+                                        >
+                                            Amelia Hill
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            amelia.hill@email.com
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            555-147-2580
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span
+                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
+                                            >
+                                                Lead
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            2023-11-16
+                                        </td>
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap typography_body"
+                                        >
+                                            Owen King
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

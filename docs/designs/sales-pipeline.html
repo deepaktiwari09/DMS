@@ -1,0 +1,1146 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link
+            crossorigin=""
+            href="https://fonts.gstatic.com/"
+            rel="preconnect"
+        />
+        <link
+            as="style"
+            href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+            onload="this.rel='stylesheet'"
+            rel="stylesheet"
+        />
+        <meta charset="utf-8" />
+        <title>Stitch Design</title>
+        <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <style type="text/tailwindcss">
+            :root {
+                --primary-color: #3d98f4;
+                --secondary-color: #e0f2fe;
+                --background-color: #f9f9f9;
+                --text-primary: #111827;
+                --text-secondary: #6b7280;
+                --accent-color: #bfdbfe;
+            }
+            body {
+                font-family: Inter, "Noto Sans", sans-serif;
+                background-color: var(--background-color);
+                color: var(--text-primary);
+                border-radius: 0.375rem;
+            }
+            .main_container {
+                @apply container mx-auto px-4 py-8;
+            }
+            .card {
+                @apply bg-white rounded-md shadow-md p-6;
+            }
+            .button_primary {
+                @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md;
+            }
+            .button_secondary {
+                @apply bg-[var(--secondary-color)] hover:bg-blue-100 text-[var(--primary-color)] font-bold py-2 px-4 rounded-md;
+            }
+            .input {
+                @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+            }
+            .typography_h1 {
+                @apply text-3xl font-bold text-[var(--text-primary)];
+            }
+            .typography_h2 {
+                @apply text-2xl font-semibold text-[var(--text-primary)];
+            }
+            .typography_body {
+                @apply text-base text-[var(--text-secondary)];
+            }
+        </style>
+    </head>
+    <body class="bg-[var(--background-color)]">
+        <div
+            class="relative flex size-full min-h-screen flex-col bg-gray-100/50 group/design-root overflow-x-hidden"
+            style="
+                --primary-color: #3d98f4;
+                --secondary-color: #e0f2fe;
+                --background-color: #f9f9f9;
+                --text-primary: #111827;
+                --text-secondary: #6b7280;
+                --accent-color: #bfdbfe;
+            "
+        >
+            <div class="flex h-full grow">
+                <div class="flex flex-col w-64 bg-white shadow-md">
+                    <div
+                        class="flex items-center justify-center p-6 border-b border-gray-200"
+                    >
+                        <h1
+                            class="text-xl font-bold text-[var(--text-primary)]"
+                        >
+                            MotoCorp
+                        </h1>
+                    </div>
+                    <div class="flex-1 p-4">
+                        <nav class="flex flex-col gap-2">
+                            <a
+                                class="flex items-center gap-3 px-4 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"
+                                    ></path>
+                                </svg>
+                                <span class="font-medium">Dashboard</span>
+                            </a>
+                            <a
+                                class="flex items-center gap-3 px-4 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z"
+                                    ></path>
+                                </svg>
+                                <span class="font-medium">Sales</span>
+                            </a>
+                            <a
+                                class="flex items-center gap-3 px-4 py-2 text-white bg-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M232,96a72,72,0,0,1-100.94,66L79,222.22c-.12.14-.26.29-.39.42a32,32,0,0,1-45.26-45.26c.14-.13.28-.27.43-.39L94,124.94a72.07,72.07,0,0,1,83.54-98.78,8,8,0,0,1,3.93,13.19L144,80l5.66,26.35L176,112l40.65-37.52a8,8,0,0,1,13.19,3.93A72.6,72.6,0,0,1,232,96Z"
+                                    ></path>
+                                </svg>
+                                <span class="font-medium">Service</span>
+                            </a>
+                            <a
+                                class="flex items-center gap-3 px-4 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"
+                                    ></path>
+                                </svg>
+                                <span class="font-medium">Inventory</span>
+                            </a>
+                            <a
+                                class="flex items-center gap-3 px-4 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"
+                                    ></path>
+                                </svg>
+                                <span class="font-medium">Customers</span>
+                            </a>
+                        </nav>
+                    </div>
+                    <div class="p-4 border-t border-gray-200">
+                        <a
+                            class="flex items-center gap-3 px-4 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                            href="#"
+                        >
+                            <svg
+                                fill="currentColor"
+                                height="24"
+                                viewBox="0 0 256 256"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"
+                                ></path>
+                            </svg>
+                            <span class="font-medium">Settings</span>
+                        </a>
+                    </div>
+                </div>
+                <main
+                    class="flex-1 p-8"
+                    x-data="{ activeTab: 'schedule', view: 'table' }"
+                >
+                    <div class="flex items-center justify-between mb-8">
+                        <h1 class="typography_h1">Service Management</h1>
+                        <button class="button_primary">New Job Card</button>
+                    </div>
+                    <div class="mb-8">
+                        <div
+                            class="border-b border-gray-200 bg-white rounded-t-lg"
+                        >
+                            <nav class="flex">
+                                <a
+                                    :class="{ 'border-b-2 border-[var(--primary-color)] text-[var(--primary-color)] font-semibold': activeTab === 'schedule', 'text-[var(--text-secondary)] hover:text-[var(--primary-color)]': activeTab !== 'schedule' }"
+                                    @click.prevent="activeTab = 'schedule'"
+                                    class="flex items-center gap-2 py-4 px-6 font-medium cursor-pointer"
+                                    href="#"
+                                >
+                                    <svg
+                                        class="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"
+                                        ></path>
+                                    </svg>
+                                    <span>Service Schedule</span>
+                                </a>
+                                <a
+                                    :class="{ 'border-b-2 border-[var(--primary-color)] text-[var(--primary-color)] font-semibold': activeTab === 'job_cards', 'text-[var(--text-secondary)] hover:text-[var(--primary-color)]': activeTab !== 'job_cards' }"
+                                    @click.prevent="activeTab = 'job_cards'"
+                                    class="flex items-center gap-2 py-4 px-6 font-medium cursor-pointer"
+                                    href="#"
+                                >
+                                    <svg
+                                        class="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                        ></path>
+                                        <polyline
+                                            points="14 2 14 8 20 8"
+                                        ></polyline>
+                                        <line
+                                            x1="16"
+                                            x2="8"
+                                            y1="13"
+                                            y2="13"
+                                        ></line>
+                                        <line
+                                            x1="16"
+                                            x2="8"
+                                            y1="17"
+                                            y2="17"
+                                        ></line>
+                                        <polyline
+                                            points="10 9 9 9 8 9"
+                                        ></polyline>
+                                    </svg>
+                                    <span>Job Cards</span>
+                                </a>
+                                <a
+                                    :class="{ 'border-b-2 border-[var(--primary-color)] text-[var(--primary-color)] font-semibold': activeTab === 'technicians', 'text-[var(--text-secondary)] hover:text-[var(--primary-color)]': activeTab !== 'technicians' }"
+                                    @click.prevent="activeTab = 'technicians'"
+                                    class="flex items-center gap-2 py-4 px-6 font-medium cursor-pointer"
+                                    href="#"
+                                >
+                                    <svg
+                                        class="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"
+                                        ></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path
+                                            d="M23 21v-2a4 4 0 0 0-3-3.87"
+                                        ></path>
+                                        <path
+                                            d="M16 3.13a4 4 0 0 1 0 7.75"
+                                        ></path>
+                                    </svg>
+                                    <span>Technicians</span>
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                    <div x-show="activeTab === 'schedule'">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="typography_h2">Service Schedule</h2>
+                            <div
+                                class="flex items-center gap-2 rounded-lg bg-gray-200 p-1"
+                            >
+                                <button
+                                    :class="{'bg-white text-[var(--primary-color)] shadow': view === 'table', 'text-[var(--text-secondary)]': view !== 'table'}"
+                                    @click="view = 'table'"
+                                    class="px-3 py-1 rounded-md text-sm font-medium focus:outline-none"
+                                >
+                                    Table
+                                </button>
+                                <button
+                                    :class="{'bg-white text-[var(--primary-color)] shadow': view === 'calendar', 'text-[var(--text-secondary)]': view !== 'calendar'}"
+                                    @click="view = 'calendar'"
+                                    class="px-3 py-1 rounded-md text-sm font-medium focus:outline-none"
+                                >
+                                    Calendar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card" x-show="view === 'table'">
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                        <tr class="border-b border-gray-200">
+                                            <th
+                                                class="p-4 typography_body font-semibold"
+                                            >
+                                                Date
+                                            </th>
+                                            <th
+                                                class="p-4 typography_body font-semibold"
+                                            >
+                                                Time
+                                            </th>
+                                            <th
+                                                class="p-4 typography_body font-semibold"
+                                            >
+                                                Customer
+                                            </th>
+                                            <th
+                                                class="p-4 typography_body font-semibold"
+                                            >
+                                                Vehicle
+                                            </th>
+                                            <th
+                                                class="p-4 typography_body font-semibold"
+                                            >
+                                                Service Type
+                                            </th>
+                                            <th
+                                                class="p-4 typography_body font-semibold"
+                                            >
+                                                Technician
+                                            </th>
+                                            <th
+                                                class="p-4 typography_body font-semibold"
+                                            >
+                                                Status
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="p-4 typography_body">
+                                                2024-07-25
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                09:00 AM
+                                            </td>
+                                            <td
+                                                class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                            >
+                                                Ethan Carter
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                Yamaha R6
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                Oil Change
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                Mike Miller
+                                            </td>
+                                            <td class="p-4">
+                                                <span
+                                                    class="px-3 py-1 text-sm font-medium rounded-full bg-gray-200 text-gray-800"
+                                                    >Scheduled</span
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="p-4 typography_body">
+                                                2024-07-25
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                11:00 AM
+                                            </td>
+                                            <td
+                                                class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                            >
+                                                Olivia Bennett
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                Honda CBR500R
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                Tire Replacement
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                Sarah Chen
+                                            </td>
+                                            <td class="p-4">
+                                                <span
+                                                    class="px-3 py-1 text-sm font-medium rounded-full bg-gray-200 text-gray-800"
+                                                    >Scheduled</span
+                                                >
+                                            </td>
+                                        </tr>
+                                        <tr class="border-b border-gray-200">
+                                            <td class="p-4 typography_body">
+                                                2024-07-26
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                02:00 PM
+                                            </td>
+                                            <td
+                                                class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                            >
+                                                Noah Thompson
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                Kawasaki Ninja 400
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                Brake Service
+                                            </td>
+                                            <td class="p-4 typography_body">
+                                                David Rodriguez
+                                            </td>
+                                            <td class="p-4">
+                                                <span
+                                                    class="px-3 py-1 text-sm font-medium rounded-full bg-gray-200 text-gray-800"
+                                                    >Scheduled</span
+                                                >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div
+                            class="card"
+                            x-cloak=""
+                            x-show="view === 'calendar'"
+                        >
+                            <div class="flex items-center justify-between mb-4">
+                                <button
+                                    class="p-2 rounded-full hover:bg-gray-100"
+                                >
+                                    <svg
+                                        class="w-6 h-6 text-gray-600"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M15 19l-7-7 7-7"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                        ></path>
+                                    </svg>
+                                </button>
+                                <h3
+                                    class="text-xl font-semibold text-[var(--text-primary)]"
+                                >
+                                    July 2024
+                                </h3>
+                                <button
+                                    class="p-2 rounded-full hover:bg-gray-100"
+                                >
+                                    <svg
+                                        class="w-6 h-6 text-gray-600"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M9 5l7 7-7 7"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                        ></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="grid grid-cols-7 gap-px bg-gray-200">
+                                <div
+                                    class="py-2 text-center text-sm font-semibold text-[var(--text-secondary)] bg-white"
+                                >
+                                    Sun
+                                </div>
+                                <div
+                                    class="py-2 text-center text-sm font-semibold text-[var(--text-secondary)] bg-white"
+                                >
+                                    Mon
+                                </div>
+                                <div
+                                    class="py-2 text-center text-sm font-semibold text-[var(--text-secondary)] bg-white"
+                                >
+                                    Tue
+                                </div>
+                                <div
+                                    class="py-2 text-center text-sm font-semibold text-[var(--text-secondary)] bg-white"
+                                >
+                                    Wed
+                                </div>
+                                <div
+                                    class="py-2 text-center text-sm font-semibold text-[var(--text-secondary)] bg-white"
+                                >
+                                    Thu
+                                </div>
+                                <div
+                                    class="py-2 text-center text-sm font-semibold text-[var(--text-secondary)] bg-white"
+                                >
+                                    Fri
+                                </div>
+                                <div
+                                    class="py-2 text-center text-sm font-semibold text-[var(--text-secondary)] bg-white"
+                                >
+                                    Sat
+                                </div>
+                                <div class="h-28 bg-gray-50 p-2">
+                                    <span class="text-sm text-gray-400"
+                                        >23</span
+                                    >
+                                </div>
+                                <div class="h-28 bg-gray-50 p-2">
+                                    <span class="text-sm text-gray-400"
+                                        >24</span
+                                    >
+                                </div>
+                                <div class="h-28 bg-white p-2">
+                                    <span class="text-sm text-gray-900"
+                                        >25</span
+                                    >
+                                    <div class="mt-1 space-y-1">
+                                        <div
+                                            class="bg-blue-100 border border-blue-400 text-blue-800 text-xs rounded p-1"
+                                        >
+                                            <p class="font-semibold">
+                                                09:00 AM
+                                            </p>
+                                            <p>Ethan Carter</p>
+                                            <p class="truncate">Oil Change</p>
+                                        </div>
+                                        <div
+                                            class="bg-green-100 border border-green-400 text-green-800 text-xs rounded p-1"
+                                        >
+                                            <p class="font-semibold">
+                                                11:00 AM
+                                            </p>
+                                            <p>Olivia Bennett</p>
+                                            <p class="truncate">
+                                                Tire Replacement
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="h-28 bg-white p-2">
+                                    <span class="text-sm text-gray-900"
+                                        >26</span
+                                    >
+                                    <div class="mt-1 space-y-1">
+                                        <div
+                                            class="bg-yellow-100 border border-yellow-400 text-yellow-800 text-xs rounded p-1"
+                                        >
+                                            <p class="font-semibold">
+                                                02:00 PM
+                                            </p>
+                                            <p>Noah Thompson</p>
+                                            <p class="truncate">
+                                                Brake Service
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="h-28 bg-white p-2">
+                                    <span class="text-sm text-gray-900"
+                                        >27</span
+                                    >
+                                </div>
+                                <div class="h-28 bg-white p-2">
+                                    <span class="text-sm text-gray-900"
+                                        >28</span
+                                    >
+                                </div>
+                                <div class="h-28 bg-white p-2">
+                                    <span class="text-sm text-gray-900"
+                                        >29</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" x-show="activeTab === 'job_cards'">
+                        <h2 class="typography_h2 mb-4">Active Job Cards</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Job Card #
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Customer
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Vehicle
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Service Type
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Technician
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Status
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="p-4 typography_body">
+                                            JC-001
+                                        </td>
+                                        <td
+                                            class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                        >
+                                            Ethan Carter
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Yamaha R6
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Oil Change
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Mike Miller
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-3 py-1 text-sm font-medium rounded-full bg-blue-100 text-blue-800"
+                                                >In Progress</span
+                                            >
+                                        </td>
+                                        <td class="p-4 flex gap-2">
+                                            <button
+                                                class="p-2 hover:bg-gray-100 rounded-full"
+                                            >
+                                                <svg
+                                                    class="text-gray-500"
+                                                    fill="none"
+                                                    height="20"
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                    width="20"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                                                    ></path>
+                                                    <circle
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="3"
+                                                    ></circle>
+                                                </svg>
+                                            </button>
+                                            <button
+                                                class="p-2 hover:bg-gray-100 rounded-full"
+                                            >
+                                                <svg
+                                                    class="text-gray-500"
+                                                    fill="none"
+                                                    height="20"
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                    width="20"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="p-4 typography_body">
+                                            JC-002
+                                        </td>
+                                        <td
+                                            class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                        >
+                                            Olivia Bennett
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Honda CBR500R
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Tire Replacement
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Sarah Chen
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800"
+                                                >Completed</span
+                                            >
+                                        </td>
+                                        <td class="p-4 flex gap-2">
+                                            <button
+                                                class="p-2 hover:bg-gray-100 rounded-full"
+                                            >
+                                                <svg
+                                                    class="text-gray-500"
+                                                    fill="none"
+                                                    height="20"
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                    width="20"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                                                    ></path>
+                                                    <circle
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="3"
+                                                    ></circle>
+                                                </svg>
+                                            </button>
+                                            <button
+                                                class="p-2 hover:bg-gray-100 rounded-full"
+                                            >
+                                                <svg
+                                                    class="text-gray-500"
+                                                    fill="none"
+                                                    height="20"
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                    width="20"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="p-4 typography_body">
+                                            JC-003
+                                        </td>
+                                        <td
+                                            class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                        >
+                                            Noah Thompson
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Kawasaki Ninja 400
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Brake Service
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            David Rodriguez
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800"
+                                                >Awaiting Parts</span
+                                            >
+                                        </td>
+                                        <td class="p-4 flex gap-2">
+                                            <button
+                                                class="p-2 hover:bg-gray-100 rounded-full"
+                                            >
+                                                <svg
+                                                    class="text-gray-500"
+                                                    fill="none"
+                                                    height="20"
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                    width="20"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                                                    ></path>
+                                                    <circle
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="3"
+                                                    ></circle>
+                                                </svg>
+                                            </button>
+                                            <button
+                                                class="p-2 hover:bg-gray-100 rounded-full"
+                                            >
+                                                <svg
+                                                    class="text-gray-500"
+                                                    fill="none"
+                                                    height="20"
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    viewBox="0 0 24 24"
+                                                    width="20"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
+                                                    ></path>
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card" x-show="activeTab === 'technicians'">
+                        <h2 class="typography_h2 mb-4">Technicians</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Technician ID
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Name
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Specialization
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Current Load
+                                        </th>
+                                        <th
+                                            class="p-4 typography_body font-semibold"
+                                        >
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="p-4 typography_body">
+                                            T-001
+                                        </td>
+                                        <td
+                                            class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                        >
+                                            Mike Miller
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Engine &amp; Transmission
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            2 Active Jobs
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800"
+                                                >Available</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="p-4 typography_body">
+                                            T-002
+                                        </td>
+                                        <td
+                                            class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                        >
+                                            Sarah Chen
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Tires &amp; Brakes
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            1 Active Job
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-3 py-1 text-sm font-medium rounded-full bg-green-100 text-green-800"
+                                                >Available</span
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-200">
+                                        <td class="p-4 typography_body">
+                                            T-003
+                                        </td>
+                                        <td
+                                            class="p-4 typography_body font-medium text-[var(--text-primary)]"
+                                        >
+                                            David Rodriguez
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Electrical Systems
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            3 Active Jobs
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-3 py-1 text-sm font-medium rounded-full bg-yellow-100 text-yellow-800"
+                                                >Busy</span
+                                            >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </main>
+            </div>
+            <div
+                class="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm hidden"
+                id="new-appointment-modal"
+            >
+                <div class="w-full max-w-4xl rounded-lg bg-white shadow-lg">
+                    <div class="flex items-center justify-between border-b p-6">
+                        <h2 class="typography_h2">New Appointment</h2>
+                        <button class="p-2 hover:bg-gray-100 rounded-full">
+                            <svg
+                                fill="currentColor"
+                                height="24"
+                                viewBox="0 0 256 256"
+                                width="24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3
+                                    class="text-lg font-semibold text-[var(--text-primary)] mb-4"
+                                >
+                                    Schedule
+                                </h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-[var(--text-secondary)] mb-1"
+                                            for="appointment-date"
+                                            >Date</label
+                                        >
+                                        <input
+                                            class="input w-full"
+                                            id="appointment-date"
+                                            type="date"
+                                            value="2024-07-25"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-[var(--text-secondary)] mb-1"
+                                            for="appointment-time"
+                                            >Time</label
+                                        >
+                                        <input
+                                            class="input w-full"
+                                            id="appointment-time"
+                                            type="time"
+                                            value="09:00"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-lg font-semibold text-[var(--text-primary)] mb-4"
+                                >
+                                    Customer &amp; Motorcycle
+                                </h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-[var(--text-secondary)] mb-1"
+                                            for="customer-name"
+                                            >Customer Name</label
+                                        >
+                                        <input
+                                            class="input w-full"
+                                            id="customer-name"
+                                            placeholder="e.g., John Doe"
+                                            type="text"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-[var(--text-secondary)] mb-1"
+                                            for="motorcycle-model"
+                                            >Motorcycle Model</label
+                                        >
+                                        <input
+                                            class="input w-full"
+                                            id="motorcycle-model"
+                                            placeholder="e.g., Yamaha R6"
+                                            type="text"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-lg font-semibold text-[var(--text-primary)] mb-4"
+                                >
+                                    Service Details
+                                </h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-[var(--text-secondary)] mb-1"
+                                            for="service-type"
+                                            >Service Type</label
+                                        >
+                                        <select
+                                            class="input w-full"
+                                            id="service-type"
+                                        >
+                                            <option>Oil Change</option>
+                                            <option>Tire Replacement</option>
+                                            <option>Brake Service</option>
+                                            <option>Chain Adjustment</option>
+                                            <option selected="">
+                                                Full Service
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-[var(--text-secondary)] mb-1"
+                                            for="technician"
+                                            >Assign Technician</label
+                                        >
+                                        <select
+                                            class="input w-full"
+                                            id="technician"
+                                        >
+                                            <option>Mike Miller</option>
+                                            <option>Sarah Chen</option>
+                                            <option>David Rodriguez</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-lg font-semibold text-[var(--text-primary)] mb-4"
+                                >
+                                    Additional Notes
+                                </h3>
+                                <div>
+                                    <textarea
+                                        class="input w-full"
+                                        id="additional-notes"
+                                        placeholder="Any specific requests or issues..."
+                                        rows="3"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-4 p-6 border-t">
+                        <button class="button_secondary">Cancel</button>
+                        <button class="button_primary">
+                            Create Appointment
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <script
+                defer=""
+                src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+            ></script>
+        </div>
+    </body>
+</html>

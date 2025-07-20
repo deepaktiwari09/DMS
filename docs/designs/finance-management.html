@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Stitch Design</title>
+        <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+        <link
+            crossorigin=""
+            href="https://fonts.gstatic.com/"
+            rel="preconnect"
+        />
+        <link
+            as="style"
+            href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900&amp;family=Noto+Sans:wght@400;500;700;900"
+            onload="this.rel='stylesheet'"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <style type="text/tailwindcss">
+            :root {
+                --primary-color: #3d98f4;
+                --secondary-color: #e0f2fe;
+                --background-color: #f9f9f9;
+                --text-primary: #111827;
+                --text-secondary: #6b7280;
+                --accent-color: #bfdbfe;
+            }
+            .button_primary {
+                @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md;
+            }
+            .button_secondary {
+                @apply bg-[var(--secondary-color)] hover:bg-blue-100 text-[var(--primary-color)] font-bold py-2 px-4 rounded-md;
+            }
+            .input {
+                @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+            }
+            .typography_h1 {
+                @apply text-3xl font-bold text-[var(--text-primary)];
+            }
+            .typography_h2 {
+                @apply text-2xl font-semibold text-[var(--text-primary)];
+            }
+            .typography_body {
+                @apply text-base text-[var(--text-secondary)];
+            }
+            .card {
+                @apply bg-white rounded-md shadow-md p-6;
+            }
+            .main_container {
+                @apply container mx-auto px-4 py-8;
+            }
+        </style>
+    </head>
+    <body
+        class="font-sans bg-[var(--background-color)] text-[var(--text-primary)]"
+    >
+        <div
+            class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden"
+        >
+            <div class="flex h-full grow">
+                <div
+                    class="flex flex-col w-64 bg-white border-r border-gray-200"
+                >
+                    <div class="flex flex-col flex-1 p-4">
+                        <h1
+                            class="text-xl font-bold text-[var(--text-primary)] mb-8"
+                        >
+                            MotoCorp
+                        </h1>
+                        <nav class="flex flex-col gap-2">
+                            <a
+                                class="flex items-center gap-3 px-3 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M218.83,103.77l-80-75.48a1.14,1.14,0,0,1-.11-.11,16,16,0,0,0-21.53,0l-.11.11L37.17,103.77A16,16,0,0,0,32,115.55V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V160h32v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V115.55A16,16,0,0,0,218.83,103.77ZM208,208H160V160a16,16,0,0,0-16-16H112a16,16,0,0,0-16,16v48H48V115.55l.11-.1L128,40l79.9,75.43.11.1Z"
+                                    ></path>
+                                </svg>
+                                <span class="text-sm font-medium"
+                                    >Dashboard</span
+                                >
+                            </a>
+                            <a
+                                class="flex items-center gap-3 px-3 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M152,120H136V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64H104a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80H136V136h16a32,32,0,0,1,0,64Z"
+                                    ></path>
+                                </svg>
+                                <span class="text-sm font-medium">Sales</span>
+                            </a>
+                            <a
+                                class="flex items-center gap-3 px-3 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.34,44-29.77,16.3-80.35-44ZM128,120,47.66,76l33.9-18.56,80.34,44ZM40,90l80,43.78v85.79L40,175.82Zm176,85.78h0l-80,43.79V133.82l32-17.51V152a8,8,0,0,0,16,0V107.55L216,90v85.77Z"
+                                    ></path>
+                                </svg>
+                                <span class="text-sm font-medium"
+                                    >Inventory</span
+                                >
+                            </a>
+                            <a
+                                class="flex items-center gap-3 px-3 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M226.76,69a8,8,0,0,0-12.84-2.88l-40.3,37.19-17.23-3.7-3.7-17.23,37.19-40.3A8,8,0,0,0,187,29.24,72,72,0,0,0,88,96,72.34,72.34,0,0,0,94,124.94L33.79,177c-.15.12-.29.26-.43.39a32,32,0,0,0,45.26,45.26c.13-.13.27-.28.39-.42L131.06,162A72,72,0,0,0,232,96,71.56,71.56,0,0,0,226.76,69ZM160,152a56.14,56.14,0,0,1-27.07-7,8,8,0,0,0-9.92,1.77L67.11,211.51a16,16,0,0,1-22.62-22.62L109.18,133a8,8,0,0,0,1.77-9.93,56,56,0,0,1,58.36-82.31l-31.2,33.81a8,8,0,0,0-1.94,7.1L141.83,108a8,8,0,0,0,6.14,6.14l26.35,5.66a8,8,0,0,0,7.1-1.94l33.81-31.2A56.06,56.06,0,0,1,160,152Z"
+                                    ></path>
+                                </svg>
+                                <span class="text-sm font-medium">Service</span>
+                            </a>
+                            <a
+                                class="flex items-center gap-3 px-3 py-2 text-[var(--primary-color)] bg-[var(--secondary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.36L57.75,219a8,8,0,0,0,12.5,10l29.59-37h56.32l29.59,37a8,8,0,1,0,12.5-10l-21.61-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM104,144a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0Zm32,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm32,0a8,8,0,0,1-16,0V88a8,8,0,0,1,16,0Z"
+                                    ></path>
+                                </svg>
+                                <span class="text-sm font-medium">Finance</span>
+                            </a>
+                        </nav>
+                        <div class="mt-auto">
+                            <a
+                                class="flex items-center gap-3 px-3 py-2 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)] rounded-md"
+                                href="#"
+                            >
+                                <svg
+                                    fill="currentColor"
+                                    height="24"
+                                    viewBox="0 0 256 256"
+                                    width="24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06Zm-16.1-6.5a73.93,73.93,0,0,1,0,8.68,8,8,0,0,0,1.74,5.48l14.19,17.73a91.57,91.57,0,0,1-6.23,15L187,173.11a8,8,0,0,0-5.1,2.64,74.11,74.11,0,0,1-6.14,6.14,8,8,0,0,0-2.64,5.1l-2.51,22.58a91.32,91.32,0,0,1-15,6.23l-17.74-14.19a8,8,0,0,0-5-1.75h-.48a73.93,73.93,0,0,1-8.68,0,8,8,0,0,0-5.48,1.74L100.45,215.8a91.57,91.57,0,0,1-15-6.23L82.89,187a8,8,0,0,0-2.64-5.1,74.11,74.11,0,0,1-6.14-6.14,8,8,0,0,0-5.1-2.64L46.43,170.6a91.32,91.32,0,0,1-6.23-15l14.19-17.74a8,8,0,0,0,1.74-5.48,73.93,73.93,0,0,1,0-8.68,8,8,0,0,0-1.74-5.48L40.2,100.45a91.57,91.57,0,0,1,6.23-15L69,82.89a8,8,0,0,0,5.1-2.64,74.11,74.11,0,0,1,6.14-6.14A8,8,0,0,0,82.89,69L85.4,46.43a91.32,91.32,0,0,1,15-6.23l17.74,14.19a8,8,0,0,0,5.48,1.74,73.93,73.93,0,0,1,8.68,0,8,8,0,0,0,5.48-1.74L155.55,40.2a91.57,91.57,0,0,1,15,6.23L173.11,69a8,8,0,0,0,2.64,5.1,74.11,74.11,0,0,1,6.14,6.14,8,8,0,0,0,5.1,2.64l22.58,2.51a91.32,91.32,0,0,1,6.23,15l-14.19,17.74A8,8,0,0,0,199.87,123.66Z"
+                                    ></path>
+                                </svg>
+                                <span class="text-sm font-medium"
+                                    >Settings</span
+                                >
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <main class="flex-1 main_container">
+                    <div class="typography_h1 mb-8">Finance Management</div>
+                    <div class="border-b border-gray-200">
+                        <nav class="flex gap-8 -mb-px">
+                            <a
+                                class="py-4 px-1 border-b-2 border-[var(--primary-color)] text-[var(--primary-color)] font-semibold text-sm"
+                                href="#"
+                                >Invoicing</a
+                            >
+                            <a
+                                class="py-4 px-1 border-b-2 border-transparent text-[var(--text-secondary)] hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] font-medium text-sm"
+                                href="#"
+                                >Accounting Integration</a
+                            >
+                            <a
+                                class="py-4 px-1 border-b-2 border-transparent text-[var(--text-secondary)] hover:text-[var(--primary-color)] hover:border-[var(--primary-color)] font-medium text-sm"
+                                href="#"
+                                >Financial Reports</a
+                            >
+                        </nav>
+                    </div>
+                    <div class="mt-8 card">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="typography_h2">Invoices</h2>
+                            <button class="button_primary">
+                                Create Invoice
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="border-b border-gray-200">
+                                        <th
+                                            class="p-4 text-sm font-semibold text-[var(--text-primary)]"
+                                        >
+                                            Invoice #
+                                        </th>
+                                        <th
+                                            class="p-4 text-sm font-semibold text-[var(--text-primary)]"
+                                        >
+                                            Customer
+                                        </th>
+                                        <th
+                                            class="p-4 text-sm font-semibold text-[var(--text-primary)]"
+                                        >
+                                            Date
+                                        </th>
+                                        <th
+                                            class="p-4 text-sm font-semibold text-[var(--text-primary)]"
+                                        >
+                                            Amount
+                                        </th>
+                                        <th
+                                            class="p-4 text-sm font-semibold text-[var(--text-primary)]"
+                                        >
+                                            Status
+                                        </th>
+                                        <th
+                                            class="p-4 text-sm font-semibold text-[var(--text-primary)]"
+                                        >
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        class="border-b border-gray-200 hover:bg-gray-50"
+                                    >
+                                        <td class="p-4 typography_body">
+                                            INV-2024-001
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Alex Johnson
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            2024-07-26
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            $12,500
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full"
+                                                >Paid</span
+                                            >
+                                        </td>
+                                        <td class="p-4">
+                                            <a
+                                                class="text-[var(--primary-color)] hover:underline text-sm font-medium"
+                                                href="#"
+                                                >View</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="border-b border-gray-200 hover:bg-gray-50"
+                                    >
+                                        <td class="p-4 typography_body">
+                                            INV-2024-002
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Sophia Clark
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            2024-07-27
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            $8,750
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full"
+                                                >Pending</span
+                                            >
+                                        </td>
+                                        <td class="p-4">
+                                            <a
+                                                class="text-[var(--primary-color)] hover:underline text-sm font-medium"
+                                                href="#"
+                                                >View</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="border-b border-gray-200 hover:bg-gray-50"
+                                    >
+                                        <td class="p-4 typography_body">
+                                            INV-2024-003
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Ethan Davis
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            2024-07-28
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            $15,200
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full"
+                                                >Paid</span
+                                            >
+                                        </td>
+                                        <td class="p-4">
+                                            <a
+                                                class="text-[var(--primary-color)] hover:underline text-sm font-medium"
+                                                href="#"
+                                                >View</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr
+                                        class="border-b border-gray-200 hover:bg-gray-50"
+                                    >
+                                        <td class="p-4 typography_body">
+                                            INV-2024-004
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Olivia White
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            2024-07-29
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            $10,900
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full"
+                                                >Pending</span
+                                            >
+                                        </td>
+                                        <td class="p-4">
+                                            <a
+                                                class="text-[var(--primary-color)] hover:underline text-sm font-medium"
+                                                href="#"
+                                                >View</a
+                                            >
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="p-4 typography_body">
+                                            INV-2024-005
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            Liam Green
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            2024-07-30
+                                        </td>
+                                        <td class="p-4 typography_body">
+                                            $14,600
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full"
+                                                >Paid</span
+                                            >
+                                        </td>
+                                        <td class="p-4">
+                                            <a
+                                                class="text-[var(--primary-color)] hover:underline text-sm font-medium"
+                                                href="#"
+                                                >View</a
+                                            >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="flex items-center justify-center mt-6">
+                            <a
+                                class="flex items-center justify-center size-10 text-[var(--text-secondary)] hover:text-[var(--primary-color)]"
+                                href="#"
+                                ><svg
+                                    fill="currentColor"
+                                    height="18"
+                                    viewBox="0 0 256 256"
+                                    width="18"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"
+                                    ></path></svg
+                            ></a>
+                            <a
+                                class="flex items-center justify-center text-sm font-bold size-10 text-white bg-[var(--primary-color)] rounded-full"
+                                href="#"
+                                >1</a
+                            >
+                            <a
+                                class="flex items-center justify-center text-sm font-normal size-10 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] rounded-full"
+                                href="#"
+                                >2</a
+                            >
+                            <a
+                                class="flex items-center justify-center text-sm font-normal size-10 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] rounded-full"
+                                href="#"
+                                >3</a
+                            >
+                            <a
+                                class="flex items-center justify-center size-10 text-[var(--text-secondary)] hover:text-[var(--primary-color)]"
+                                href="#"
+                                ><svg
+                                    fill="currentColor"
+                                    height="18"
+                                    viewBox="0 0 256 256"
+                                    width="18"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"
+                                    ></path></svg
+                            ></a>
+                        </div>
+                    </div>
+                    <div class="mt-8 card">
+                        <h2 class="typography_h2 mb-2">
+                            Accounting Integration
+                        </h2>
+                        <p class="typography_body mb-6">
+                            Connect your accounting platform to automate invoice
+                            synchronization and financial reporting.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="button_secondary">
+                                Connect to Xero
+                            </button>
+                            <button class="button_secondary">
+                                Connect to QuickBooks
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-8 card">
+                        <h2 class="typography_h2 mb-2">Financial Reports</h2>
+                        <p class="typography_body mb-6">
+                            Generate detailed financial reports to analyze sales
+                            performance, revenue trends, and profitability.
+                        </p>
+                        <div class="flex gap-4">
+                            <button class="button_secondary">
+                                Generate Sales Report
+                            </button>
+                            <button class="button_secondary">
+                                Generate Revenue Report
+                            </button>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>

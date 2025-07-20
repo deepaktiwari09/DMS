@@ -1,0 +1,2646 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>MotoCorp - Inventory Management</title>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+            crossorigin=""
+            href="https://fonts.gstatic.com"
+            rel="preconnect"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <style type="text/tailwindcss">
+            /* Hide side panels and modals before Alpine.js loads */
+            .fixed[x-cloak] {
+                display: none !important;
+            }
+            :root {
+                --primary-color: #3d98f4;
+                --secondary-color: #e0f2fe;
+                --background-color: #f9f9f9;
+                --text-primary: #111827;
+                --text-secondary: #6b7280;
+                --accent-color: #bfdbfe;
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: var(--background-color);
+                color: var(--text-primary);
+            }
+            .button_primary {
+                @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md;
+            }
+            .button_secondary {
+                @apply bg-[var(--secondary-color)] hover:bg-blue-100 text-[var(--primary-color)] font-bold py-2 px-4 rounded-md;
+            }
+            .input {
+                @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+            }
+            .typography_h1 {
+                @apply text-3xl font-bold text-[var(--text-primary)];
+            }
+            .typography_h2 {
+                @apply text-2xl font-semibold text-[var(--text-primary)];
+            }
+            .typography_body {
+                @apply text-base text-[var(--text-secondary)];
+            }
+            .card {
+                @apply bg-white rounded-md shadow-md p-6;
+            }
+            .status-in-stock {
+                @apply bg-green-100 text-green-800;
+            }
+            .status-low-stock {
+                @apply bg-yellow-100 text-yellow-800;
+            }
+            .status-out-of-stock {
+                @apply bg-red-100 text-red-800;
+            }
+        </style>
+    </head>
+    <body class="bg-[var(--background-color)]">
+        <div class="flex min-h-screen">
+            <aside class="w-64 bg-white shadow-md flex-shrink-0">
+                <div class="p-6">
+                    <h1
+                        class="typography_h2 !text-2xl font-bold text-[var(--primary-color)]"
+                    >
+                        MotoCorp
+                    </h1>
+                </div>
+                <nav class="mt-6">
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                    <a
+                        class="flex items-center px-6 py-3 bg-[var(--secondary-color)] text-[var(--primary-color)] font-semibold"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Inventory</span>
+                    </a>
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01v.01M12 4c-4.418 0-8 2.686-8 6s3.582 6 8 6 8-2.686 8-6-3.582-6-8-6z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Sales</span>
+                    </a>
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                            <path
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Service</span>
+                    </a>
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-6-6m6 6v-1a6 6 0 00-6-6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Customers</span>
+                    </a>
+                </nav>
+                <div class="absolute bottom-0 w-64">
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                            <path
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </aside>
+            <main
+                class="flex-1 p-8"
+                x-data="{ 
+                    addProductPanel: false, 
+                    viewProductModal: false, 
+                    grouping: 'none', 
+                    productType: 'motorcycle', 
+                    openSection: '', 
+                    activeTab: 'all', 
+                    showSaveView: false, 
+                    savedViews: [],
+                    addSavedView() {
+                        const viewName = prompt('Enter a name for this view:', 'Custom View ' + (this.savedViews.length + 1));
+                        if (viewName) {
+                            this.savedViews.push(viewName);
+                            this.activeTab = viewName;
+                            this.showSaveView = false;
+                        }
+                    }
+                }"
+            >
+                <div class="flex justify-between items-center mb-6">
+                    <div
+                        class="flex border-b"
+                    >
+                        <button
+                            :class="{'border-b-2 border-[var(--primary-color)] text-[var(--primary-color)]': activeTab === 'all'}"
+                            @click="activeTab = 'all'"
+                            class="typography_h1 !text-2xl font-semibold py-3 px-4"
+                        >
+                            Default
+                        </button>
+                        <template
+                            :key="index"
+                            x-for="(view, index) in savedViews"
+                        >
+                            <button
+                                :class="{'border-b-2 border-[var(--primary-color)] text-[var(--primary-color)]': activeTab === view}"
+                                @click="activeTab = view"
+                                class="typography_h1 !text-2xl font-semibold py-3 px-4"
+                                x-text="view"
+                            ></button>
+                        </template>
+                    </div>
+                    <button
+                        @click="addProductPanel = true"
+                        class="button_primary"
+                    >
+                        Add New Product
+                    </button>
+                </div>
+                <div class="card">
+                    <div
+                        class="flex flex-col md:flex-row md:items-center md:space-x-4 mb-6"
+                    >
+                        <div class="relative flex-grow">
+                            <span
+                                class="absolute inset-y-0 left-0 flex items-center pl-3"
+                            >
+                                <svg
+                                    class="h-5 w-5 text-gray-400"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                    ></path>
+                                </svg>
+                            </span>
+                            <input
+                                class="input w-full pl-10"
+                                placeholder="Search by name, SKU, brand..."
+                                type="text"
+                            />
+                        </div>
+                        <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                            <div x-data="{ open: false }">
+                                <button
+                                    @click="open = !open; showSaveView = true"
+                                    class="input flex items-center justify-between w-full md:w-auto"
+                                >
+                                    <span>Filter by</span>
+                                    <svg
+                                        class="h-5 w-5 ml-2 text-gray-400"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            clip-rule="evenodd"
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                            fill-rule="evenodd"
+                                        ></path>
+                                    </svg>
+                                </button>
+                                <div
+                                    @click.away="open = false"
+                                    class="absolute z-10 mt-2 w-72 bg-white rounded-md shadow-lg"
+                                    x-cloak=""
+                                    x-show="open"
+                                >
+                                    <div class="p-4 space-y-4">
+                                        <div>
+                                            <h4
+                                                class="font-semibold text-sm text-[var(--text-primary)]"
+                                            >
+                                                Status
+                                            </h4>
+                                            <div class="mt-2 space-y-1">
+                                                <label class="flex items-center"
+                                                    ><input
+                                                        class="form-checkbox h-4 w-4 text-[var(--primary-color)] rounded"
+                                                        type="checkbox"
+                                                    />
+                                                    <span
+                                                        class="ml-2 text-sm text-[var(--text-secondary)]"
+                                                        >Available</span
+                                                    ></label
+                                                >
+                                                <label class="flex items-center"
+                                                    ><input
+                                                        class="form-checkbox h-4 w-4 text-[var(--primary-color)] rounded"
+                                                        type="checkbox"
+                                                    />
+                                                    <span
+                                                        class="ml-2 text-sm text-[var(--text-secondary)]"
+                                                        >Reserved</span
+                                                    ></label
+                                                >
+                                                <label class="flex items-center"
+                                                    ><input
+                                                        class="form-checkbox h-4 w-4 text-[var(--primary-color)] rounded"
+                                                        type="checkbox"
+                                                    />
+                                                    <span
+                                                        class="ml-2 text-sm text-[var(--text-secondary)]"
+                                                        >Sold</span
+                                                    ></label
+                                                >
+                                                <label class="flex items-center"
+                                                    ><input
+                                                        class="form-checkbox h-4 w-4 text-[var(--primary-color)] rounded"
+                                                        type="checkbox"
+                                                    />
+                                                    <span
+                                                        class="ml-2 text-sm text-[var(--text-secondary)]"
+                                                        >In-Service</span
+                                                    ></label
+                                                >
+                                                <label class="flex items-center"
+                                                    ><input
+                                                        class="form-checkbox h-4 w-4 text-[var(--primary-color)] rounded"
+                                                        type="checkbox"
+                                                    />
+                                                    <span
+                                                        class="ml-2 text-sm text-[var(--text-secondary)]"
+                                                        >Write-off</span
+                                                    ></label
+                                                >
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4
+                                                class="font-semibold text-sm text-[var(--text-primary)]"
+                                            >
+                                                Stock Alert
+                                            </h4>
+                                            <div class="mt-2 space-y-1">
+                                                <label class="flex items-center"
+                                                    ><input
+                                                        class="form-checkbox h-4 w-4 text-[var(--primary-color)] rounded"
+                                                        type="checkbox"
+                                                    />
+                                                    <span
+                                                        class="ml-2 text-sm text-[var(--text-secondary)]"
+                                                        >Low Stock</span
+                                                    ></label
+                                                >
+                                                <label class="flex items-center"
+                                                    ><input
+                                                        class="form-checkbox h-4 w-4 text-[var(--primary-color)] rounded"
+                                                        type="checkbox"
+                                                    />
+                                                    <span
+                                                        class="ml-2 text-sm text-[var(--text-secondary)]"
+                                                        >Out of Stock</span
+                                                    ></label
+                                                >
+                                                <label class="flex items-center"
+                                                    ><input
+                                                        class="form-checkbox h-4 w-4 text-[var(--primary-color)] rounded"
+                                                        type="checkbox"
+                                                    />
+                                                    <span
+                                                        class="ml-2 text-sm text-[var(--text-secondary)]"
+                                                        >Overstock</span
+                                                    ></label
+                                                >
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4
+                                                class="font-semibold text-sm text-[var(--text-primary)]"
+                                            >
+                                                Location
+                                            </h4>
+                                            <select
+                                                class="input w-full mt-1 text-sm"
+                                            >
+                                                <option>Warehouse A</option>
+                                                <option>Warehouse B</option>
+                                                <option>Showroom</option>
+                                                <option>Service Bay</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <h4
+                                                class="font-semibold text-sm text-[var(--text-primary)]"
+                                            >
+                                                Supplier / Brand
+                                            </h4>
+                                            <input
+                                                class="input w-full mt-1 text-sm"
+                                                placeholder="Search supplier or brand"
+                                                type="text"
+                                            />
+                                        </div>
+                                        <div>
+                                            <h4
+                                                class="font-semibold text-sm text-[var(--text-primary)]"
+                                            >
+                                                Date Range
+                                            </h4>
+                                            <select
+                                                class="input w-full mt-1 text-sm"
+                                            >
+                                                <option>Purchase Date</option>
+                                                <option>Last Movement</option>
+                                                <option>Last Count</option>
+                                            </select>
+                                            <div
+                                                class="flex items-center space-x-2 mt-2"
+                                            >
+                                                <input
+                                                    class="input w-1/2 text-sm"
+                                                    type="date"
+                                                />
+                                                <input
+                                                    class="input w-1/2 text-sm"
+                                                    type="date"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4
+                                                class="font-semibold text-sm text-[var(--text-primary)]"
+                                            >
+                                                Price Range
+                                            </h4>
+                                            <div class="mt-2 space-y-2">
+                                                <div>
+                                                    <label
+                                                        class="text-sm text-[var(--text-secondary)]"
+                                                        >Cost Price</label
+                                                    >
+                                                    <input
+                                                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                                                        max="100000"
+                                                        min="0"
+                                                        type="range"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label
+                                                        class="text-sm text-[var(--text-secondary)]"
+                                                        >List Price</label
+                                                    >
+                                                    <input
+                                                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                                                        max="100000"
+                                                        min="0"
+                                                        type="range"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label
+                                                        class="text-sm text-[var(--text-secondary)]"
+                                                        >Selling Price</label
+                                                    >
+                                                    <input
+                                                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                                                        max="100000"
+                                                        min="0"
+                                                        type="range"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex justify-end space-x-2 pt-4 border-t"
+                                        >
+                                            <button
+                                                class="button_secondary !py-1 !px-3 text-sm"
+                                            >
+                                                Clear
+                                            </button>
+                                            <button
+                                                @click="open = false"
+                                                class="button_primary !py-1 !px-3 text-sm"
+                                            >
+                                                Apply
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <select
+                                    @change="showSaveView = true"
+                                    class="input w-full md:w-auto"
+                                >
+                                    <option>Sort by: Default</option>
+                                    <option>Current Stock (Ascending)</option>
+                                    <option>Current Stock (Descending)</option>
+                                    <option>Available Quantity</option>
+                                    <option>Selling Price</option>
+                                    <option>Purchase Cost</option>
+                                    <option>Last Movement Date</option>
+                                    <option>Re-order Level</option>
+                                    <option>Model Year (Motorcycles)</option>
+                                    <option>Lead Time (Parts)</option>
+                                    <option>
+                                        Alphabetically (Description)
+                                    </option>
+                                    <option>Alphabetically (Make)</option>
+                                    <option>Alphabetically (Brand)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select
+                                    @change="showSaveView = true"
+                                    class="input w-full md:w-auto"
+                                    x-model="grouping"
+                                >
+                                    <option value="none">Group by: None</option>
+                                    <optgroup label="Product">
+                                        <option value="category">
+                                            Category → Supplier → SKU
+                                        </option>
+                                        <option value="make_model_year">
+                                            Make → Model → Year
+                                        </option>
+                                    </optgroup>
+                                    <optgroup label="Logistics">
+                                        <option value="location">
+                                            Location → Rack → Bin
+                                        </option>
+                                    </optgroup>
+                                    <optgroup label="Status &amp; Stock">
+                                        <option value="status">
+                                            Status (Available/Sold/Reserved)
+                                        </option>
+                                        <option value="stock_level">
+                                            Stock Alert Level
+                                        </option>
+                                    </optgroup>
+                                    <optgroup label="Analysis">
+                                        <option value="purchase_month">
+                                            Month of Purchase
+                                        </option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div x-cloak="" x-show="showSaveView">
+                                <button
+                                    @click="addSavedView()"
+                                    class="button_secondary flex items-center"
+                                >
+                                    <svg
+                                        class="w-5 h-5 mr-2"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M5 5a2 2 0 012-2h10a2 2 0 012 2v1h-14v-1zM19 12h-14v6a2 2 0 002 2h10a2 2 0 002-2v-6zM9 14h6"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                        ></path>
+                                    </svg>
+                                    Save View
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr
+                                    class="text-left text-sm font-semibold text-[var(--text-secondary)] border-b"
+                                >
+                                    <th class="p-4">Product</th>
+                                    <th class="p-4">SKU</th>
+                                    <th class="p-4">Price</th>
+                                    <th class="p-4 text-center">Stock</th>
+                                    <th class="p-4 text-center">Status</th>
+                                    <th class="p-4"></th>
+                                </tr>
+                            </thead>
+                            <tbody x-cloak="" x-show="grouping === 'type'">
+                                <tr class="bg-gray-50">
+                                    <td
+                                        class="p-4 font-bold text-lg text-[var(--text-primary)]"
+                                        colspan="6"
+                                    >
+                                        Motorcycles
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2023 Road King
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        RK23
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $22,999
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        5
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2023 Street Glide
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        SG23
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $28,999
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        3
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2022 Road King
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        RK22
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $21,499
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        1
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-low-stock"
+                                            >Low Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2022 Street Glide
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        SG22
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $27,499
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        0
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-out-of-stock"
+                                            >Out of Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td
+                                        class="p-4 font-bold text-lg text-[var(--text-primary)]"
+                                        colspan="6"
+                                    >
+                                        Parts
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">Brake Pads</td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        BP001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $49.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        20
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">Oil Filter</td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        OF002
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $12.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        15
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">Air Filter</td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        AF001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $24.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        3
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-low-stock"
+                                            >Low Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td
+                                        class="p-4 font-bold text-lg text-[var(--text-primary)]"
+                                        colspan="6"
+                                    >
+                                        Accessories
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        Helmet - Full Face
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        HF001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $249.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        10
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        Gloves - Leather
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        GL001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $79.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        12
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        Jacket - Leather
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        JK001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $499.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        2
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-low-stock"
+                                            >Low Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody x-cloak="" x-show="grouping === 'brand'">
+                                <tr class="bg-gray-50">
+                                    <td
+                                        class="p-4 font-bold text-lg text-[var(--text-primary)]"
+                                        colspan="6"
+                                    >
+                                        Brand A
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2023 Road King
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        RK23
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $22,999
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        5
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2022 Road King
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        RK22
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $21,499
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        1
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-low-stock"
+                                            >Low Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">Brake Pads</td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        BP001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $49.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        20
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td
+                                        class="p-4 font-bold text-lg text-[var(--text-primary)]"
+                                        colspan="6"
+                                    >
+                                        Brand B
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2023 Street Glide
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        SG23
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $28,999
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        3
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">Oil Filter</td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        OF002
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $12.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        15
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td
+                                        class="p-4 font-bold text-lg text-[var(--text-primary)]"
+                                        colspan="6"
+                                    >
+                                        Brand C
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2022 Street Glide
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        SG22
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $27,499
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        0
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-out-of-stock"
+                                            >Out of Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody x-cloak="" x-show="grouping === 'none'">
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2023 Road King
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        RK23
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $22,999
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        5
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2023 Street Glide
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        SG23
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $28,999
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        3
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2022 Road King
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        RK22
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $21,499
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        1
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-low-stock"
+                                            >Low Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        2022 Street Glide
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        SG22
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $27,499
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        0
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-out-of-stock"
+                                            >Out of Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">Brake Pads</td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        BP001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $49.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        20
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">Oil Filter</td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        OF002
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $12.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        15
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">Air Filter</td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        AF001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $24.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        3
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-low-stock"
+                                            >Low Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        Helmet - Full Face
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        HF001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $249.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        10
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        Gloves - Leather
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        GL001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $79.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        12
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                            >In Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-4 font-medium">
+                                        Jacket - Leather
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        JK001
+                                    </td>
+                                    <td
+                                        class="p-4 text-[var(--text-secondary)]"
+                                    >
+                                        $499.99
+                                    </td>
+                                    <td
+                                        class="p-4 text-center text-[var(--text-secondary)]"
+                                    >
+                                        2
+                                    </td>
+                                    <td class="p-4 text-center">
+                                        <span
+                                            class="px-3 py-1 text-sm font-medium rounded-full status-low-stock"
+                                            >Low Stock</span
+                                        >
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <button
+                                            @click="viewProductModal = true"
+                                            class="font-medium text-[var(--primary-color)] hover:underline"
+                                        >
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div x-cloak="" x-show="addProductPanel">
+                    <div
+                        @click="addProductPanel = false"
+                        class="fixed inset-0 bg-black bg-opacity-50 z-40"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-end="opacity-0"
+                        x-transition:leave-start="opacity-100"
+                    ></div>
+                    <div
+                        class="fixed top-0 right-0 h-full w-full max-w-4xl bg-white shadow-lg z-50 overflow-y-auto"
+                        x-transition:enter="transition ease-in-out duration-300"
+                        x-transition:enter-end="transform translate-x-0"
+                        x-transition:enter-start="transform translate-x-full"
+                        x-transition:leave="transition ease-in-out duration-300"
+                        x-transition:leave-end="transform translate-x-full"
+                        x-transition:leave-start="transform translate-x-0"
+                    >
+                        <div class="p-6">
+                            <div
+                                class="flex justify-between items-center mb-6 border-b pb-4"
+                            >
+                                <h2 class="typography_h2">Add New Product</h2>
+                                <button
+                                    @click="addProductPanel = false"
+                                    class="text-gray-500 hover:text-gray-700"
+                                >
+                                    <svg
+                                        class="h-6 w-6"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M6 18L18 6M6 6l12 12"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                        ></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <form class="space-y-4">
+                                <div>
+                                    <label
+                                        class="block text-sm font-medium text-[var(--text-primary)] mb-2"
+                                        >Product Type</label
+                                    >
+                                    <select
+                                        class="input w-full"
+                                        x-model="productType"
+                                    >
+                                        <option value="motorcycle">
+                                            Motorcycle Master
+                                        </option>
+                                        <option value="part">
+                                            Part Master
+                                        </option>
+                                        <option value="accessory">
+                                            Accessory Master
+                                        </option>
+                                    </select>
+                                </div>
+                                <div
+                                    class="border rounded-md"
+                                    x-show="productType === 'motorcycle'"
+                                >
+                                    <button
+                                        @click="openSection = openSection === 'motorcycle' ? '' : 'motorcycle'"
+                                        class="w-full text-left p-4 bg-gray-50 hover:bg-gray-100 flex justify-between items-center"
+                                        type="button"
+                                    >
+                                        <h3
+                                            class="typography_h2 !text-xl font-semibold"
+                                        >
+                                            Motorcycle Master
+                                        </h3>
+                                        <svg
+                                            :class="{ 'rotate-180': openSection === 'motorcycle' }"
+                                            class="h-6 w-6 transform transition-transform"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="p-6 space-y-6"
+                                        x-show="openSection === 'motorcycle'"
+                                        x-transition=""
+                                    >
+                                        <div
+                                            class="grid grid-cols-1 md:grid-cols-3 gap-6"
+                                        >
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >VIN/Chassis No.</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Make</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Model</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Model Year</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Color/Finish</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Engine Size</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Fuel Type</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Transmission Type</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Odometer Reading</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="number"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Purchase Date</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="date"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Cost</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Supplier</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Location</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Status</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Book/List Price</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div class="md:col-span-3">
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Notes/History</label
+                                                ><textarea
+                                                    class="input w-full mt-1"
+                                                    rows="3"
+                                                ></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="border rounded-md"
+                                    x-show="productType === 'part'"
+                                >
+                                    <button
+                                        @click="openSection = openSection === 'part' ? '' : 'part'"
+                                        class="w-full text-left p-4 bg-gray-50 hover:bg-gray-100 flex justify-between items-center"
+                                        type="button"
+                                    >
+                                        <h3
+                                            class="typography_h2 !text-xl font-semibold"
+                                        >
+                                            Part Master
+                                        </h3>
+                                        <svg
+                                            :class="{ 'rotate-180': openSection === 'part' }"
+                                            class="h-6 w-6 transform transition-transform"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="p-6 space-y-6"
+                                        x-show="openSection === 'part'"
+                                        x-transition=""
+                                    >
+                                        <div
+                                            class="grid grid-cols-1 md:grid-cols-3 gap-6"
+                                        >
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Part No.
+                                                    (internal/OEM)</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >OEM Part No.</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Barcode/QR Code</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div class="md:col-span-3">
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Description</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Category</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Compatible
+                                                    Makes/Models</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Unit of Measure</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Re-order
+                                                    Level/Quantity</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="number"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Preferred Supplier</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Lead Time</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Warranty</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Picture/Diagram</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="file"
+                                                />
+                                            </div>
+                                            <div class="md:col-span-3">
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Technical
+                                                    Specifications</label
+                                                ><textarea
+                                                    class="input w-full mt-1"
+                                                    rows="3"
+                                                ></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="border rounded-md"
+                                    x-show="productType === 'accessory'"
+                                >
+                                    <button
+                                        @click="openSection = openSection === 'accessory' ? '' : 'accessory'"
+                                        class="w-full text-left p-4 bg-gray-50 hover:bg-gray-100 flex justify-between items-center"
+                                        type="button"
+                                    >
+                                        <h3
+                                            class="typography_h2 !text-xl font-semibold"
+                                        >
+                                            Accessory Master
+                                        </h3>
+                                        <svg
+                                            :class="{ 'rotate-180': openSection === 'accessory' }"
+                                            class="h-6 w-6 transform transition-transform"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="p-6 space-y-6"
+                                        x-show="openSection === 'accessory'"
+                                        x-transition=""
+                                    >
+                                        <div
+                                            class="grid grid-cols-1 md:grid-cols-3 gap-6"
+                                        >
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >SKU/Accessory Code</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Brand</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Product Name</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Type</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Size/Color/Variant</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Universal Fit (Y/N)</label
+                                                ><select
+                                                    class="input w-full mt-1"
+                                                >
+                                                    <option>Yes</option>
+                                                    <option>No</option>
+                                                </select>
+                                            </div>
+                                            <div class="md:col-span-3">
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Compatible Bikes</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >MSRP/List Price</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Season</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Certification</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Picture</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="file"
+                                                />
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Marketing
+                                                    Description/URL</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border rounded-md">
+                                    <button
+                                        @click="openSection = openSection === 'stock' ? '' : 'stock'"
+                                        class="w-full text-left p-4 bg-gray-50 hover:bg-gray-100 flex justify-between items-center"
+                                        type="button"
+                                    >
+                                        <h3
+                                            class="typography_h2 !text-xl font-semibold"
+                                        >
+                                            Stock-Level Fields
+                                        </h3>
+                                        <svg
+                                            :class="{ 'rotate-180': openSection === 'stock' }"
+                                            class="h-6 w-6 transform transition-transform"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="p-6 space-y-6"
+                                        x-show="openSection === 'stock'"
+                                        x-transition=""
+                                    >
+                                        <div
+                                            class="grid grid-cols-1 md:grid-cols-4 gap-6"
+                                        >
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Current Qty</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="number"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Reserved Qty</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="number"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Available Qty</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    disabled=""
+                                                    type="number"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Incoming Qty</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="number"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Last Stock Count
+                                                    Date</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="date"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Avg. Unit Cost</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Selling/Retail Price</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Discount/Promo Price</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >VAT/Tax %</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Storage Location</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Bin/Rack/Drawer No.</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Last Movement Date</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="date"
+                                                />
+                                            </div>
+                                            <div class="md:col-span-2">
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Movement History</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    disabled=""
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Low-Stock Alert</label
+                                                ><input
+                                                    class="input mt-1"
+                                                    type="checkbox"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border rounded-md">
+                                    <button
+                                        @click="openSection = openSection === 'transaction' ? '' : 'transaction'"
+                                        class="w-full text-left p-4 bg-gray-50 hover:bg-gray-100 flex justify-between items-center"
+                                        type="button"
+                                    >
+                                        <h3
+                                            class="typography_h2 !text-xl font-semibold"
+                                        >
+                                            Transaction Fields
+                                        </h3>
+                                        <svg
+                                            :class="{ 'rotate-180': openSection === 'transaction' }"
+                                            class="h-6 w-6 transform transition-transform"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="p-6 space-y-6"
+                                        x-show="openSection === 'transaction'"
+                                        x-transition=""
+                                    >
+                                        <div
+                                            class="grid grid-cols-1 md:grid-cols-3 gap-6"
+                                        >
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Transaction Type</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Date &amp; Time</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="datetime-local"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Reference No.</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Quantity In/Out</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="number"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Unit/Total Cost</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Supplier/Customer</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Staff/User</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="border rounded-md">
+                                    <button
+                                        @click="openSection = openSection === 'power' ? '' : 'power'"
+                                        class="w-full text-left p-4 bg-gray-50 hover:bg-gray-100 flex justify-between items-center"
+                                        type="button"
+                                    >
+                                        <h3
+                                            class="typography_h2 !text-xl font-semibold"
+                                        >
+                                            Optional/Power-User Fields
+                                        </h3>
+                                        <svg
+                                            :class="{ 'rotate-180': openSection === 'power' }"
+                                            class="h-6 w-6 transform transition-transform"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="p-6 space-y-6"
+                                        x-show="openSection === 'power'"
+                                        x-transition=""
+                                    >
+                                        <div
+                                            class="grid grid-cols-1 md:grid-cols-3 gap-6"
+                                        >
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Serial/Batch/Lot
+                                                    Tracking</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Expiry Date</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="date"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Minimum Display
+                                                    Quantity</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="number"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Kitting/BOM</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Multi-Warehouse
+                                                    Support</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                            <div>
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Attachments</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="file"
+                                                />
+                                            </div>
+                                            <div class="md:col-span-3">
+                                                <label
+                                                    class="block text-sm font-medium text-[var(--text-primary)]"
+                                                    >Custom Tags/Keywords</label
+                                                ><input
+                                                    class="input w-full mt-1"
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="mt-8 flex justify-end space-x-3 pt-4 border-t"
+                                >
+                                    <button
+                                        @click="addProductPanel = false"
+                                        class="button_secondary"
+                                        type="button"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        class="button_primary"
+                                        type="submit"
+                                    >
+                                        Add Product
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                    x-cloak=""
+                    x-show="viewProductModal"
+                >
+                    <div
+                        @click.away="viewProductModal = false"
+                        class="card w-full max-w-xl"
+                    >
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="typography_h2">Product Details</h2>
+                            <button
+                                @click="viewProductModal = false"
+                                class="text-gray-500 hover:text-gray-700"
+                            >
+                                <svg
+                                    class="h-6 w-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M6 18L18 6M6 6l12 12"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                    ></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="mt-6 space-y-4">
+                            <div>
+                                <h3
+                                    class="text-sm font-medium text-[var(--text-secondary)]"
+                                >
+                                    Product Name
+                                </h3>
+                                <p
+                                    class="text-lg text-[var(--text-primary)] font-semibold"
+                                >
+                                    2023 Road King
+                                </p>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-medium text-[var(--text-secondary)]"
+                                >
+                                    SKU
+                                </h3>
+                                <p class="text-base text-[var(--text-primary)]">
+                                    RK23
+                                </p>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-medium text-[var(--text-secondary)]"
+                                >
+                                    Category
+                                </h3>
+                                <p class="text-base text-[var(--text-primary)]">
+                                    Motorcycle
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <h3
+                                        class="text-sm font-medium text-[var(--text-secondary)]"
+                                    >
+                                        Stock
+                                    </h3>
+                                    <p
+                                        class="text-base text-[var(--text-primary)]"
+                                    >
+                                        5
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3
+                                        class="text-sm font-medium text-[var(--text-secondary)]"
+                                    >
+                                        Reorder Point
+                                    </h3>
+                                    <p
+                                        class="text-base text-[var(--text-primary)]"
+                                    >
+                                        2
+                                    </p>
+                                </div>
+                                <div>
+                                    <h3
+                                        class="text-sm font-medium text-[var(--text-secondary)]"
+                                    >
+                                        Status
+                                    </h3>
+                                    <span
+                                        class="px-3 py-1 text-sm font-medium rounded-full status-in-stock"
+                                        >In Stock</span
+                                    >
+                                </div>
+                            </div>
+                            <div>
+                                <h3
+                                    class="text-sm font-medium text-[var(--text-secondary)]"
+                                >
+                                    Description
+                                </h3>
+                                <p class="text-base text-[var(--text-primary)]">
+                                    The 2023 Road King combines classic styling
+                                    with modern performance. A true icon of the
+                                    open road.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-8 flex justify-end">
+                            <button
+                                @click="viewProductModal = false"
+                                class="button_secondary"
+                                type="button"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <script
+            defer=""
+            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+        ></script>
+    </body>
+</html>
