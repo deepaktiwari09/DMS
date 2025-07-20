@@ -1,0 +1,210 @@
+// Motocorp DMS - Multi-tenant Prisma Schema
+// Database-per-tenant architecture with master database for organization management
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Master Database Models (shared across all tenants)
+model Organization {
+  id           String   @id @default(uuid())
+  name         String
+  databaseName String   @unique @map("database_name") // tenant_org_abc123
+  tier         String   @default("starter") @map("subscription_tier") // starter, professional, enterprise
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  settings     Json?
+  isActive     Boolean  @default(true) @map("is_active")
+
+  billingAccount BillingAccount?
+
+  @@map("organizations")
+}
+
+model BillingAccount {
+  id               String   @id @default(uuid())
+  organizationId   String   @unique @map("organization_id")
+  stripeCustomerId String?  @map("stripe_customer_id")
+  subscriptionStatus String @default("active") @map("subscription_status")
+  billingEmail     String   @map("billing_email")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("billing_accounts")
+}
+
+// Tenant Database Models (per organization database)
+// These models will be created in each tenant database: tenant_org_abc123
+
+model Dealership {
+  id             String   @id @default(uuid())
+  organizationId String   @map("organization_id") // reference to master db
+  name           String
+  location       Json?
+  timezone       String   @default("UTC")
+  businessHours  Json?    @map("business_hours")
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  users               User[]
+  inventory           Inventory[]
+  customers           Customer[]
+  sales               Sale[]
+  serviceAppointments ServiceAppointment[]
+
+  @@map("dealerships")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  organizationId String @map("organization_id")
+  dealershipId String?  @map("dealership_id")
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  firstName    String   @map("first_name")
+  lastName     String   @map("last_name")
+  role         String   // admin, manager, sales, service, finance
+  permissions  Json?
+  isActive     Boolean  @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  dealership          Dealership? @relation(fields: [dealershipId], references: [id])
+  salesAssigned       Sale[] @relation("SalesPersonSales")
+  serviceAppointments ServiceAppointment[] @relation("TechnicianAppointments")
+  notifications       Notification[]
+  activityFeed        ActivityFeed[]
+
+  @@map("users")
+}
+
+model Customer {
+  id                    String   @id @default(uuid())
+  organizationId        String   @map("organization_id")
+  primaryDealershipId   String?  @map("primary_dealership_id")
+  firstName             String   @map("first_name")
+  lastName              String   @map("last_name")
+  email                 String?
+  phone                 String?
+  address               Json?
+  preferences           Json?
+  lifetimeValue         Decimal? @map("lifetime_value") @db.Decimal(12, 2)
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  primaryDealership   Dealership? @relation(fields: [primaryDealershipId], references: [id])
+  sales               Sale[]
+  serviceAppointments ServiceAppointment[]
+
+  @@map("customers")
+}
+
+model Inventory {
+  id             String   @id @default(uuid())
+  dealershipId   String   @map("dealership_id")
+  sku            String
+  type           String   // motorcycle, part, accessory
+  category       String?
+  name           String
+  description    String?
+  costPrice      Decimal? @map("cost_price") @db.Decimal(10, 2)
+  sellingPrice   Decimal  @map("selling_price") @db.Decimal(10, 2)
+  quantityOnHand Int      @map("quantity_on_hand") @default(0)
+  reorderPoint   Int?     @map("reorder_point")
+  supplierInfo   Json?    @map("supplier_info")
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  dealership Dealership @relation(fields: [dealershipId], references: [id])
+
+  @@unique([dealershipId, sku])
+  @@map("inventory")
+}
+
+model Sale {
+  id                  String    @id @default(uuid())
+  customerId          String    @map("customer_id")
+  dealershipId        String    @map("dealership_id")
+  salesPersonId       String?   @map("sales_person_id")
+  stage               String    @default("lead") // lead, qualified, proposal, negotiation, closed_won, closed_lost
+  totalAmount         Decimal?  @map("total_amount") @db.Decimal(12, 2)
+  items               Json?     // Array of inventory items
+  notes               String?
+  estimatedCloseDate  DateTime? @map("estimated_close_date")
+  actualCloseDate     DateTime? @map("actual_close_date")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  dealership  Dealership  @relation(fields: [dealershipId], references: [id])
+  salesPerson User?       @relation("SalesPersonSales", fields: [salesPersonId], references: [id])
+
+  @@map("sales")
+}
+
+model ServiceAppointment {
+  id             String    @id @default(uuid())
+  customerId     String    @map("customer_id")
+  dealershipId   String    @map("dealership_id")
+  technicianId   String?   @map("technician_id")
+  vehicleInfo    Json?     @map("vehicle_info")
+  serviceType    String    @map("service_type")
+  status         String    @default("scheduled") // scheduled, in_progress, completed, cancelled
+  scheduledStart DateTime  @map("scheduled_start")
+  scheduledEnd   DateTime  @map("scheduled_end")
+  actualStart    DateTime? @map("actual_start")
+  actualEnd      DateTime? @map("actual_end")
+  laborHours     Decimal?  @map("labor_hours") @db.Decimal(4, 2)
+  partsUsed      Json?     @map("parts_used")
+  totalCost      Decimal?  @map("total_cost") @db.Decimal(10, 2)
+  notes          String?
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  dealership Dealership  @relation(fields: [dealershipId], references: [id])
+  technician User?       @relation("TechnicianAppointments", fields: [technicianId], references: [id])
+
+  @@map("service_appointments")
+}
+
+model Notification {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  type      String    // inventory_alert, sales_update, service_reminder
+  title     String
+  message   String
+  data      Json?
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model ActivityFeed {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  dealershipId String?  @map("dealership_id")
+  entityType   String   @map("entity_type") // customer, sale, service, inventory
+  entityId     String   @map("entity_id")
+  action       String   // created, updated, deleted, transferred
+  details      Json?
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("activity_feed")
+}
