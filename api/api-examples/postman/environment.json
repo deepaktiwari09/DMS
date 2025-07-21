@@ -1,0 +1,51 @@
+{
+  "name": "Motocorp DMS Development",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "enabled": true
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "organizationId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "dealershipId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "customerId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "inventoryItemId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "saleId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "appointmentId",
+      "value": "",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

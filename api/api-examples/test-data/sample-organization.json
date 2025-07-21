@@ -1,0 +1,64 @@
+{
+  "organization": {
+    "name": "Test Motorcycle Dealership",
+    "tier": "professional",
+    "settings": {
+      "timezone": "America/New_York",
+      "currency": "USD",
+      "language": "en-US",
+      "businessHours": {
+        "monday": { "open": "09:00", "close": "18:00" },
+        "tuesday": { "open": "09:00", "close": "18:00" },
+        "wednesday": { "open": "09:00", "close": "18:00" },
+        "thursday": { "open": "09:00", "close": "18:00" },
+        "friday": { "open": "09:00", "close": "18:00" },
+        "saturday": { "open": "09:00", "close": "17:00" },
+        "sunday": { "closed": true }
+      }
+    }
+  },
+  "adminUser": {
+    "email": "admin@testdealership.com",
+    "password": "SecurePass123!",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "admin"
+  },
+  "users": [
+    {
+      "email": "manager@testdealership.com",
+      "password": "SecurePass123!",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "role": "manager"
+    },
+    {
+      "email": "sales1@testdealership.com",
+      "password": "SecurePass123!",
+      "firstName": "Mike",
+      "lastName": "Johnson",
+      "role": "sales"
+    },
+    {
+      "email": "sales2@testdealership.com",
+      "password": "SecurePass123!",
+      "firstName": "Sarah",
+      "lastName": "Williams",
+      "role": "sales"
+    },
+    {
+      "email": "service1@testdealership.com",
+      "password": "SecurePass123!",
+      "firstName": "Tom",
+      "lastName": "Brown",
+      "role": "service"
+    },
+    {
+      "email": "finance@testdealership.com",
+      "password": "SecurePass123!",
+      "firstName": "Lisa",
+      "lastName": "Davis",
+      "role": "finance"
+    }
+  ]
+}

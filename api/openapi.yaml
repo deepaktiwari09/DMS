@@ -1,0 +1,4000 @@
+openapi: '3.0.3'
+info:
+  title: 'Motocorp Dealership Management System API'
+  description: |
+    A comprehensive cloud-based dealership management system for motorcycle dealerships.
+    This API provides multi-tenant architecture with complete CRUD operations for:
+    - Inventory Management (motorcycles, parts, accessories)
+    - Customer Relationship Management (CRM)
+    - Sales Pipeline Management
+    - Service Appointment Management
+    - User Management with role-based access control
+    - Real-time notifications and activity feeds
+    
+    ## Authentication
+    This API uses JWT Bearer token authentication. Include the token in the Authorization header:
+    `Authorization: Bearer <your_jwt_token>`
+    
+    ## Multi-Tenancy
+    The API supports multi-tenant architecture where each organization has its own isolated data.
+    The tenant context is automatically resolved from the authenticated user's JWT token.
+    
+    ## Rate Limiting
+    API requests are rate-limited to ensure fair usage and system stability.
+    
+    ## Error Handling
+    Standard HTTP status codes are used. Error responses include detailed error messages
+    and validation errors where applicable.
+  version: '1.0.0'
+  contact:
+    name: 'Motocorp DMS Support'
+    email: 'support@motocorpdms.com'
+    url: 'https://motocorpdms.com/support'
+  license:
+    name: 'Proprietary'
+
+servers:
+  - url: 'https://api.motocorpdms.com/v1'
+    description: 'Production server'
+  - url: 'https://staging-api.motocorpdms.com/v1'
+    description: 'Staging server'
+  - url: 'http://localhost:3000'
+    description: 'Development server'
+
+security:
+  - BearerAuth: []
+
+paths:
+  # Health Check Endpoints
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check endpoint
+      description: Returns the health status of the API service
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  # Authentication Endpoints
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      description: Creates a new user account within an organization
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDto'
+      responses:
+        '201':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '409':
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      description: Authenticates user and returns JWT token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: Successfully authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/profile:
+    get:
+      tags:
+        - Authentication
+      summary: Get user profile
+      description: Returns the authenticated user's profile information
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: Refresh authentication token
+      description: Generates a new JWT token for the authenticated user
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Organization Management
+  /organizations:
+    get:
+      tags:
+        - Organizations
+      summary: Get organization details
+      description: Retrieves the current organization information
+      responses:
+        '200':
+          description: Organization details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+
+  # Dealership Management
+  /dealerships:
+    get:
+      tags:
+        - Dealerships
+      summary: List dealerships
+      description: Retrieves a paginated list of dealerships within the organization
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: search
+          in: query
+          description: Search dealerships by name
+          schema:
+            type: string
+        - name: isActive
+          in: query
+          description: Filter by active status
+          schema:
+            type: boolean
+        - name: timezone
+          in: query
+          description: Filter by timezone
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Field to sort by
+          schema:
+            type: string
+            default: 'createdAt'
+        - name: sortOrder
+          in: query
+          description: Sort direction
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: 'desc'
+      responses:
+        '200':
+          description: Dealerships retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDealerships'
+
+    post:
+      tags:
+        - Dealerships
+      summary: Create a new dealership
+      description: Creates a new dealership within the organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDealershipDto'
+      responses:
+        '201':
+          description: Dealership created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dealership'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /dealerships/{id}:
+    get:
+      tags:
+        - Dealerships
+      summary: Get dealership by ID
+      description: Retrieves a specific dealership by its ID
+      parameters:
+        - $ref: '#/components/parameters/DealershipIdParam'
+      responses:
+        '200':
+          description: Dealership retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dealership'
+        '404':
+          description: Dealership not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      tags:
+        - Dealerships
+      summary: Update dealership
+      description: Updates an existing dealership's information
+      parameters:
+        - $ref: '#/components/parameters/DealershipIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDealershipDto'
+      responses:
+        '200':
+          description: Dealership updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dealership'
+        '404':
+          description: Dealership not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Dealerships
+      summary: Delete dealership
+      description: Soft deletes a dealership (sets isActive to false)
+      parameters:
+        - $ref: '#/components/parameters/DealershipIdParam'
+      responses:
+        '204':
+          description: Dealership deleted successfully
+        '404':
+          description: Dealership not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /dealerships/{id}/stats:
+    get:
+      tags:
+        - Dealerships
+      summary: Get dealership statistics
+      description: Retrieves aggregated statistics for a specific dealership
+      parameters:
+        - $ref: '#/components/parameters/DealershipIdParam'
+      responses:
+        '200':
+          description: Dealership statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DealershipStats'
+        '404':
+          description: Dealership not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # User Management
+  /users:
+    get:
+      tags:
+        - Users
+      summary: List users
+      description: Retrieves a paginated list of users within the organization
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: role
+          in: query
+          description: Filter users by role
+          schema:
+            type: string
+            enum: [admin, manager, sales, service, finance]
+        - name: dealershipId
+          in: query
+          description: Filter users by dealership ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUsers'
+
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      description: Creates a new user within the organization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Get user by ID
+      description: Retrieves a specific user by their ID
+      parameters:
+        - $ref: '#/components/parameters/UserIdParam'
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Users
+      summary: Update user
+      description: Updates an existing user's information
+      parameters:
+        - $ref: '#/components/parameters/UserIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserDto'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Users
+      summary: Delete user
+      description: Soft deletes a user (sets isActive to false)
+      parameters:
+        - $ref: '#/components/parameters/UserIdParam'
+      responses:
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Customer Management
+  /customers:
+    get:
+      tags:
+        - Customers
+      summary: List customers
+      description: Retrieves a paginated list of customers with optional filtering
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: search
+          in: query
+          description: Search customers by name, email, or phone
+          schema:
+            type: string
+        - name: dealershipId
+          in: query
+          description: Filter customers by dealership
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Customers retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomers'
+
+    post:
+      tags:
+        - Customers
+      summary: Create a new customer
+      description: Creates a new customer record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomerDto'
+      responses:
+        '201':
+          description: Customer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /customers/stats:
+    get:
+      tags:
+        - Customers
+      summary: Get customer statistics
+      description: Retrieves aggregated customer statistics
+      responses:
+        '200':
+          description: Customer statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerStats'
+
+  /customers/{id}:
+    get:
+      tags:
+        - Customers
+      summary: Get customer by ID
+      description: Retrieves a specific customer with their complete profile
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      responses:
+        '200':
+          description: Customer retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDetail'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Customers
+      summary: Update customer
+      description: Updates an existing customer's information
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerDto'
+      responses:
+        '200':
+          description: Customer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Customers
+      summary: Delete customer
+      description: Permanently deletes a customer record
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      responses:
+        '204':
+          description: Customer deleted successfully
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /customers/{id}/transfer:
+    patch:
+      tags:
+        - Customers
+      summary: Transfer customer to another dealership
+      description: Transfers a customer from one dealership to another
+      parameters:
+        - $ref: '#/components/parameters/CustomerIdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferCustomerDto'
+      responses:
+        '200':
+          description: Customer transferred successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Inventory Management
+  /inventory:
+    get:
+      tags:
+        - Inventory
+      summary: List inventory items
+      description: Retrieves a paginated list of inventory items with filtering and sorting
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: type
+          in: query
+          description: Filter by inventory type
+          schema:
+            type: string
+            enum: [motorcycle, part, accessory]
+        - name: category
+          in: query
+          description: Filter by category
+          schema:
+            type: string
+        - name: dealershipId
+          in: query
+          description: Filter by dealership
+          schema:
+            type: string
+            format: uuid
+        - name: lowStock
+          in: query
+          description: Show only items with low stock
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Inventory items retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedInventory'
+
+    post:
+      tags:
+        - Inventory
+      summary: Create inventory item
+      description: Creates a new inventory item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInventoryDto'
+      responses:
+        '201':
+          description: Inventory item created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItem'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /inventory/stats:
+    get:
+      tags:
+        - Inventory
+      summary: Get inventory statistics
+      description: Retrieves aggregated inventory statistics
+      parameters:
+        - name: dealershipId
+          in: query
+          description: Filter statistics by dealership
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Inventory statistics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryStats'
+
+  /inventory/low-stock:
+    get:
+      tags:
+        - Inventory
+      summary: Get low stock items
+      description: Retrieves items that are below their reorder point
+      parameters:
+        - name: dealershipId
+          in: query
+          description: Filter by dealership
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Low stock items retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryItem'
+
+  /inventory/views:
+    get:
+      tags:
+        - Inventory
+      summary: List inventory views
+      description: Retrieves user's custom inventory views
+      responses:
+        '200':
+          description: Inventory views retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InventoryView'
+
+    post:
+      tags:
+        - Inventory
+      summary: Create inventory view
+      description: Creates a new custom inventory view
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInventoryViewDto'
+      responses:
+        '201':
+          description: Inventory view created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryView'
+
+  /inventory/views/{id}:
+    get:
+      tags:
+        - Inventory
+      summary: Get inventory view by ID
+      description: Retrieves a specific inventory view
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Inventory view ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Inventory view retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryView'
+
+    put:
+      tags:
+        - Inventory
+      summary: Update inventory view
+      description: Updates an existing inventory view
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Inventory view ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInventoryViewDto'
+      responses:
+        '200':
+          description: Inventory view updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryView'
+
+    delete:
+      tags:
+        - Inventory
+      summary: Delete inventory view
+      description: Deletes an inventory view
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Inventory view ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Inventory view deleted successfully
+
+  /inventory/views/{id}/apply:
+    get:
+      tags:
+        - Inventory
+      summary: Apply inventory view
+      description: Applies an inventory view with optional additional filters
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Inventory view ID
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+      responses:
+        '200':
+          description: Inventory view applied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedInventory'
+
+  /inventory/{id}:
+    get:
+      tags:
+        - Inventory
+      summary: Get inventory item by ID
+      description: Retrieves a specific inventory item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Inventory item ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Inventory item retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItem'
+        '404':
+          description: Inventory item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Inventory
+      summary: Update inventory item
+      description: Updates an existing inventory item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Inventory item ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInventoryDto'
+      responses:
+        '200':
+          description: Inventory item updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItem'
+        '404':
+          description: Inventory item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Inventory
+      summary: Delete inventory item
+      description: Soft deletes an inventory item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Inventory item ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Inventory item deleted successfully
+        '404':
+          description: Inventory item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /inventory/{id}/stock:
+    patch:
+      tags:
+        - Inventory
+      summary: Update inventory stock
+      description: Updates the stock quantity of an inventory item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Inventory item ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStockDto'
+      responses:
+        '200':
+          description: Stock updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryItem'
+        '404':
+          description: Inventory item not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Sales Management
+  /sales:
+    get:
+      tags:
+        - Sales
+      summary: List sales
+      description: Retrieves a paginated list of sales with filtering options
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: stage
+          in: query
+          description: Filter by sales stage
+          schema:
+            type: string
+            enum: [lead, qualified, proposal, negotiation, closed_won, closed_lost]
+        - name: salesPersonId
+          in: query
+          description: Filter by sales person
+          schema:
+            type: string
+            format: uuid
+        - name: dealershipId
+          in: query
+          description: Filter by dealership
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Sales retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSales'
+
+    post:
+      tags:
+        - Sales
+      summary: Create a new sale
+      description: Creates a new sales opportunity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSaleDto'
+      responses:
+        '201':
+          description: Sale created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /sales/{id}:
+    get:
+      tags:
+        - Sales
+      summary: Get sale by ID
+      description: Retrieves a specific sale with detailed information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Sale ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Sale retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleDetail'
+        '404':
+          description: Sale not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Sales
+      summary: Update sale
+      description: Updates an existing sale
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Sale ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSaleDto'
+      responses:
+        '200':
+          description: Sale updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+        '404':
+          description: Sale not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Sales
+      summary: Delete sale
+      description: Deletes a sales record
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Sale ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Sale deleted successfully
+        '404':
+          description: Sale not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /sales/{id}/stage:
+    patch:
+      tags:
+        - Sales
+      summary: Update sales stage
+      description: Updates the stage of a sales opportunity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Sale ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSaleStageDto'
+      responses:
+        '200':
+          description: Sales stage updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sale'
+        '404':
+          description: Sale not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Service Appointments
+  /service-appointments:
+    get:
+      tags:
+        - Service Appointments
+      summary: List service appointments
+      description: Retrieves a paginated list of service appointments
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: status
+          in: query
+          description: Filter by appointment status
+          schema:
+            type: string
+            enum: [scheduled, in_progress, completed, cancelled]
+        - name: technicianId
+          in: query
+          description: Filter by technician
+          schema:
+            type: string
+            format: uuid
+        - name: date
+          in: query
+          description: Filter by appointment date (YYYY-MM-DD)
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Service appointments retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedServiceAppointments'
+
+    post:
+      tags:
+        - Service Appointments
+      summary: Create service appointment
+      description: Creates a new service appointment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateServiceAppointmentDto'
+      responses:
+        '201':
+          description: Service appointment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAppointment'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /service-appointments/{id}:
+    get:
+      tags:
+        - Service Appointments
+      summary: Get service appointment by ID
+      description: Retrieves a specific service appointment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Service appointment ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Service appointment retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAppointmentDetail'
+        '404':
+          description: Service appointment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - Service Appointments
+      summary: Update service appointment
+      description: Updates an existing service appointment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Service appointment ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateServiceAppointmentDto'
+      responses:
+        '200':
+          description: Service appointment updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAppointment'
+        '404':
+          description: Service appointment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Service Appointments
+      summary: Cancel service appointment
+      description: Cancels a service appointment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Service appointment ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Service appointment cancelled successfully
+        '404':
+          description: Service appointment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Notifications
+  /notifications:
+    get:
+      tags:
+        - Notifications
+      summary: List notifications
+      description: Retrieves user's notifications
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: type
+          in: query
+          description: Filter by notification type
+          schema:
+            type: string
+            enum: [inventory_alert, sales_update, service_reminder]
+        - name: unread
+          in: query
+          description: Show only unread notifications
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Notifications retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNotifications'
+
+    post:
+      tags:
+        - Notifications
+      summary: Create notification
+      description: Creates a new notification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNotificationDto'
+      responses:
+        '201':
+          description: Notification created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+
+  /notifications/{id}:
+    get:
+      tags:
+        - Notifications
+      summary: Get notification by ID
+      description: Retrieves a specific notification
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Notification ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Notification retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+
+    put:
+      tags:
+        - Notifications
+      summary: Update notification
+      description: Updates a notification (e.g., mark as read)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Notification ID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNotificationDto'
+      responses:
+        '200':
+          description: Notification updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+
+    delete:
+      tags:
+        - Notifications
+      summary: Delete notification
+      description: Deletes a notification
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Notification ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Notification deleted successfully
+
+  # Activity Feed
+  /activity-feed:
+    get:
+      tags:
+        - Activity Feed
+      summary: Get activity feed
+      description: Retrieves the user's activity feed
+      parameters:
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/LimitParam'
+        - name: entityType
+          in: query
+          description: Filter by entity type
+          schema:
+            type: string
+            enum: [customer, sale, service, inventory]
+        - name: action
+          in: query
+          description: Filter by action type
+          schema:
+            type: string
+            enum: [created, updated, deleted, transferred]
+      responses:
+        '200':
+          description: Activity feed retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedActivityFeed'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT Bearer token authentication. Format: Bearer <your_jwt_token>'
+
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      description: Page number for pagination (starts from 1)
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+
+    LimitParam:
+      name: limit
+      in: query
+      description: Number of items per page
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+    UserIdParam:
+      name: id
+      in: path
+      required: true
+      description: User ID
+      schema:
+        type: string
+        format: uuid
+
+    CustomerIdParam:
+      name: id
+      in: path
+      required: true
+      description: Customer ID
+      schema:
+        type: string
+        format: uuid
+
+    DealershipIdParam:
+      name: id
+      in: path
+      required: true
+      description: Dealership ID
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    # Authentication Schemas
+    LoginDto:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: 'john.doe@example.com'
+        password:
+          type: string
+          minLength: 6
+          description: User's password (minimum 6 characters)
+          example: 'securepassword123'
+
+    RegisterDto:
+      type: object
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+        - organizationId
+        - role
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: 'jane.smith@example.com'
+        password:
+          type: string
+          minLength: 6
+          description: User's password (minimum 6 characters)
+          example: 'securepassword123'
+        firstName:
+          type: string
+          minLength: 2
+          description: User's first name
+          example: 'Jane'
+        lastName:
+          type: string
+          minLength: 2
+          description: User's last name
+          example: 'Smith'
+        organizationId:
+          type: string
+          format: uuid
+          description: Organization ID
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        dealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Dealership ID (optional)
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        role:
+          type: string
+          enum: [admin, manager, sales, service, finance]
+          description: User's role in the organization
+          example: 'sales'
+
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+        user:
+          $ref: '#/components/schemas/User'
+        expiresIn:
+          type: integer
+          description: Token expiration time in seconds
+          example: 3600
+
+    UserProfile:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+
+    # User Management Schemas
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique user identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        organizationId:
+          type: string
+          format: uuid
+          description: Organization ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        dealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: 'john.doe@example.com'
+        firstName:
+          type: string
+          description: User's first name
+          example: 'John'
+        lastName:
+          type: string
+          description: User's last name
+          example: 'Doe'
+        role:
+          type: string
+          enum: [admin, manager, sales, service, finance]
+          description: User's role
+          example: 'sales'
+        permissions:
+          type: object
+          nullable: true
+          description: User's specific permissions
+          example: {"canViewReports": true, "canEditInventory": false}
+        isActive:
+          type: boolean
+          description: Whether the user is active
+          example: true
+        lastLoginAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: Last login timestamp
+          example: '2024-01-15T10:30:00Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+
+    CreateUserDto:
+      type: object
+      required:
+        - email
+        - firstName
+        - lastName
+        - role
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: 'new.user@example.com'
+        firstName:
+          type: string
+          minLength: 2
+          description: User's first name
+          example: 'Alice'
+        lastName:
+          type: string
+          minLength: 2
+          description: User's last name
+          example: 'Johnson'
+        dealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        role:
+          type: string
+          enum: [admin, manager, sales, service, finance]
+          description: User's role
+          example: 'manager'
+        permissions:
+          type: object
+          nullable: true
+          description: User's specific permissions
+          example: {"canViewReports": true, "canEditInventory": true}
+
+    UpdateUserDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 2
+          description: User's first name
+          example: 'Alice'
+        lastName:
+          type: string
+          minLength: 2
+          description: User's last name
+          example: 'Johnson'
+        dealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        role:
+          type: string
+          enum: [admin, manager, sales, service, finance]
+          description: User's role
+          example: 'manager'
+        permissions:
+          type: object
+          nullable: true
+          description: User's specific permissions
+          example: {"canViewReports": true, "canEditInventory": true}
+        isActive:
+          type: boolean
+          description: Whether the user is active
+          example: true
+
+    PaginatedUsers:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    # Customer Management Schemas
+    Customer:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique customer identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        organizationId:
+          type: string
+          format: uuid
+          description: Organization ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        primaryDealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Primary dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        firstName:
+          type: string
+          description: Customer's first name
+          example: 'John'
+        lastName:
+          type: string
+          description: Customer's last name
+          example: 'Smith'
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: Customer's email address
+          example: 'john.smith@example.com'
+        phone:
+          type: string
+          nullable: true
+          description: Customer's phone number
+          example: '+1-555-123-4567'
+        address:
+          type: object
+          nullable: true
+          properties:
+            street:
+              type: string
+              example: '123 Main St'
+            city:
+              type: string
+              example: 'Springfield'
+            state:
+              type: string
+              example: 'IL'
+            zipCode:
+              type: string
+              example: '62701'
+            country:
+              type: string
+              example: 'USA'
+        preferences:
+          type: object
+          nullable: true
+          properties:
+            preferredContactMethod:
+              type: string
+              enum: [email, phone, sms]
+              example: 'email'
+            marketingOptIn:
+              type: boolean
+              example: true
+            serviceReminders:
+              type: boolean
+              example: true
+            newsletter:
+              type: boolean
+              example: false
+            preferredLanguage:
+              type: string
+              example: 'en'
+        lifetimeValue:
+          type: number
+          format: decimal
+          nullable: true
+          description: Customer's lifetime value
+          example: 15750.50
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+
+    CustomerDetail:
+      allOf:
+        - $ref: '#/components/schemas/Customer'
+        - type: object
+          properties:
+            recentSales:
+              type: array
+              items:
+                $ref: '#/components/schemas/Sale'
+              description: Recent sales for this customer
+            upcomingAppointments:
+              type: array
+              items:
+                $ref: '#/components/schemas/ServiceAppointment'
+              description: Upcoming service appointments
+
+    CreateCustomerDto:
+      type: object
+      required:
+        - firstName
+        - lastName
+      properties:
+        firstName:
+          type: string
+          minLength: 2
+          description: Customer's first name
+          example: 'John'
+        lastName:
+          type: string
+          minLength: 2
+          description: Customer's last name
+          example: 'Smith'
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: Customer's email address
+          example: 'john.smith@example.com'
+        phone:
+          type: string
+          nullable: true
+          description: Customer's phone number
+          example: '+1-555-123-4567'
+        primaryDealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Primary dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        address:
+          type: object
+          nullable: true
+          properties:
+            street:
+              type: string
+              example: '123 Main St'
+            city:
+              type: string
+              example: 'Springfield'
+            state:
+              type: string
+              example: 'IL'
+            zipCode:
+              type: string
+              example: '62701'
+            country:
+              type: string
+              example: 'USA'
+        preferences:
+          type: object
+          nullable: true
+          properties:
+            preferredContactMethod:
+              type: string
+              enum: [email, phone, sms]
+              example: 'email'
+            marketingOptIn:
+              type: boolean
+              example: true
+            serviceReminders:
+              type: boolean
+              example: true
+            newsletter:
+              type: boolean
+              example: false
+            preferredLanguage:
+              type: string
+              example: 'en'
+
+    UpdateCustomerDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 2
+          description: Customer's first name
+          example: 'John'
+        lastName:
+          type: string
+          minLength: 2
+          description: Customer's last name
+          example: 'Smith'
+        email:
+          type: string
+          format: email
+          nullable: true
+          description: Customer's email address
+          example: 'john.smith@example.com'
+        phone:
+          type: string
+          nullable: true
+          description: Customer's phone number
+          example: '+1-555-123-4567'
+        primaryDealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Primary dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        address:
+          type: object
+          nullable: true
+          properties:
+            street:
+              type: string
+              example: '123 Main St'
+            city:
+              type: string
+              example: 'Springfield'
+            state:
+              type: string
+              example: 'IL'
+            zipCode:
+              type: string
+              example: '62701'
+            country:
+              type: string
+              example: 'USA'
+        preferences:
+          type: object
+          nullable: true
+          properties:
+            preferredContactMethod:
+              type: string
+              enum: [email, phone, sms]
+              example: 'email'
+            marketingOptIn:
+              type: boolean
+              example: true
+            serviceReminders:
+              type: boolean
+              example: true
+            newsletter:
+              type: boolean
+              example: false
+            preferredLanguage:
+              type: string
+              example: 'en'
+
+    TransferCustomerDto:
+      type: object
+      required:
+        - newDealershipId
+      properties:
+        newDealershipId:
+          type: string
+          format: uuid
+          description: ID of the dealership to transfer customer to
+          example: '123e4567-e89b-12d3-a456-426614174003'
+        reason:
+          type: string
+          nullable: true
+          description: Reason for transfer
+          example: 'Customer relocated'
+
+    PaginatedCustomers:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    CustomerStats:
+      type: object
+      properties:
+        totalCustomers:
+          type: integer
+          description: Total number of customers
+          example: 1250
+        newCustomersThisMonth:
+          type: integer
+          description: New customers added this month
+          example: 45
+        averageLifetimeValue:
+          type: number
+          format: decimal
+          description: Average customer lifetime value
+          example: 8500.75
+        topCustomersByValue:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+          description: Top customers by lifetime value
+
+    # Inventory Management Schemas
+    InventoryItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique inventory item identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        dealershipId:
+          type: string
+          format: uuid
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        sku:
+          type: string
+          description: Stock Keeping Unit
+          example: 'MOT-001-2024'
+        type:
+          type: string
+          enum: [motorcycle, part, accessory]
+          description: Type of inventory item
+          example: 'motorcycle'
+        category:
+          type: string
+          nullable: true
+          description: Item category
+          example: 'Sport'
+        name:
+          type: string
+          description: Item name
+          example: 'Yamaha YZF-R1'
+        description:
+          type: string
+          nullable: true
+          description: Item description
+          example: 'High-performance sport motorcycle'
+        costPrice:
+          type: number
+          format: decimal
+          nullable: true
+          description: Cost price
+          example: 12500.00
+        sellingPrice:
+          type: number
+          format: decimal
+          description: Selling price
+          example: 16999.99
+        quantityOnHand:
+          type: integer
+          description: Current stock quantity
+          example: 3
+        reorderPoint:
+          type: integer
+          nullable: true
+          description: Reorder point for low stock alerts
+          example: 2
+        supplierInfo:
+          type: object
+          nullable: true
+          properties:
+            name:
+              type: string
+              example: 'Yamaha Motor Corp'
+            contactEmail:
+              type: string
+              format: email
+              example: 'orders@yamaha.com'
+            contactPhone:
+              type: string
+              example: '+1-800-962-7926'
+            address:
+              type: string
+              example: '6555 Katella Ave, Cypress, CA 90630'
+            leadTime:
+              type: integer
+              description: Lead time in days
+              example: 14
+            minimumOrder:
+              type: integer
+              description: Minimum order quantity
+              example: 1
+        isActive:
+          type: boolean
+          description: Whether the item is active
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+
+    CreateInventoryDto:
+      type: object
+      required:
+        - dealershipId
+        - sku
+        - type
+        - name
+        - sellingPrice
+      properties:
+        dealershipId:
+          type: string
+          format: uuid
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        sku:
+          type: string
+          description: Stock Keeping Unit
+          example: 'MOT-002-2024'
+        type:
+          type: string
+          enum: [motorcycle, part, accessory]
+          description: Type of inventory item
+          example: 'motorcycle'
+        category:
+          type: string
+          nullable: true
+          description: Item category
+          example: 'Cruiser'
+        name:
+          type: string
+          description: Item name
+          example: 'Honda Rebel 300'
+        description:
+          type: string
+          nullable: true
+          description: Item description
+          example: 'Entry-level cruiser motorcycle'
+        costPrice:
+          type: number
+          format: decimal
+          nullable: true
+          description: Cost price
+          example: 3500.00
+        sellingPrice:
+          type: number
+          format: decimal
+          description: Selling price
+          example: 4699.99
+        quantityOnHand:
+          type: integer
+          minimum: 0
+          description: Initial stock quantity
+          example: 5
+          default: 0
+        reorderPoint:
+          type: integer
+          minimum: 0
+          nullable: true
+          description: Reorder point for low stock alerts
+          example: 1
+        supplierInfo:
+          type: object
+          nullable: true
+          properties:
+            name:
+              type: string
+              example: 'Honda Motor Co'
+            contactEmail:
+              type: string
+              format: email
+              example: 'orders@honda.com'
+            contactPhone:
+              type: string
+              example: '+1-800-999-1009'
+            address:
+              type: string
+              example: '1919 Torrance Blvd, Torrance, CA 90501'
+            leadTime:
+              type: integer
+              description: Lead time in days
+              example: 10
+            minimumOrder:
+              type: integer
+              description: Minimum order quantity
+              example: 1
+
+    UpdateInventoryDto:
+      type: object
+      properties:
+        sku:
+          type: string
+          description: Stock Keeping Unit
+          example: 'MOT-002-2024-UPD'
+        type:
+          type: string
+          enum: [motorcycle, part, accessory]
+          description: Type of inventory item
+          example: 'motorcycle'
+        category:
+          type: string
+          nullable: true
+          description: Item category
+          example: 'Cruiser'
+        name:
+          type: string
+          description: Item name
+          example: 'Honda Rebel 300 ABS'
+        description:
+          type: string
+          nullable: true
+          description: Item description
+          example: 'Entry-level cruiser motorcycle with ABS'
+        costPrice:
+          type: number
+          format: decimal
+          nullable: true
+          description: Cost price
+          example: 3600.00
+        sellingPrice:
+          type: number
+          format: decimal
+          description: Selling price
+          example: 4899.99
+        quantityOnHand:
+          type: integer
+          minimum: 0
+          description: Current stock quantity
+          example: 3
+        reorderPoint:
+          type: integer
+          minimum: 0
+          nullable: true
+          description: Reorder point for low stock alerts
+          example: 2
+        supplierInfo:
+          type: object
+          nullable: true
+          properties:
+            name:
+              type: string
+              example: 'Honda Motor Co'
+            contactEmail:
+              type: string
+              format: email
+              example: 'orders@honda.com'
+            contactPhone:
+              type: string
+              example: '+1-800-999-1009'
+            address:
+              type: string
+              example: '1919 Torrance Blvd, Torrance, CA 90501'
+            leadTime:
+              type: integer
+              description: Lead time in days
+              example: 10
+            minimumOrder:
+              type: integer
+              description: Minimum order quantity
+              example: 1
+        isActive:
+          type: boolean
+          description: Whether the item is active
+          example: true
+
+    UpdateStockDto:
+      type: object
+      required:
+        - operation
+        - quantity
+      properties:
+        operation:
+          type: string
+          enum: [add, subtract, set]
+          description: Stock operation type
+          example: 'add'
+        quantity:
+          type: integer
+          minimum: 0
+          description: Quantity for the operation
+          example: 5
+        reason:
+          type: string
+          nullable: true
+          description: Reason for stock update
+          example: 'New shipment received'
+
+    InventoryView:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique view identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        userId:
+          type: string
+          format: uuid
+          description: User ID who created the view
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        dealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Dealership ID (if view is dealership-specific)
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        name:
+          type: string
+          description: View name
+          example: 'Low Stock Motorcycles'
+        description:
+          type: string
+          nullable: true
+          description: View description
+          example: 'Motorcycles with stock below reorder point'
+        isDefault:
+          type: boolean
+          description: Whether this is the default view
+          example: false
+        isShared:
+          type: boolean
+          description: Whether this view is shared with other users
+          example: true
+        filterConfig:
+          type: object
+          description: Filter configuration
+          example: {"type": "motorcycle", "quantityOnHand": {"$lt": "reorderPoint"}}
+        sortConfig:
+          type: object
+          description: Sort configuration
+          example: {"field": "quantityOnHand", "direction": "asc"}
+        groupConfig:
+          type: object
+          nullable: true
+          description: Group configuration
+          example: {"field": "category"}
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+
+    CreateInventoryViewDto:
+      type: object
+      required:
+        - name
+        - filterConfig
+        - sortConfig
+      properties:
+        name:
+          type: string
+          description: View name
+          example: 'High Value Items'
+        description:
+          type: string
+          nullable: true
+          description: View description
+          example: 'Items with selling price above $10,000'
+        dealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Dealership ID (if view is dealership-specific)
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        isDefault:
+          type: boolean
+          description: Whether this is the default view
+          example: false
+          default: false
+        isShared:
+          type: boolean
+          description: Whether this view is shared with other users
+          example: false
+          default: false
+        filterConfig:
+          type: object
+          description: Filter configuration
+          example: {"sellingPrice": {"$gte": 10000}}
+        sortConfig:
+          type: object
+          description: Sort configuration
+          example: {"field": "sellingPrice", "direction": "desc"}
+        groupConfig:
+          type: object
+          nullable: true
+          description: Group configuration
+          example: {"field": "type"}
+
+    UpdateInventoryViewDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: View name
+          example: 'Premium Items'
+        description:
+          type: string
+          nullable: true
+          description: View description
+          example: 'Premium motorcycles and accessories'
+        isDefault:
+          type: boolean
+          description: Whether this is the default view
+          example: true
+        isShared:
+          type: boolean
+          description: Whether this view is shared with other users
+          example: true
+        filterConfig:
+          type: object
+          description: Filter configuration
+          example: {"sellingPrice": {"$gte": 15000}}
+        sortConfig:
+          type: object
+          description: Sort configuration
+          example: {"field": "name", "direction": "asc"}
+        groupConfig:
+          type: object
+          nullable: true
+          description: Group configuration
+          example: {"field": "category"}
+
+    PaginatedInventory:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InventoryItem'
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    InventoryStats:
+      type: object
+      properties:
+        totalItems:
+          type: integer
+          description: Total number of inventory items
+          example: 250
+        totalValue:
+          type: number
+          format: decimal
+          description: Total inventory value (selling price)
+          example: 1250000.00
+        lowStockItems:
+          type: integer
+          description: Number of items below reorder point
+          example: 15
+        outOfStockItems:
+          type: integer
+          description: Number of items with zero stock
+          example: 3
+        byType:
+          type: object
+          properties:
+            motorcycle:
+              type: integer
+              example: 45
+            part:
+              type: integer
+              example: 180
+            accessory:
+              type: integer
+              example: 25
+        byCategory:
+          type: object
+          additionalProperties:
+            type: integer
+          example:
+            Sport: 15
+            Cruiser: 12
+            Touring: 8
+            Adventure: 10
+
+    # Sales Management Schemas
+    Sale:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique sale identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        customerId:
+          type: string
+          format: uuid
+          description: Customer ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        dealershipId:
+          type: string
+          format: uuid
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        salesPersonId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Sales person ID
+          example: '123e4567-e89b-12d3-a456-426614174003'
+        stage:
+          type: string
+          enum: [lead, qualified, proposal, negotiation, closed_won, closed_lost]
+          description: Sales stage
+          example: 'proposal'
+        totalAmount:
+          type: number
+          format: decimal
+          nullable: true
+          description: Total sale amount
+          example: 16999.99
+        items:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              inventoryId:
+                type: string
+                format: uuid
+                example: '123e4567-e89b-12d3-a456-426614174004'
+              quantity:
+                type: integer
+                example: 1
+              unitPrice:
+                type: number
+                format: decimal
+                example: 16999.99
+              discount:
+                type: number
+                format: decimal
+                nullable: true
+                example: 500.00
+          description: Sale items
+        notes:
+          type: string
+          nullable: true
+          description: Sale notes
+          example: 'Customer interested in extended warranty'
+        estimatedCloseDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Estimated close date
+          example: '2024-02-15T00:00:00Z'
+        actualCloseDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Actual close date
+          example: '2024-02-10T14:30:00Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+
+    SaleDetail:
+      allOf:
+        - $ref: '#/components/schemas/Sale'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/Customer'
+            salesPerson:
+              $ref: '#/components/schemas/User'
+              nullable: true
+            itemsDetail:
+              type: array
+              nullable: true
+              items:
+                type: object
+                properties:
+                  inventoryId:
+                    type: string
+                    format: uuid
+                    example: '123e4567-e89b-12d3-a456-426614174004'
+                  inventoryItem:
+                    $ref: '#/components/schemas/InventoryItem'
+                  quantity:
+                    type: integer
+                    example: 1
+                  unitPrice:
+                    type: number
+                    format: decimal
+                    example: 16999.99
+                  discount:
+                    type: number
+                    format: decimal
+                    nullable: true
+                    example: 500.00
+                  total:
+                    type: number
+                    format: decimal
+                    example: 16499.99
+
+    CreateSaleDto:
+      type: object
+      required:
+        - customerId
+        - dealershipId
+      properties:
+        customerId:
+          type: string
+          format: uuid
+          description: Customer ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        dealershipId:
+          type: string
+          format: uuid
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        salesPersonId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Sales person ID
+          example: '123e4567-e89b-12d3-a456-426614174003'
+        stage:
+          type: string
+          enum: [lead, qualified, proposal, negotiation, closed_won, closed_lost]
+          description: Initial sales stage
+          example: 'lead'
+          default: 'lead'
+        totalAmount:
+          type: number
+          format: decimal
+          nullable: true
+          description: Total sale amount
+          example: 16999.99
+        items:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - inventoryId
+              - quantity
+              - unitPrice
+            properties:
+              inventoryId:
+                type: string
+                format: uuid
+                example: '123e4567-e89b-12d3-a456-426614174004'
+              quantity:
+                type: integer
+                minimum: 1
+                example: 1
+              unitPrice:
+                type: number
+                format: decimal
+                example: 16999.99
+              discount:
+                type: number
+                format: decimal
+                nullable: true
+                example: 500.00
+          description: Sale items
+        notes:
+          type: string
+          nullable: true
+          description: Sale notes
+          example: 'Initial inquiry via website'
+        estimatedCloseDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Estimated close date
+          example: '2024-02-15T00:00:00Z'
+
+    UpdateSaleDto:
+      type: object
+      properties:
+        salesPersonId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Sales person ID
+          example: '123e4567-e89b-12d3-a456-426614174003'
+        stage:
+          type: string
+          enum: [lead, qualified, proposal, negotiation, closed_won, closed_lost]
+          description: Sales stage
+          example: 'negotiation'
+        totalAmount:
+          type: number
+          format: decimal
+          nullable: true
+          description: Total sale amount
+          example: 15999.99
+        items:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - inventoryId
+              - quantity
+              - unitPrice
+            properties:
+              inventoryId:
+                type: string
+                format: uuid
+                example: '123e4567-e89b-12d3-a456-426614174004'
+              quantity:
+                type: integer
+                minimum: 1
+                example: 1
+              unitPrice:
+                type: number
+                format: decimal
+                example: 16999.99
+              discount:
+                type: number
+                format: decimal
+                nullable: true
+                example: 1000.00
+          description: Sale items
+        notes:
+          type: string
+          nullable: true
+          description: Sale notes
+          example: 'Customer negotiating price, considering trade-in'
+        estimatedCloseDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Estimated close date
+          example: '2024-02-10T00:00:00Z'
+        actualCloseDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Actual close date (when stage is closed_won/closed_lost)
+          example: '2024-02-08T16:45:00Z'
+
+    UpdateSaleStageDto:
+      type: object
+      required:
+        - stage
+      properties:
+        stage:
+          type: string
+          enum: [lead, qualified, proposal, negotiation, closed_won, closed_lost]
+          description: New sales stage
+          example: 'closed_won'
+        actualCloseDate:
+          type: string
+          format: date-time
+          nullable: true
+          description: Actual close date (auto-set if stage is closed_won/closed_lost)
+          example: '2024-02-08T16:45:00Z'
+        notes:
+          type: string
+          nullable: true
+          description: Notes about the stage change
+          example: 'Sale completed with extended warranty package'
+
+    PaginatedSales:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    # Service Appointment Schemas
+    ServiceAppointment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique appointment identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        customerId:
+          type: string
+          format: uuid
+          description: Customer ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        dealershipId:
+          type: string
+          format: uuid
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        technicianId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Assigned technician ID
+          example: '123e4567-e89b-12d3-a456-426614174003'
+        vehicleInfo:
+          type: object
+          nullable: true
+          properties:
+            make:
+              type: string
+              example: 'Yamaha'
+            model:
+              type: string
+              example: 'YZF-R1'
+            year:
+              type: integer
+              example: 2023
+            vin:
+              type: string
+              example: 'JYARN23E0KA001234'
+            mileage:
+              type: integer
+              example: 5250
+          description: Vehicle information
+        serviceType:
+          type: string
+          description: Type of service
+          example: 'Regular Maintenance'
+        status:
+          type: string
+          enum: [scheduled, in_progress, completed, cancelled]
+          description: Appointment status
+          example: 'scheduled'
+        scheduledStart:
+          type: string
+          format: date-time
+          description: Scheduled start time
+          example: '2024-02-15T09:00:00Z'
+        scheduledEnd:
+          type: string
+          format: date-time
+          description: Scheduled end time
+          example: '2024-02-15T11:00:00Z'
+        actualStart:
+          type: string
+          format: date-time
+          nullable: true
+          description: Actual start time
+          example: '2024-02-15T09:15:00Z'
+        actualEnd:
+          type: string
+          format: date-time
+          nullable: true
+          description: Actual end time
+          example: '2024-02-15T10:45:00Z'
+        laborHours:
+          type: number
+          format: decimal
+          nullable: true
+          description: Labor hours
+          example: 1.5
+        partsUsed:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              inventoryId:
+                type: string
+                format: uuid
+                example: '123e4567-e89b-12d3-a456-426614174004'
+              quantity:
+                type: integer
+                example: 1
+              unitPrice:
+                type: number
+                format: decimal
+                example: 45.99
+          description: Parts used in service
+        totalCost:
+          type: number
+          format: decimal
+          nullable: true
+          description: Total service cost
+          example: 125.99
+        notes:
+          type: string
+          nullable: true
+          description: Service notes
+          example: 'Oil change completed, tire pressure checked'
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+
+    ServiceAppointmentDetail:
+      allOf:
+        - $ref: '#/components/schemas/ServiceAppointment'
+        - type: object
+          properties:
+            customer:
+              $ref: '#/components/schemas/Customer'
+            technician:
+              $ref: '#/components/schemas/User'
+              nullable: true
+            partsUsedDetail:
+              type: array
+              nullable: true
+              items:
+                type: object
+                properties:
+                  inventoryId:
+                    type: string
+                    format: uuid
+                    example: '123e4567-e89b-12d3-a456-426614174004'
+                  inventoryItem:
+                    $ref: '#/components/schemas/InventoryItem'
+                  quantity:
+                    type: integer
+                    example: 1
+                  unitPrice:
+                    type: number
+                    format: decimal
+                    example: 45.99
+                  total:
+                    type: number
+                    format: decimal
+                    example: 45.99
+
+    CreateServiceAppointmentDto:
+      type: object
+      required:
+        - customerId
+        - dealershipId
+        - serviceType
+        - scheduledStart
+        - scheduledEnd
+      properties:
+        customerId:
+          type: string
+          format: uuid
+          description: Customer ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        dealershipId:
+          type: string
+          format: uuid
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        technicianId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Assigned technician ID
+          example: '123e4567-e89b-12d3-a456-426614174003'
+        vehicleInfo:
+          type: object
+          nullable: true
+          properties:
+            make:
+              type: string
+              example: 'Honda'
+            model:
+              type: string
+              example: 'CBR600RR'
+            year:
+              type: integer
+              example: 2022
+            vin:
+              type: string
+              example: 'JH2PC40050K123456'
+            mileage:
+              type: integer
+              example: 8500
+          description: Vehicle information
+        serviceType:
+          type: string
+          description: Type of service
+          example: 'Oil Change'
+        scheduledStart:
+          type: string
+          format: date-time
+          description: Scheduled start time
+          example: '2024-02-20T10:00:00Z'
+        scheduledEnd:
+          type: string
+          format: date-time
+          description: Scheduled end time
+          example: '2024-02-20T11:30:00Z'
+        notes:
+          type: string
+          nullable: true
+          description: Initial service notes
+          example: 'Customer requested full inspection'
+
+    UpdateServiceAppointmentDto:
+      type: object
+      properties:
+        technicianId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Assigned technician ID
+          example: '123e4567-e89b-12d3-a456-426614174003'
+        vehicleInfo:
+          type: object
+          nullable: true
+          properties:
+            make:
+              type: string
+              example: 'Honda'
+            model:
+              type: string
+              example: 'CBR600RR'
+            year:
+              type: integer
+              example: 2022
+            vin:
+              type: string
+              example: 'JH2PC40050K123456'
+            mileage:
+              type: integer
+              example: 8750
+          description: Vehicle information
+        serviceType:
+          type: string
+          description: Type of service
+          example: 'Oil Change + Inspection'
+        status:
+          type: string
+          enum: [scheduled, in_progress, completed, cancelled]
+          description: Appointment status
+          example: 'in_progress'
+        scheduledStart:
+          type: string
+          format: date-time
+          description: Scheduled start time
+          example: '2024-02-20T10:00:00Z'
+        scheduledEnd:
+          type: string
+          format: date-time
+          description: Scheduled end time
+          example: '2024-02-20T12:00:00Z'
+        actualStart:
+          type: string
+          format: date-time
+          nullable: true
+          description: Actual start time
+          example: '2024-02-20T10:05:00Z'
+        actualEnd:
+          type: string
+          format: date-time
+          nullable: true
+          description: Actual end time
+          example: '2024-02-20T11:50:00Z'
+        laborHours:
+          type: number
+          format: decimal
+          nullable: true
+          description: Labor hours
+          example: 1.75
+        partsUsed:
+          type: array
+          nullable: true
+          items:
+            type: object
+            required:
+              - inventoryId
+              - quantity
+              - unitPrice
+            properties:
+              inventoryId:
+                type: string
+                format: uuid
+                example: '123e4567-e89b-12d3-a456-426614174004'
+              quantity:
+                type: integer
+                minimum: 1
+                example: 1
+              unitPrice:
+                type: number
+                format: decimal
+                example: 52.99
+          description: Parts used in service
+        totalCost:
+          type: number
+          format: decimal
+          nullable: true
+          description: Total service cost
+          example: 142.99
+        notes:
+          type: string
+          nullable: true
+          description: Service notes
+          example: 'Oil change and full inspection completed, minor brake adjustment needed'
+
+    PaginatedServiceAppointments:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ServiceAppointment'
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    # Notification Schemas
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique notification identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        userId:
+          type: string
+          format: uuid
+          description: User ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        type:
+          type: string
+          enum: [inventory_alert, sales_update, service_reminder]
+          description: Notification type
+          example: 'inventory_alert'
+        title:
+          type: string
+          description: Notification title
+          example: 'Low Stock Alert'
+        message:
+          type: string
+          description: Notification message
+          example: 'Yamaha YZF-R1 is below reorder point (2 units remaining)'
+        data:
+          type: object
+          nullable: true
+          description: Additional notification data
+          example: {"inventoryId": "123e4567-e89b-12d3-a456-426614174002", "currentStock": 2, "reorderPoint": 3}
+        readAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: Read timestamp
+          example: '2024-01-15T10:30:00Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-15T09:00:00Z'
+
+    CreateNotificationDto:
+      type: object
+      required:
+        - userId
+        - type
+        - title
+        - message
+      properties:
+        userId:
+          type: string
+          format: uuid
+          description: User ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        type:
+          type: string
+          enum: [inventory_alert, sales_update, service_reminder]
+          description: Notification type
+          example: 'sales_update'
+        title:
+          type: string
+          description: Notification title
+          example: 'Sale Stage Updated'
+        message:
+          type: string
+          description: Notification message
+          example: 'Sale #12345 moved to negotiation stage'
+        data:
+          type: object
+          nullable: true
+          description: Additional notification data
+          example: {"saleId": "123e4567-e89b-12d3-a456-426614174003", "newStage": "negotiation"}
+
+    UpdateNotificationDto:
+      type: object
+      properties:
+        readAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: Read timestamp (set to mark as read/unread)
+          example: '2024-01-15T10:30:00Z'
+
+    PaginatedNotifications:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    # Activity Feed Schemas
+    ActivityFeedItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique activity identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        userId:
+          type: string
+          format: uuid
+          description: User ID who performed the action
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        dealershipId:
+          type: string
+          format: uuid
+          nullable: true
+          description: Dealership ID
+          example: '123e4567-e89b-12d3-a456-426614174002'
+        entityType:
+          type: string
+          enum: [customer, sale, service, inventory]
+          description: Type of entity affected
+          example: 'sale'
+        entityId:
+          type: string
+          format: uuid
+          description: ID of the affected entity
+          example: '123e4567-e89b-12d3-a456-426614174003'
+        action:
+          type: string
+          enum: [created, updated, deleted, transferred]
+          description: Action performed
+          example: 'updated'
+        details:
+          type: object
+          nullable: true
+          description: Additional action details
+          example: {"field": "stage", "oldValue": "qualified", "newValue": "proposal"}
+        createdAt:
+          type: string
+          format: date-time
+          description: Activity timestamp
+          example: '2024-01-15T10:30:00Z'
+        user:
+          $ref: '#/components/schemas/User'
+          description: User who performed the action
+
+    PaginatedActivityFeed:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityFeedItem'
+        pagination:
+          $ref: '#/components/schemas/PaginationMeta'
+
+    # Dealership Management Schemas
+    Dealership:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique dealership identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        organizationId:
+          type: string
+          format: uuid
+          description: Organization ID
+          example: '123e4567-e89b-12d3-a456-426614174001'
+        name:
+          type: string
+          description: Dealership name
+          example: 'Downtown Motorcycles'
+        location:
+          type: object
+          nullable: true
+          properties:
+            address:
+              type: string
+              example: '123 Main Street'
+            city:
+              type: string
+              example: 'New York'
+            state:
+              type: string
+              example: 'NY'
+            zipCode:
+              type: string
+              example: '10001'
+            country:
+              type: string
+              example: 'USA'
+            coordinates:
+              type: object
+              properties:
+                lat:
+                  type: number
+                  example: 40.7128
+                lng:
+                  type: number
+                  example: -74.0060
+          description: Dealership location details
+        timezone:
+          type: string
+          description: Dealership timezone
+          example: 'America/New_York'
+          default: 'UTC'
+        businessHours:
+          type: object
+          nullable: true
+          properties:
+            monday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '09:00'
+                close:
+                  type: string
+                  example: '18:00'
+                closed:
+                  type: boolean
+                  example: false
+            tuesday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '09:00'
+                close:
+                  type: string
+                  example: '18:00'
+                closed:
+                  type: boolean
+                  example: false
+            wednesday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '09:00'
+                close:
+                  type: string
+                  example: '18:00'
+                closed:
+                  type: boolean
+                  example: false
+            thursday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '09:00'
+                close:
+                  type: string
+                  example: '18:00'
+                closed:
+                  type: boolean
+                  example: false
+            friday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '09:00'
+                close:
+                  type: string
+                  example: '18:00'
+                closed:
+                  type: boolean
+                  example: false
+            saturday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '10:00'
+                close:
+                  type: string
+                  example: '17:00'
+                closed:
+                  type: boolean
+                  example: false
+            sunday:
+              type: object
+              properties:
+                closed:
+                  type: boolean
+                  example: true
+          description: Business hours for each day of the week
+        isActive:
+          type: boolean
+          description: Whether the dealership is active
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+        _count:
+          type: object
+          description: Related entity counts
+          properties:
+            users:
+              type: integer
+              example: 12
+            inventory:
+              type: integer
+              example: 156
+            customers:
+              type: integer
+              example: 245
+            sales:
+              type: integer
+              example: 23
+            serviceAppointments:
+              type: integer
+              example: 18
+
+    CreateDealershipDto:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 2
+          description: Dealership name
+          example: 'Westside Motors'
+        location:
+          type: object
+          nullable: true
+          properties:
+            address:
+              type: string
+              example: '456 Oak Avenue'
+            city:
+              type: string
+              example: 'Los Angeles'
+            state:
+              type: string
+              example: 'CA'
+            zipCode:
+              type: string
+              example: '90210'
+            country:
+              type: string
+              example: 'USA'
+            coordinates:
+              type: object
+              properties:
+                lat:
+                  type: number
+                  example: 34.0522
+                lng:
+                  type: number
+                  example: -118.2437
+          description: Dealership location details
+        timezone:
+          type: string
+          description: Dealership timezone
+          example: 'America/Los_Angeles'
+          default: 'UTC'
+        businessHours:
+          type: object
+          nullable: true
+          properties:
+            monday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:30'
+                close:
+                  type: string
+                  example: '19:00'
+                closed:
+                  type: boolean
+                  example: false
+            tuesday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:30'
+                close:
+                  type: string
+                  example: '19:00'
+                closed:
+                  type: boolean
+                  example: false
+            wednesday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:30'
+                close:
+                  type: string
+                  example: '19:00'
+                closed:
+                  type: boolean
+                  example: false
+            thursday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:30'
+                close:
+                  type: string
+                  example: '19:00'
+                closed:
+                  type: boolean
+                  example: false
+            friday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:30'
+                close:
+                  type: string
+                  example: '19:00'
+                closed:
+                  type: boolean
+                  example: false
+            saturday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '09:00'
+                close:
+                  type: string
+                  example: '18:00'
+                closed:
+                  type: boolean
+                  example: false
+            sunday:
+              type: object
+              properties:
+                closed:
+                  type: boolean
+                  example: true
+          description: Business hours for each day of the week
+        isActive:
+          type: boolean
+          description: Whether the dealership is active
+          example: true
+          default: true
+
+    UpdateDealershipDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          description: Dealership name
+          example: 'Westside Motors & Parts'
+        location:
+          type: object
+          nullable: true
+          properties:
+            address:
+              type: string
+              example: '789 Pine Street'
+            city:
+              type: string
+              example: 'Los Angeles'
+            state:
+              type: string
+              example: 'CA'
+            zipCode:
+              type: string
+              example: '90211'
+            country:
+              type: string
+              example: 'USA'
+            coordinates:
+              type: object
+              properties:
+                lat:
+                  type: number
+                  example: 34.0522
+                lng:
+                  type: number
+                  example: -118.2437
+          description: Dealership location details
+        timezone:
+          type: string
+          description: Dealership timezone
+          example: 'America/Los_Angeles'
+        businessHours:
+          type: object
+          nullable: true
+          properties:
+            monday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:00'
+                close:
+                  type: string
+                  example: '20:00'
+                closed:
+                  type: boolean
+                  example: false
+            tuesday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:00'
+                close:
+                  type: string
+                  example: '20:00'
+                closed:
+                  type: boolean
+                  example: false
+            wednesday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:00'
+                close:
+                  type: string
+                  example: '20:00'
+                closed:
+                  type: boolean
+                  example: false
+            thursday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:00'
+                close:
+                  type: string
+                  example: '20:00'
+                closed:
+                  type: boolean
+                  example: false
+            friday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '08:00'
+                close:
+                  type: string
+                  example: '20:00'
+                closed:
+                  type: boolean
+                  example: false
+            saturday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '09:00'
+                close:
+                  type: string
+                  example: '18:00'
+                closed:
+                  type: boolean
+                  example: false
+            sunday:
+              type: object
+              properties:
+                open:
+                  type: string
+                  example: '11:00'
+                close:
+                  type: string
+                  example: '16:00'
+                closed:
+                  type: boolean
+                  example: false
+          description: Business hours for each day of the week
+        isActive:
+          type: boolean
+          description: Whether the dealership is active
+          example: true
+
+    PaginatedDealerships:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dealership'
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+              description: Total number of dealerships
+              example: 5
+            page:
+              type: integer
+              description: Current page number
+              example: 1
+            limit:
+              type: integer
+              description: Items per page
+              example: 10
+            totalPages:
+              type: integer
+              description: Total number of pages
+              example: 1
+
+    DealershipStats:
+      type: object
+      properties:
+        users:
+          type: object
+          properties:
+            total:
+              type: integer
+              description: Total users in dealership
+              example: 12
+            active:
+              type: integer
+              description: Active users in dealership
+              example: 11
+        inventory:
+          type: object
+          properties:
+            total:
+              type: integer
+              description: Total inventory items
+              example: 156
+            lowStock:
+              type: integer
+              description: Items below reorder point
+              example: 8
+        customers:
+          type: integer
+          description: Total customers
+          example: 245
+        sales:
+          type: object
+          properties:
+            active:
+              type: integer
+              description: Active sales opportunities
+              example: 23
+        serviceAppointments:
+          type: object
+          properties:
+            scheduled:
+              type: integer
+              description: Scheduled appointments
+              example: 18
+
+    # Organization Schema
+    Organization:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique organization identifier
+          example: '123e4567-e89b-12d3-a456-426614174000'
+        name:
+          type: string
+          description: Organization name
+          example: 'Sunset Motorcycles Inc.'
+        databaseName:
+          type: string
+          description: Tenant database name
+          example: 'tenant_org_abc123'
+        tier:
+          type: string
+          enum: [starter, professional, enterprise]
+          description: Subscription tier
+          example: 'professional'
+        isActive:
+          type: boolean
+          description: Whether the organization is active
+          example: true
+        settings:
+          type: object
+          nullable: true
+          description: Organization settings
+          example: {"timezone": "America/New_York", "currency": "USD", "dateFormat": "MM/DD/YYYY"}
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: '2024-01-01T00:00:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+
+    # Health Response Schema
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded, down]
+          description: Overall health status
+          example: 'ok'
+        timestamp:
+          type: string
+          format: date-time
+          description: Health check timestamp
+          example: '2024-01-15T10:30:00Z'
+        version:
+          type: string
+          description: API version
+          example: '1.0.0'
+        uptime:
+          type: integer
+          description: Uptime in seconds
+          example: 86400
+        database:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [connected, disconnected]
+              example: 'connected'
+            responseTime:
+              type: integer
+              description: Database response time in milliseconds
+              example: 15
+
+    # Common Schemas
+    PaginationMeta:
+      type: object
+      properties:
+        currentPage:
+          type: integer
+          description: Current page number
+          example: 1
+        totalPages:
+          type: integer
+          description: Total number of pages
+          example: 5
+        totalItems:
+          type: integer
+          description: Total number of items
+          example: 95
+        itemsPerPage:
+          type: integer
+          description: Number of items per page
+          example: 20
+        hasNextPage:
+          type: boolean
+          description: Whether there is a next page
+          example: true
+        hasPreviousPage:
+          type: boolean
+          description: Whether there is a previous page
+          example: false
+
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Human readable error message
+          example: 'Resource not found'
+        error:
+          type: string
+          description: Error type
+          example: 'NotFound'
+        statusCode:
+          type: integer
+          description: HTTP status code
+          example: 404
+        timestamp:
+          type: string
+          format: date-time
+          description: Error timestamp
+          example: '2024-01-15T10:30:00Z'
+        path:
+          type: string
+          description: Request path that caused the error
+          example: '/api/v1/customers/invalid-id'
+
+    ValidationError:
+      type: object
+      required:
+        - message
+        - errors
+      properties:
+        message:
+          type: string
+          description: General validation error message
+          example: 'Validation failed'
+        error:
+          type: string
+          description: Error type
+          example: 'Bad Request'
+        statusCode:
+          type: integer
+          description: HTTP status code
+          example: 400
+        timestamp:
+          type: string
+          format: date-time
+          description: Error timestamp
+          example: '2024-01-15T10:30:00Z'
+        path:
+          type: string
+          description: Request path that caused the error
+          example: '/api/v1/customers'
+        errors:
+          type: array
+          description: Detailed validation errors
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                description: Field that failed validation
+                example: 'email'
+              message:
+                type: string
+                description: Validation error message
+                example: 'must be a valid email address'
+              value:
+                description: Invalid value that was provided
+                example: 'invalid-email'
+
+tags:
+  - name: Health
+    description: Health check and monitoring endpoints
+  - name: Authentication
+    description: User authentication and authorization
+  - name: Organizations
+    description: Organization management
+  - name: Dealerships
+    description: Dealership location and branch management
+  - name: Users
+    description: User management and administration
+  - name: Customers
+    description: Customer relationship management
+  - name: Inventory
+    description: Inventory and stock management
+  - name: Sales
+    description: Sales pipeline and opportunity management
+  - name: Service Appointments
+    description: Service scheduling and management
+  - name: Notifications
+    description: User notifications and alerts
+  - name: Activity Feed
+    description: Activity tracking and audit logs

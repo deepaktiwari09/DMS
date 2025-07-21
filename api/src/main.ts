@@ -5,6 +5,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter, ValidationExceptionFilter } from './common/filters';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -19,6 +20,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // Global exception filters
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalFilters(new ValidationExceptionFilter());
 
   app.enableCors();
   

@@ -1,0 +1,160 @@
+{
+  "motorcycles": [
+    {
+      "name": "Yamaha MT-07",
+      "sku": "YAM-MT07-2024",
+      "category": "motorcycle",
+      "price": 7499.99,
+      "stock": 5,
+      "minStock": 2,
+      "description": "Lightweight naked bike with 689cc engine",
+      "specifications": {
+        "engine": "689cc parallel twin",
+        "power": "74hp",
+        "weight": "184kg",
+        "fuelCapacity": "14L",
+        "transmission": "6-speed"
+      }
+    },
+    {
+      "name": "Honda CB650R",
+      "sku": "HON-CB650R-2024",
+      "category": "motorcycle",
+      "price": 8999.99,
+      "stock": 3,
+      "minStock": 1,
+      "description": "Neo Sports Café with aggressive styling",
+      "specifications": {
+        "engine": "649cc inline-4",
+        "power": "94hp",
+        "weight": "202kg",
+        "fuelCapacity": "15.4L",
+        "transmission": "6-speed"
+      }
+    },
+    {
+      "name": "Kawasaki Ninja 400",
+      "sku": "KAW-NIN400-2024",
+      "category": "motorcycle",
+      "price": 5299.99,
+      "stock": 8,
+      "minStock": 3,
+      "description": "Entry-level sportbike with 399cc engine",
+      "specifications": {
+        "engine": "399cc parallel twin",
+        "power": "45hp",
+        "weight": "167kg",
+        "fuelCapacity": "14L",
+        "transmission": "6-speed"
+      }
+    },
+    {
+      "name": "Suzuki GSX-R750",
+      "sku": "SUZ-GSXR750-2024",
+      "category": "motorcycle",
+      "price": 12999.99,
+      "stock": 2,
+      "minStock": 1,
+      "description": "Legendary supersport with 749cc engine",
+      "specifications": {
+        "engine": "749cc inline-4",
+        "power": "148hp",
+        "weight": "190kg",
+        "fuelCapacity": "16L",
+        "transmission": "6-speed"
+      }
+    }
+  ],
+  "parts": [
+    {
+      "name": "Yamaha MT-07 Air Filter",
+      "sku": "YAM-MT07-AF-001",
+      "category": "parts",
+      "price": 45.99,
+      "stock": 25,
+      "minStock": 10,
+      "description": "OEM air filter for Yamaha MT-07",
+      "specifications": {
+        "compatibility": "MT-07 2014-2024",
+        "partNumber": "2C0-14451-00-00",
+        "material": "Paper element"
+      }
+    },
+    {
+      "name": "Honda CB650R Brake Pads Front",
+      "sku": "HON-CB650R-BP-F001",
+      "category": "parts",
+      "price": 89.99,
+      "stock": 15,
+      "minStock": 8,
+      "description": "OEM front brake pads for Honda CB650R",
+      "specifications": {
+        "compatibility": "CB650R 2019-2024",
+        "partNumber": "06435-MJE-D01",
+        "material": "Organic compound"
+      }
+    },
+    {
+      "name": "Universal Engine Oil 10W-40",
+      "sku": "UNI-OIL-10W40-4L",
+      "category": "parts",
+      "price": 29.99,
+      "stock": 50,
+      "minStock": 20,
+      "description": "Premium 4-stroke motorcycle engine oil",
+      "specifications": {
+        "viscosity": "10W-40",
+        "volume": "4L",
+        "type": "Semi-synthetic",
+        "standard": "JASO MA2"
+      }
+    }
+  ],
+  "accessories": [
+    {
+      "name": "Premium Motorcycle Cover",
+      "sku": "ACC-COVER-PREM-001",
+      "category": "accessories",
+      "price": 79.99,
+      "stock": 12,
+      "minStock": 5,
+      "description": "Waterproof motorcycle cover with lock holes",
+      "specifications": {
+        "size": "Large",
+        "material": "600D Oxford cloth",
+        "waterproof": true,
+        "uvProtection": true
+      }
+    },
+    {
+      "name": "Bluetooth Helmet Intercom",
+      "sku": "ACC-BT-INTERCOM-001",
+      "category": "accessories",
+      "price": 149.99,
+      "stock": 8,
+      "minStock": 3,
+      "description": "Wireless Bluetooth communication system",
+      "specifications": {
+        "range": "1200m",
+        "batteryLife": "12 hours",
+        "waterproof": "IP67",
+        "compatibility": "Universal helmet mount"
+      }
+    },
+    {
+      "name": "Tank Bag Magnetic",
+      "sku": "ACC-TANKBAG-MAG-001",
+      "category": "accessories",
+      "price": 59.99,
+      "stock": 20,
+      "minStock": 8,
+      "description": "Magnetic tank bag with clear phone pocket",
+      "specifications": {
+        "capacity": "5L",
+        "phoneWindow": "6.5 inch max",
+        "magnetic": true,
+        "waterproof": "Rain resistant"
+      }
+    }
+  ]
+}

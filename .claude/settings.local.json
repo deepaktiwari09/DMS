@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(pnpm add:*)",
+      "Bash(ls:*)",
+      "Bash(npx prisma:*)",
+      "Bash(mkdir:*)",
+      "Bash(pnpm run:*)",
+      "Bash(git add:*)",
+      "Bash(rm:*)",
+      "Bash(curl:*)",
+      "Bash(grep:*)",
+      "Bash(timeout 10 pnpm start:dev)",
+      "Bash(true)",
+      "Bash(python3:*)",
+      "Bash(npx swagger-jsdoc:*)",
+      "Bash(node:*)",
+      "Bash(timeout 10s npm run start:dev:*)",
+      "Bash(gtimeout:*)"
+    ],
+    "deny": []
+  }
+}
