@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design System CSS Variables - Exact match from HTML prototypes */
+:root {
+  --primary-color: #3d98f4;
+  --secondary-color: #e0f2fe;
+  --background-color: #f9f9f9;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --accent-color: #bfdbfe;
+}
+
+@layer base {
+  body {
+    font-family: "Inter", sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    margin: 0;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Button Components - Exact match from HTML prototypes */
+  .button_primary {
+    @apply bg-[var(--primary-color)] text-white rounded-md px-6 py-3 font-bold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors;
+  }
+
+  .button_secondary {
+    @apply bg-[var(--accent-color)] text-[var(--text-primary)] rounded-md px-6 py-3 font-bold hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors;
+  }
+
+  /* Typography Components - Exact match from HTML prototypes */
+  .typography_h1 {
+    @apply text-4xl lg:text-5xl font-extrabold text-[var(--text-primary)] mb-4 tracking-tighter;
+  }
+
+  .typography_h2 {
+    @apply text-3xl font-bold text-[var(--text-primary)] mb-3;
+  }
+
+  .typography_body {
+    @apply text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed;
+  }
+
+  /* Layout Components - From customer.html and other prototypes */
+  .main_container {
+    @apply container mx-auto px-4 py-8;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6;
+  }
+
+  /* Input Components - From customer.html */
+  .input {
+    @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+  }
+}
+
+@layer utilities {
+  .text-primary-color {
+    color: var(--primary-color);
+  }
+  
+  .text-secondary-color {
+    color: var(--secondary-color);
+  }
+  
+  .bg-primary-color {
+    background-color: var(--primary-color);
+  }
+  
+  .bg-secondary-color {
+    background-color: var(--secondary-color);
+  }
+  
+  .bg-background-color {
+    background-color: var(--background-color);
+  }
+  
+  .border-primary-color {
+    border-color: var(--primary-color);
+  }
+}

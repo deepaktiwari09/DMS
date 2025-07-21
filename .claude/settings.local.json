@@ -17,7 +17,17 @@
       "Bash(npx swagger-jsdoc:*)",
       "Bash(node:*)",
       "Bash(timeout 10s npm run start:dev:*)",
-      "Bash(gtimeout:*)"
+      "Bash(gtimeout:*)",
+      "Bash(git push:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git remote add:*)",
+      "Bash(git checkout:*)",
+      "Bash(gh repo edit:*)",
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss init:*)"
     ],
     "deny": []
   }
