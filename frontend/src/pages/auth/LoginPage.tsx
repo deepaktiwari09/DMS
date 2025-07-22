@@ -15,7 +15,9 @@ export function LoginPage() {
   }, [isAuthenticated, navigate])
 
   const handleLoginSuccess = () => {
-    navigate({ to: '/' })
+    // Navigation will be handled automatically by the route guard
+    // when isAuthenticated becomes true
+    console.log('🎉 Login completed - route guard will handle navigation')
   }
 
   return (

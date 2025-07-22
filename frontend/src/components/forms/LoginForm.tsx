@@ -45,9 +45,14 @@ export function LoginForm({ onSuccess, className }: LoginFormProps) {
     }
   }
 
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault() // Ensure no default form submission
+    handleSubmit(onSubmit)(e)
+  }
+
   return (
     <div className={cn('w-full max-w-md', className)}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleFormSubmit} className="space-y-6">
         <div>
           <Input
             label="Email Address"
