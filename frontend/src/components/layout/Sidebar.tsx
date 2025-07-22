@@ -1,4 +1,4 @@
-import { Link } from '@tanstack/react-router'
+import { Link, useRouter } from '@tanstack/react-router'
 import { useAuthStore } from '../../stores/auth-store'
 import { cn } from '../../lib/utils'
 
@@ -57,10 +57,11 @@ interface SidebarProps {
 export function Sidebar({ className }: SidebarProps) {
   const user = useAuthStore((state) => state.user)
   const logout = useAuthStore((state) => state.logout)
+  const router = useRouter()
 
   const handleLogout = () => {
     logout()
-    window.location.href = '/login'
+    router.navigate({ to: '/auth' })
   }
 
   return (

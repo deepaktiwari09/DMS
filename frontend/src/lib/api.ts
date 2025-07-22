@@ -44,10 +44,11 @@ export const api = ky.create({
     ],
     afterResponse: [
       async (request, options, response) => {
-        // Handle 401 Unauthorized - redirect to login
+        // Handle 401 Unauthorized - redirect to auth
         if (response.status === 401) {
           localStorage.removeItem('auth_token')
-          window.location.href = '/login'
+          // Use window.location for global 401 handling since router context may not be available
+          window.location.href = '/auth'
         }
         return response
       },
