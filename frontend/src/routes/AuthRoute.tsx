@@ -14,10 +14,8 @@ export function AuthRoute() {
     availableOrganizations,
   } = useAuthActions();
 
-  // Fetch available organizations on mount
-  React.useEffect(() => {
-    fetchAvailableOrganizations();
-  }, [fetchAvailableOrganizations]);
+  // Note: Removed fetchAvailableOrganizations() call to prevent 401 redirect loop
+  // Organizations will be fetched when user is authenticated and needs them
 
   return (
     <AuthPage
