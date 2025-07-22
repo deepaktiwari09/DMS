@@ -1,6 +1,6 @@
 import { apiMethods } from '../lib/api'
-import { LoginFormData, RegisterFormData } from '../types/schemas'
-import { AuthResponse, User } from '../types/api'
+import { type LoginFormData, type RegisterFormData, type OrganizationFormData } from '../types/schemas'
+import { type AuthResponse, type User, type Organization } from '../types/api'
 
 export const authService = {
   // User Authentication
@@ -10,6 +10,15 @@ export const authService = {
 
   register: async (userData: RegisterFormData): Promise<AuthResponse> => {
     return await apiMethods.post<AuthResponse>('auth/register', userData)
+  },
+
+  // Organization Management
+  createOrganization: async (orgData: OrganizationFormData): Promise<Organization> => {
+    return await apiMethods.post<Organization>('organizations', orgData)
+  },
+
+  getAvailableOrganizations: async (): Promise<Organization[]> => {
+    return await apiMethods.get<Organization[]>('organizations')
   },
 
   // Get current user profile

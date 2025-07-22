@@ -62,9 +62,22 @@
     @apply bg-white rounded-lg shadow-md p-6;
   }
 
-  /* Input Components - From customer.html */
+  /* Input Components - From customer.html and auth.html */
   .input {
     @apply bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
+  }
+
+  .input_field {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm;
+  }
+
+  /* Auth-specific button styles - From auth.html */
+  .button_primary_auth {
+    @apply w-full bg-[var(--primary-color)] text-white rounded-md py-3 px-4 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors;
+  }
+
+  .button_secondary_auth {
+    @apply w-full bg-[var(--accent-color)] text-[var(--text-primary)] rounded-md py-3 px-4 font-semibold hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors;
   }
 }
 

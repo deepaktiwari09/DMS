@@ -11,7 +11,18 @@ export const registerSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
   lastName: z.string().min(2, 'Last name must be at least 2 characters'),
-  organizationName: z.string().min(2, 'Organization name must be at least 2 characters'),
+  organizationId: z.string().min(1, 'Organization is required'),
+  role: z.enum(['admin', 'manager', 'sales', 'service', 'viewer']).default('sales'),
+})
+
+// Organization Schema for new organization creation
+export const organizationSchema = z.object({
+  name: z.string().min(2, 'Organization name must be at least 2 characters'),
+  phone: z.string().min(10, 'Please enter a valid phone number'),
+  address: z.string().min(5, 'Please enter a valid address'),
+  city: z.string().min(2, 'City is required').optional(),
+  state: z.string().min(2, 'State is required').optional(),
+  zipCode: z.string().min(5, 'ZIP code is required').optional(),
 })
 
 // Customer Schemas
@@ -94,6 +105,7 @@ export const changePasswordSchema = z.object({
 // Export types for TypeScript
 export type LoginFormData = z.infer<typeof loginSchema>
 export type RegisterFormData = z.infer<typeof registerSchema>
+export type OrganizationFormData = z.infer<typeof organizationSchema>
 export type CustomerFormData = z.infer<typeof customerSchema>
 export type InventoryFormData = z.infer<typeof inventorySchema>
 export type SaleFormData = z.infer<typeof saleSchema>
