@@ -13,7 +13,7 @@ export function useAppNavigation() {
   }, [router]);
 
   const goToAuth = useCallback(() => {
-    navigate('/auth');
+    navigate('/auth/login');
   }, [navigate]);
 
   const goToDashboard = useCallback(() => {

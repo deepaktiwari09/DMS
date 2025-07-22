@@ -44,11 +44,17 @@ export const api = ky.create({
     ],
     afterResponse: [
       async (request, options, response) => {
-        // Handle 401 Unauthorized - redirect to auth
+        // Handle 401 Unauthorized - but only redirect if it's not a login attempt
         if (response.status === 401) {
-          localStorage.removeItem('auth_token')
-          // Use window.location for global 401 handling since router context may not be available
-          window.location.href = '/auth'
+          const url = new URL(request.url)
+          const isLoginAttempt = url.pathname.includes('/auth/login') || url.pathname.includes('/auth/register')
+          
+          if (!isLoginAttempt) {
+            // This is likely an expired token, redirect to login
+            localStorage.removeItem('auth_token')
+            window.location.href = '/auth/login'
+          }
+          // If it's a login attempt, let the error bubble up to show the error message
         }
         return response
       },

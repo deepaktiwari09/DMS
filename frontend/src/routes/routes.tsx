@@ -1,8 +1,9 @@
 import { createRoute, createRootRoute, Outlet, redirect } from '@tanstack/react-router';
 import { useAuthStore } from '../stores/auth-store';
+import { useAppNavigation } from '../hooks/useNavigation';
 import { LandingRoute } from './LandingRoute';
 import { AuthRoute } from './AuthRoute';
-import { ResetPasswordPage } from '../pages/auth';
+import { LoginPage, ResetPasswordPage } from '../pages/auth';
 import {
   DashboardHome,
   CustomersPage,
@@ -30,16 +31,39 @@ export const landingRoute = createRoute({
   },
 });
 
-export const authRoute = createRoute({
+// Auth parent route (no component, just for grouping)
+export const authParentRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/auth',
-  component: AuthRoute,
   beforeLoad: () => {
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
       throw redirect({ to: '/dashboard' });
     }
   },
+});
+
+// Login route component
+const LoginRouteComponent = () => {
+  const { goToDashboard } = useAppNavigation();
+  return <LoginPage onSuccess={goToDashboard} />;
+};
+
+// Register route component
+const RegisterRouteComponent = () => <AuthRoute />;
+
+// Login route
+export const loginRoute = createRoute({
+  getParentRoute: () => authParentRoute,
+  path: '/login',
+  component: LoginRouteComponent,
+});
+
+// Register route  
+export const registerRoute = createRoute({
+  getParentRoute: () => authParentRoute,
+  path: '/register',
+  component: RegisterRouteComponent,
 });
 
 export const resetPasswordRoute = createRoute({
@@ -67,7 +91,7 @@ const requireAuth = () => {
   
   if (!isAuthenticated) {
     throw redirect({ 
-      to: '/auth',
+      to: '/auth/login',
       search: {
         redirect: window.location.pathname,
       },
@@ -121,7 +145,10 @@ export const financeRoute = createRoute({
 // Route tree
 export const routeTree = rootRoute.addChildren([
   landingRoute,
-  authRoute,
+  authParentRoute.addChildren([
+    loginRoute,
+    registerRoute,
+  ]),
   resetPasswordRoute,
   dashboardRoute,
   customersRoute,

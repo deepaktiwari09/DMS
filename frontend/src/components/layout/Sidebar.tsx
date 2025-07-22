@@ -61,7 +61,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   const handleLogout = () => {
     logout()
-    router.navigate({ to: '/auth' })
+    router.navigate({ to: '/auth/login' })
   }
 
   return (
