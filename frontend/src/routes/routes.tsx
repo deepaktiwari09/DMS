@@ -31,7 +31,7 @@ export const landingRoute = createRoute({
   },
 });
 
-// Auth parent route (no component, just for grouping)
+// Auth parent route (redirects to login by default)
 export const authParentRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/auth',
@@ -39,17 +39,17 @@ export const authParentRoute = createRoute({
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
       throw redirect({ to: '/dashboard' });
+    } else {
+      // Default redirect to login if not authenticated and accessing /auth directly
+      throw redirect({ to: '/auth/login' });
     }
   },
 });
 
-// Login route component
-const LoginRouteComponent = () => {
-  const { goToDashboard } = useAppNavigation();
-  return <LoginPage onSuccess={goToDashboard} />;
-};
+// Login route component - reuse existing LoginPage
+const LoginRouteComponent = () => <LoginPage />;
 
-// Register route component
+// Register route component - reuse existing AuthRoute for register form
 const RegisterRouteComponent = () => <AuthRoute />;
 
 // Login route
