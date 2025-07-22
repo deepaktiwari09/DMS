@@ -24,18 +24,21 @@ export function LoginForm({ onSuccess, className }: LoginFormProps) {
     formState: { errors, isValid },
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    mode: 'onChange',
+    mode: 'onSubmit', // Changed from 'onChange' to 'onSubmit'
   })
 
   const onSubmit = async (data: LoginFormData) => {
+    console.log('🚀 Login form submitted:', data)
     setIsSubmitting(true)
     setSubmitError(null)
 
     try {
-      const response = await authService.login(data)
-      login(response.token, response.user)
+      console.log('📡 Making API call via auth store...')
+      await login(data) // Use auth store's login method directly
+      console.log('✅ Login successful!')
       onSuccess?.()
     } catch (error: any) {
+      console.error('❌ Login error:', error)
       setSubmitError(error.message || 'Login failed. Please try again.')
     } finally {
       setIsSubmitting(false)
@@ -87,7 +90,7 @@ export function LoginForm({ onSuccess, className }: LoginFormProps) {
           variant="primary"
           className="w-full"
           isLoading={isSubmitting}
-          disabled={!isValid || isSubmitting}
+          disabled={isSubmitting}
         >
           {isSubmitting ? 'Signing In...' : 'Sign In'}
         </Button>
