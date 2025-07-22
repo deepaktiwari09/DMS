@@ -162,6 +162,98 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /auth/forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: Request password reset
+      description: |
+        Sends a password reset email to the user if the email exists in the system.
+        For security reasons, always returns success even if the email doesn't exist.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '200':
+          description: Password reset email sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /auth/reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Reset password with token
+      description: |
+        Resets the user's password using a valid reset token received via email.
+        The token expires after 1 hour.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Invalid or expired token, or invalid password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+
+  /auth/change-password:
+    put:
+      tags:
+        - Authentication
+      summary: Change password for authenticated user
+      description: |
+        Changes the password for the currently authenticated user.
+        Requires the current password for verification.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: Password changed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Current password is incorrect or new password is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationError'
+        '401':
+          description: Unauthorized - valid authentication required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
   # Organization Management
   /organizations:
     get:
@@ -1579,6 +1671,60 @@ components:
       properties:
         user:
           $ref: '#/components/schemas/User'
+
+    # Password Management Schemas
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address for password reset
+          example: 'user@example.com'
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - newPassword
+      properties:
+        token:
+          type: string
+          description: Password reset token received in email
+          example: 'abc123def456789...'
+        newPassword:
+          type: string
+          minLength: 6
+          pattern: '^(?=.*[A-Za-z])(?=.*\d)'
+          description: New password (minimum 6 characters, must contain at least one letter and one number)
+          example: 'newSecurePassword123'
+
+    ChangePasswordRequest:
+      type: object
+      required:
+        - currentPassword
+        - newPassword
+      properties:
+        currentPassword:
+          type: string
+          description: Current password for verification
+          example: 'currentPassword123'
+        newPassword:
+          type: string
+          minLength: 6
+          pattern: '^(?=.*[A-Za-z])(?=.*\d)'
+          description: New password (minimum 6 characters, must contain at least one letter and one number)
+          example: 'newSecurePassword123'
+
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Success or informational message
+          example: 'Password has been reset successfully'
 
     # User Management Schemas
     User:

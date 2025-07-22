@@ -2,8 +2,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { Button, Input, Card, CardHeader, CardTitle, CardContent } from '../ui'
-import { customerSchema, CustomerFormData } from '../../types/schemas'
-import { Customer } from '../../types/api'
+import { customerSchema, type CustomerFormData } from '../../types/schemas'
+import { type Customer } from '../../types/api'
 import { cn } from '../../lib/utils'
 
 interface CustomerFormProps {

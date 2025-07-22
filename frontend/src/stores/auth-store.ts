@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { authUtils } from '../lib/api'
 import { authService } from '../services/auth.service'
-import { type LoginFormData, type RegisterFormData, type OrganizationFormData } from '../types/schemas'
+import { type LoginFormData, type RegisterFormData, type OrganizationFormData, type ForgotPasswordFormData, type ResetPasswordFormData, type ChangePasswordFormData } from '../types/schemas'
 import { type User, type Organization } from '../types/api'
 
 interface AuthState {
@@ -24,6 +24,11 @@ interface AuthActions {
   createOrganization: (orgData: OrganizationFormData) => Promise<Organization>
   joinOrganization: (orgId: string) => Promise<void>
   fetchAvailableOrganizations: () => Promise<void>
+  
+  // Password management actions
+  forgotPassword: (forgotPasswordData: ForgotPasswordFormData) => Promise<string>
+  resetPassword: (resetPasswordData: ResetPasswordFormData) => Promise<string>
+  changePassword: (changePasswordData: ChangePasswordFormData) => Promise<string>
   
   // Utility actions
   setUser: (user: User) => void
@@ -178,6 +183,58 @@ export const useAuthStore = create<AuthStore>()(
         }
       },
 
+      // Password management actions
+      forgotPassword: async (forgotPasswordData: ForgotPasswordFormData) => {
+        try {
+          set({ isLoading: true, error: null })
+          
+          const response = await authService.forgotPassword(forgotPasswordData)
+          
+          set({ isLoading: false })
+          return response.message
+        } catch (error: any) {
+          set({
+            isLoading: false,
+            error: error?.message || 'Failed to send password reset email',
+          })
+          throw error
+        }
+      },
+
+      resetPassword: async (resetPasswordData: ResetPasswordFormData) => {
+        try {
+          set({ isLoading: true, error: null })
+          
+          const response = await authService.resetPasswordWithForm(resetPasswordData)
+          
+          set({ isLoading: false })
+          return response.message
+        } catch (error: any) {
+          set({
+            isLoading: false,
+            error: error?.message || 'Failed to reset password',
+          })
+          throw error
+        }
+      },
+
+      changePassword: async (changePasswordData: ChangePasswordFormData) => {
+        try {
+          set({ isLoading: true, error: null })
+          
+          const response = await authService.changePassword(changePasswordData)
+          
+          set({ isLoading: false })
+          return response.message
+        } catch (error: any) {
+          set({
+            isLoading: false,
+            error: error?.message || 'Failed to change password',
+          })
+          throw error
+        }
+      },
+
       // Utility actions
       setUser: (user: User) => {
         set({ user })
@@ -206,6 +263,7 @@ export const useAuthStore = create<AuthStore>()(
             lastName: 'User',
             role: 'admin',
             organizationId: 'dev-org',
+            isActive: true,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
           },

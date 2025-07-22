@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 import { TenantService, TenantContext } from '../database/tenant.service';
 import { DatabaseService } from '../database/database.service';
 
@@ -30,6 +31,20 @@ export interface AuthResponse {
     organizationId: string;
     dealershipId?: string;
   };
+}
+
+export interface ForgotPasswordDto {
+  email: string;
+}
+
+export interface ResetPasswordDto {
+  token: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordDto {
+  currentPassword: string;
+  newPassword: string;
 }
 
 @Injectable()
@@ -168,6 +183,126 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<{ message: string }> {
+    const { email } = forgotPasswordDto;
+    
+    const user = await this.findUserByEmail(email);
+    if (!user) {
+      // For security, always return success even if user doesn't exist
+      return { message: 'If a user with this email exists, a password reset link has been sent.' };
+    }
+
+    // Generate reset token and expiration (1 hour from now)
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    // Save token to user record
+    const tenantDb = await this.tenantService.getTenantConnection(user.organizationId);
+    await tenantDb.user.update({
+      where: { id: user.id },
+      data: {
+        passwordResetToken: resetToken,
+        passwordResetExpires: resetExpires,
+      },
+    });
+
+    // TODO: Send email with reset link
+    // In production, you would send an email here
+    console.log(`Password reset token for ${email}: ${resetToken}`);
+
+    return { message: 'If a user with this email exists, a password reset link has been sent.' };
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<{ message: string }> {
+    const { token, newPassword } = resetPasswordDto;
+
+    // Find user by reset token
+    const user = await this.findUserByResetToken(token);
+    if (!user) {
+      throw new BadRequestException('Invalid or expired password reset token');
+    }
+
+    // Check if token has expired
+    if (!user.passwordResetExpires || user.passwordResetExpires < new Date()) {
+      throw new BadRequestException('Password reset token has expired');
+    }
+
+    // Hash new password
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+
+    // Update user password and clear reset token
+    const tenantDb = await this.tenantService.getTenantConnection(user.organizationId);
+    await tenantDb.user.update({
+      where: { id: user.id },
+      data: {
+        passwordHash,
+        passwordResetToken: null,
+        passwordResetExpires: null,
+      },
+    });
+
+    return { message: 'Password has been reset successfully' };
+  }
+
+  async changePassword(userId: string, organizationId: string, changePasswordDto: ChangePasswordDto): Promise<{ message: string }> {
+    const { currentPassword, newPassword } = changePasswordDto;
+
+    // Get user
+    const tenantDb = await this.tenantService.getTenantConnection(organizationId);
+    const user = await tenantDb.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    // Verify current password
+    const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!isCurrentPasswordValid) {
+      throw new BadRequestException('Current password is incorrect');
+    }
+
+    // Hash new password
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+
+    // Update password
+    await tenantDb.user.update({
+      where: { id: userId },
+      data: { passwordHash },
+    });
+
+    return { message: 'Password changed successfully' };
+  }
+
+  private async findUserByResetToken(token: string) {
+    try {
+      const organizations = await this.databaseService.organization.findMany({
+        where: { isActive: true },
+      });
+
+      for (const org of organizations) {
+        try {
+          const tenantDb = await this.tenantService.getTenantConnection(org.id);
+          const user = await tenantDb.user.findFirst({
+            where: { passwordResetToken: token },
+          });
+          
+          if (user) {
+            return user;
+          }
+        } catch (error) {
+          console.warn(`Failed to search user by reset token in org ${org.id}:`, error.message);
+        }
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error finding user by reset token:', error);
+      return null;
+    }
   }
 
   private async findUserByEmail(email: string) {

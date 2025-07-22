@@ -70,6 +70,8 @@ model User {
   dealershipId String?  @map("dealership_id")
   email        String   @unique
   passwordHash String   @map("password_hash")
+  passwordResetToken   String?   @map("password_reset_token")
+  passwordResetExpires DateTime? @map("password_reset_expires")
   firstName    String   @map("first_name")
   lastName     String   @map("last_name")
   role         String   // admin, manager, sales, service, finance

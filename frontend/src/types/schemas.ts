@@ -93,6 +93,21 @@ export const userSchema = z.object({
   isActive: z.boolean().default(true),
 })
 
+export const forgotPasswordSchema = z.object({
+  email: z.string().email('Please enter a valid email address'),
+})
+
+export const resetPasswordSchema = z.object({
+  token: z.string().min(1, 'Reset token is required'),
+  newPassword: z.string()
+    .min(6, 'Password must be at least 6 characters')
+    .regex(/^(?=.*[A-Za-z])(?=.*\d)/, 'Password must contain at least one letter and one number'),
+  confirmPassword: z.string().min(1, 'Please confirm your password'),
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+})
+
 export const changePasswordSchema = z.object({
   currentPassword: z.string().min(1, 'Current password is required'),
   newPassword: z.string().min(6, 'New password must be at least 6 characters'),
@@ -111,4 +126,6 @@ export type InventoryFormData = z.infer<typeof inventorySchema>
 export type SaleFormData = z.infer<typeof saleSchema>
 export type ServiceAppointmentFormData = z.infer<typeof serviceAppointmentSchema>
 export type UserFormData = z.infer<typeof userSchema>
+export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>
+export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>
 export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>

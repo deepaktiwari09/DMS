@@ -2,6 +2,7 @@ import { createRoute, createRootRoute, Outlet, redirect } from '@tanstack/react-
 import { useAuthStore } from '../stores/auth-store';
 import { LandingRoute } from './LandingRoute';
 import { AuthRoute } from './AuthRoute';
+import { ResetPasswordPage } from '../pages/auth';
 import {
   DashboardHome,
   CustomersPage,
@@ -33,6 +34,18 @@ export const authRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/auth',
   component: AuthRoute,
+  beforeLoad: () => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (isAuthenticated) {
+      throw redirect({ to: '/dashboard' });
+    }
+  },
+});
+
+export const resetPasswordRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/reset-password',
+  component: ResetPasswordPage,
   beforeLoad: () => {
     const { isAuthenticated } = useAuthStore.getState();
     if (isAuthenticated) {
@@ -109,6 +122,7 @@ export const financeRoute = createRoute({
 export const routeTree = rootRoute.addChildren([
   landingRoute,
   authRoute,
+  resetPasswordRoute,
   dashboardRoute,
   customersRoute,
   inventoryRoute,

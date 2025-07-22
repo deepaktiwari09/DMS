@@ -1,5 +1,5 @@
 import { apiMethods } from '../lib/api'
-import { type LoginFormData, type RegisterFormData, type OrganizationFormData } from '../types/schemas'
+import { type LoginFormData, type RegisterFormData, type OrganizationFormData, type ForgotPasswordFormData, type ResetPasswordFormData, type ChangePasswordFormData } from '../types/schemas'
 import { type AuthResponse, type User, type Organization } from '../types/api'
 
 export const authService = {
@@ -41,21 +41,26 @@ export const authService = {
     }
   },
 
-  // Change password
-  changePassword: async (passwords: {
-    currentPassword: string
-    newPassword: string
-  }): Promise<void> => {
-    await apiMethods.put('auth/change-password', passwords)
+
+  // Password Management - New Methods
+  // Request password reset (forgot password)
+  forgotPassword: async (forgotPasswordData: ForgotPasswordFormData): Promise<{ message: string }> => {
+    return await apiMethods.post<{ message: string }>('auth/forgot-password', forgotPasswordData)
   },
 
-  // Request password reset
-  requestPasswordReset: async (email: string): Promise<void> => {
-    await apiMethods.post('auth/forgot-password', { email })
+  // Reset password with form data
+  resetPasswordWithForm: async (resetPasswordData: ResetPasswordFormData): Promise<{ message: string }> => {
+    return await apiMethods.post<{ message: string }>('auth/reset-password', {
+      token: resetPasswordData.token,
+      newPassword: resetPasswordData.newPassword,
+    })
   },
 
-  // Reset password with token
-  resetPassword: async (token: string, newPassword: string): Promise<void> => {
-    await apiMethods.post('auth/reset-password', { token, newPassword })
+  // Change password for authenticated user
+  changePassword: async (changePasswordData: ChangePasswordFormData): Promise<{ message: string }> => {
+    return await apiMethods.put<{ message: string }>('auth/change-password', {
+      currentPassword: changePasswordData.currentPassword,
+      newPassword: changePasswordData.newPassword,
+    })
   },
 }

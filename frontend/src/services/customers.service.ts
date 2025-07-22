@@ -1,6 +1,6 @@
 import { apiMethods } from '../lib/api'
-import { Customer, CustomerFilter, PaginatedResponse } from '../types/api'
-import { CustomerFormData } from '../types/schemas'
+import { type Customer, type CustomerFilter, type PaginatedResponse } from '../types/api'
+import { type CustomerFormData } from '../types/schemas'
 
 export const customersService = {
   // Get all customers with filtering and pagination
