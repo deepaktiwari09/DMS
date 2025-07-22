@@ -1,2 +1,5 @@
 export { Sidebar } from './Sidebar'
 export { AppLayout } from './AppLayout'
+export { DashboardLayout } from './DashboardLayout'
+export { DashboardSidebar } from './DashboardSidebar'
+export { DashboardHeader } from './DashboardHeader'

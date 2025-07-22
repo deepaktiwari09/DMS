@@ -1,8 +1,15 @@
-import { createRoute, createRootRoute, Outlet } from '@tanstack/react-router';
-import { AuthGuard } from '../lib/route-guards';
+import { createRoute, createRootRoute, Outlet, redirect } from '@tanstack/react-router';
+import { useAuthStore } from '../stores/auth-store';
 import { LandingRoute } from './LandingRoute';
 import { AuthRoute } from './AuthRoute';
-import { DashboardRoute } from './DashboardRoute';
+import {
+  DashboardHome,
+  CustomersPage,
+  InventoryPage,
+  SalesPage,
+  ServicePage,
+  FinancePage,
+} from '../pages/dashboard';
 
 // Root route
 export const rootRoute = createRootRoute({
@@ -13,32 +20,89 @@ export const rootRoute = createRootRoute({
 export const landingRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: () => (
-    <AuthGuard requireAuth={false}>
-      <LandingRoute />
-    </AuthGuard>
-  ),
+  component: LandingRoute,
+  beforeLoad: () => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (isAuthenticated) {
+      throw redirect({ to: '/dashboard' });
+    }
+  },
 });
 
 export const authRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/auth',
-  component: () => (
-    <AuthGuard requireAuth={false}>
-      <AuthRoute />
-    </AuthGuard>
-  ),
+  component: AuthRoute,
+  beforeLoad: () => {
+    const { isAuthenticated } = useAuthStore.getState();
+    if (isAuthenticated) {
+      throw redirect({ to: '/dashboard' });
+    }
+  },
 });
 
-// Protected routes (auth required)
+// Helper function for authentication check
+const requireAuth = () => {
+  const { isAuthenticated } = useAuthStore.getState();
+  
+  // For development: Allow access to dashboard if no auth is set up
+  // Remove this in production
+  if (typeof window !== 'undefined' && window.location.search.includes('dev=true')) {
+    console.log('Development mode: bypassing authentication');
+    return;
+  }
+  
+  if (!isAuthenticated) {
+    throw redirect({ 
+      to: '/auth',
+      search: {
+        redirect: window.location.pathname,
+      },
+    });
+  }
+};
+
+// Dashboard routes (protected)
 export const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/dashboard',
-  component: () => (
-    <AuthGuard requireAuth={true}>
-      <DashboardRoute />
-    </AuthGuard>
-  ),
+  component: DashboardHome,
+  beforeLoad: requireAuth,
+});
+
+export const customersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard/customers',
+  component: CustomersPage,
+  beforeLoad: requireAuth,
+});
+
+export const inventoryRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard/inventory',
+  component: InventoryPage,
+  beforeLoad: requireAuth,
+});
+
+export const salesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard/sales',
+  component: SalesPage,
+  beforeLoad: requireAuth,
+});
+
+export const serviceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard/service',
+  component: ServicePage,
+  beforeLoad: requireAuth,
+});
+
+export const financeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/dashboard/finance',
+  component: FinancePage,
+  beforeLoad: requireAuth,
 });
 
 // Route tree
@@ -46,4 +110,9 @@ export const routeTree = rootRoute.addChildren([
   landingRoute,
   authRoute,
   dashboardRoute,
+  customersRoute,
+  inventoryRoute,
+  salesRoute,
+  serviceRoute,
+  financeRoute,
 ]);

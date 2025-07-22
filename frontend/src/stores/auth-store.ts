@@ -30,6 +30,9 @@ interface AuthActions {
   setLoading: (loading: boolean) => void
   setError: (error: string | null) => void
   clearError: () => void
+  
+  // Development helper
+  setMockAuth: () => void
 }
 
 type AuthStore = AuthState & AuthActions
@@ -190,6 +193,25 @@ export const useAuthStore = create<AuthStore>()(
 
       clearError: () => {
         set({ error: null })
+      },
+
+      // Development helper - remove in production
+      setMockAuth: () => {
+        set({
+          isAuthenticated: true,
+          user: {
+            id: 'dev-user',
+            email: 'dev@motocorp.com',
+            firstName: 'Dev',
+            lastName: 'User',
+            role: 'admin',
+            organizationId: 'dev-org',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          },
+          token: 'dev-token',
+          error: null,
+        })
       },
     }),
     {

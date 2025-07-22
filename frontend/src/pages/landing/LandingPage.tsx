@@ -7,6 +7,8 @@ import {
   CTASection, 
   Footer 
 } from '../../components/landing'
+import { useAuthStore } from '../../stores/auth-store'
+import { useRouter } from '@tanstack/react-router'
 
 export interface LandingPageProps {
   onLoginClick?: () => void
@@ -33,6 +35,15 @@ export function LandingPage({
   onTermsClick,
   onContactClick
 }: LandingPageProps) {
+  const { setMockAuth } = useAuthStore();
+  const router = useRouter();
+  
+  // Development helper
+  const handleDevDashboard = () => {
+    setMockAuth();
+    router.navigate({ to: '/dashboard' });
+  };
+  
   // Scroll to section handlers
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId)
@@ -78,6 +89,19 @@ export function LandingPage({
         onTermsClick={onTermsClick}
         onContactClick={onContactClick}
       />
+      
+      {/* Development Helper - Remove in production */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="fixed bottom-4 right-4 z-50">
+          <button
+            onClick={handleDevDashboard}
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold"
+            title="Development: Mock login and go to dashboard"
+          >
+            🚀 DEV: Dashboard
+          </button>
+        </div>
+      )}
     </div>
   )
 }

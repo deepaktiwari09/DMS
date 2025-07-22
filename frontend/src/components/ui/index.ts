@@ -13,3 +13,15 @@ export {
   CardFooter 
 } from './Card'
 export type { CardProps } from './Card'
+
+export { StatusBadge } from './StatusBadge'
+export type { StatusBadgeProps } from './StatusBadge'
+
+export { DataTable } from './DataTable'
+export type { DataTableProps, Column } from './DataTable'
+
+export { TabNavigation } from './TabNavigation'
+export type { TabNavigationProps, TabItem } from './TabNavigation'
+
+export { SearchInput } from './SearchInput'
+export type { SearchInputProps } from './SearchInput'
