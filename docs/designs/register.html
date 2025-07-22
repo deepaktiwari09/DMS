@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>DealerFlow - Register</title>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+            crossorigin=""
+            href="https://fonts.gstatic.com/"
+            rel="preconnect"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <style type="text/tailwindcss">
+            :root {
+                --primary-color: #3b82f6;
+                --secondary-color: #f9fafb;
+                --background-color: #f3f4f6;
+                --text-primary: #1f2937;
+                --text-secondary: #6b7280;
+                --accent-color: #e5e7eb;
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: var(--background-color);
+                color: var(--text-primary);
+            }
+            .input_field {
+                @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm;
+            }
+            .button_primary {
+                @apply w-full bg-[var(--primary-color)] text-white rounded-md py-3 px-4 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors;
+            }
+        </style>
+    </head>
+    <body class="antialiased">
+        <div
+            class="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+        >
+            <div class="w-full max-w-md mx-auto">
+                <div class="flex justify-center items-center gap-3 mb-8">
+                    <svg
+                        class="h-10 w-10 text-[var(--primary-color)]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21a3 3 0 01-4.242 0c-1.172-1.172-1.172-3.07 0-4.242l4.62-4.621a3 3 0 012.122-.88h1.007M14.25 9.75h1.007a3 3 0 012.122.88l4.62 4.621a3 3 0 010 4.242 3 3 0 01-4.242 0l-1.621-1.622m-7.5-6.379a3 3 0 00-4.242 0L3 14.25m18-4.5l-4.62-4.621a3 3 0 00-2.122-.88H12.75"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                        ></path>
+                    </svg>
+                    <h1 class="text-3xl font-bold text-[var(--text-primary)]">
+                        DealerFlow
+                    </h1>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <div class="text-center mb-8">
+                        <h2
+                            class="text-2xl font-bold text-[var(--text-primary)]"
+                        >
+                            Create Your Account
+                        </h2>
+                        <p class="text-md text-[var(--text-secondary)] mt-2">
+                            Get started with the best DMS for your business.
+                        </p>
+                    </div>
+                    <form action="#" class="space-y-6" method="POST">
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6"
+                        >
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="first-name"
+                                    >First Name</label
+                                >
+                                <div class="mt-1">
+                                    <input
+                                        class="input_field"
+                                        id="first-name"
+                                        name="first-name"
+                                        placeholder="John"
+                                        required=""
+                                        type="text"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="last-name"
+                                    >Last Name</label
+                                >
+                                <div class="mt-1">
+                                    <input
+                                        class="input_field"
+                                        id="last-name"
+                                        name="last-name"
+                                        placeholder="Doe"
+                                        required=""
+                                        type="text"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                                for="email"
+                                >Email Address</label
+                            >
+                            <div class="mt-1">
+                                <input
+                                    class="input_field"
+                                    id="email"
+                                    name="email"
+                                    placeholder="you@example.com"
+                                    required=""
+                                    type="email"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                                for="password"
+                                >Password</label
+                            >
+                            <div class="mt-1">
+                                <input
+                                    class="input_field"
+                                    id="password"
+                                    name="password"
+                                    placeholder="••••••••"
+                                    required=""
+                                    type="password"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700"
+                                for="confirm-password"
+                                >Confirm Password</label
+                            >
+                            <div class="mt-1">
+                                <input
+                                    class="input_field"
+                                    id="confirm-password"
+                                    name="confirm-password"
+                                    placeholder="••••••••"
+                                    required=""
+                                    type="password"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <button class="button_primary mt-2" type="submit">
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-[var(--text-secondary)]">
+                            Already have an account?
+                            <a
+                                class="font-medium text-[var(--primary-color)] hover:text-blue-700"
+                                href="#"
+                                >Log in</a
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

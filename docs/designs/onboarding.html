@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>DealerFlow - Onboarding</title>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+            crossorigin=""
+            href="https://fonts.gstatic.com/"
+            rel="preconnect"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <style type="text/tailwindcss">
+            :root {
+                --primary-color: #3b82f6;
+                --secondary-color: #f9fafb;
+                --background-color: #f3f4f6;
+                --text-primary: #1f2937;
+                --text-secondary: #6b7280;
+                --accent-color: #e5e7eb;
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: var(--background-color);
+                color: var(--text-primary);
+            }
+            .input_field {
+                @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm;
+            }
+            .button_primary {
+                @apply w-full bg-[var(--primary-color)] text-white rounded-md py-3 px-4 font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors;
+            }
+            .button_secondary {
+                @apply w-full bg-white text-[var(--text-secondary)] border border-gray-300 rounded-md py-3 px-4 font-semibold hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors;
+            }
+        </style>
+    </head>
+    <body class="antialiased">
+        <div
+            class="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+        >
+            <div class="w-full max-w-2xl mx-auto">
+                <div class="flex justify-center items-center gap-3 mb-8">
+                    <svg
+                        class="h-10 w-10 text-[var(--primary-color)]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21a3 3 0 01-4.242 0c-1.172-1.172-1.172-3.07 0-4.242l4.62-4.621a3 3 0 012.122-.88h1.007M14.25 9.75h1.007a3 3 0 012.122.88l4.62 4.621a3 3 0 010 4.242 3 3 0 01-4.242 0l-1.621-1.622m-7.5-6.379a3 3 0 00-4.242 0L3 14.25m18-4.5l-4.62-4.621a3 3 0 00-2.122-.88H12.75"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                        ></path>
+                    </svg>
+                    <h1 class="text-3xl font-bold text-[var(--text-primary)]">
+                        DealerFlow
+                    </h1>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <div id="step-1-organization">
+                        <div class="mb-8">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 bg-[var(--primary-color)] rounded-full flex items-center justify-center text-white font-bold text-lg"
+                                >
+                                    1
+                                </div>
+                                <div>
+                                    <h2
+                                        class="text-2xl font-bold text-[var(--text-primary)]"
+                                    >
+                                        Set up your Organization
+                                    </h2>
+                                    <p
+                                        class="text-md text-[var(--text-secondary)] mt-1"
+                                    >
+                                        Let's start by creating your main
+                                        organization.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="space-y-6">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="org-name"
+                                    >Organization Name</label
+                                >
+                                <div class="mt-1">
+                                    <input
+                                        class="input_field"
+                                        id="org-name"
+                                        name="org-name"
+                                        placeholder="e.g., Apex Motors Group"
+                                        required=""
+                                        type="text"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="db-name"
+                                    >Database Name</label
+                                >
+                                <div class="mt-1">
+                                    <input
+                                        class="input_field bg-gray-100"
+                                        disabled=""
+                                        id="db-name"
+                                        name="db-name"
+                                        placeholder="auto-generated-from-org-name"
+                                        readonly=""
+                                        type="text"
+                                    />
+                                    <p class="mt-2 text-xs text-gray-500">
+                                        This is automatically generated and
+                                        cannot be changed.
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Subscription Tier</label
+                                >
+                                <div
+                                    class="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4"
+                                >
+                                    <div
+                                        class="relative border rounded-lg p-4 flex flex-col items-center justify-center text-center border-blue-500 ring-2 ring-blue-500"
+                                    >
+                                        <span
+                                            class="absolute top-2 right-2 text-xs bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-full"
+                                            >Selected</span
+                                        >
+                                        <h3
+                                            class="font-semibold text-lg text-[var(--text-primary)]"
+                                        >
+                                            Starter
+                                        </h3>
+                                        <p
+                                            class="text-2xl font-bold text-[var(--text-primary)]"
+                                        >
+                                            Free
+                                        </p>
+                                        <p
+                                            class="text-sm text-[var(--text-secondary)]"
+                                        >
+                                            Basic features
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="relative border rounded-lg p-4 flex flex-col items-center justify-center text-center hover:border-blue-400 cursor-pointer"
+                                    >
+                                        <h3
+                                            class="font-semibold text-lg text-[var(--text-primary)]"
+                                        >
+                                            Professional
+                                        </h3>
+                                        <p
+                                            class="text-2xl font-bold text-[var(--text-primary)]"
+                                        >
+                                            $300/mo
+                                        </p>
+                                        <p
+                                            class="text-sm text-[var(--text-secondary)]"
+                                        >
+                                            Advanced features
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="relative border rounded-lg p-4 flex flex-col items-center justify-center text-center bg-gray-50 cursor-not-allowed"
+                                    >
+                                        <span
+                                            class="absolute top-2 right-2 text-xs bg-gray-200 text-gray-600 font-semibold px-2 py-0.5 rounded-full"
+                                            >Coming Soon</span
+                                        >
+                                        <h3
+                                            class="font-semibold text-lg text-gray-400"
+                                        >
+                                            Enterprise
+                                        </h3>
+                                        <p
+                                            class="text-2xl font-bold text-gray-400"
+                                        >
+                                            Custom
+                                        </p>
+                                        <p class="text-sm text-gray-400">
+                                            Full suite
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="billing-email"
+                                    >Billing Email</label
+                                >
+                                <div class="mt-1">
+                                    <input
+                                        class="input_field"
+                                        id="billing-email"
+                                        name="billing-email"
+                                        placeholder="billing@example.com"
+                                        required=""
+                                        type="email"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <button
+                                    class="button_primary"
+                                    onclick="showStep2()"
+                                    type="button"
+                                >
+                                    Continue
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="step-2-dealership" style="display: none">
+                        <div class="mb-8">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 bg-[var(--primary-color)] rounded-full flex items-center justify-center text-white font-bold text-lg"
+                                >
+                                    2
+                                </div>
+                                <div>
+                                    <h2
+                                        class="text-2xl font-bold text-[var(--text-primary)]"
+                                    >
+                                        Add your first Dealership
+                                    </h2>
+                                    <p
+                                        class="text-md text-[var(--text-secondary)] mt-1"
+                                    >
+                                        You can add your first dealership now,
+                                        or do it later.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="space-y-6">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="dealership-name"
+                                    >Dealership Name</label
+                                >
+                                <div class="mt-1">
+                                    <input
+                                        class="input_field"
+                                        id="dealership-name"
+                                        name="dealership-name"
+                                        placeholder="e.g., Apex Downtown"
+                                        type="text"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="location"
+                                    >Location</label
+                                >
+                                <div class="mt-1">
+                                    <input
+                                        class="input_field"
+                                        id="location"
+                                        name="location"
+                                        placeholder="e.g., 123 Main St, Anytown, USA"
+                                        type="text"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="timezone"
+                                    >Timezone</label
+                                >
+                                <div class="mt-1">
+                                    <select
+                                        class="input_field"
+                                        id="timezone"
+                                        name="timezone"
+                                    >
+                                        <option>
+                                            (GMT-12:00) International Date Line
+                                            West
+                                        </option>
+                                        <option>
+                                            (GMT-11:00) Midway Island, Samoa
+                                        </option>
+                                        <option>(GMT-10:00) Hawaii</option>
+                                        <option>(GMT-09:00) Alaska</option>
+                                        <option>
+                                            (GMT-08:00) Pacific Time (US &amp;
+                                            Canada)
+                                        </option>
+                                        <option selected="">
+                                            (GMT-07:00) Mountain Time (US &amp;
+                                            Canada)
+                                        </option>
+                                        <option>
+                                            (GMT-06:00) Central Time (US &amp;
+                                            Canada)
+                                        </option>
+                                        <option>
+                                            (GMT-05:00) Eastern Time (US &amp;
+                                            Canada)
+                                        </option>
+                                        <option>
+                                            (GMT-04:00) Atlantic Time (Canada)
+                                        </option>
+                                        <option>
+                                            (GMT-03:00) Buenos Aires, Georgetown
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Business Hours</label
+                                >
+                                <div class="mt-1 grid grid-cols-2 gap-4">
+                                    <input
+                                        class="input_field"
+                                        name="business-hours-start"
+                                        placeholder="e.g., 9:00 AM"
+                                        type="text"
+                                    />
+                                    <input
+                                        class="input_field"
+                                        name="business-hours-end"
+                                        placeholder="e.g., 6:00 PM"
+                                        type="text"
+                                    />
+                                </div>
+                            </div>
+                            <div
+                                class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4"
+                            >
+                                <button
+                                    class="button_secondary"
+                                    onclick="showStep3()"
+                                    type="button"
+                                >
+                                    Skip &amp; Add User
+                                </button>
+                                <button class="button_primary" type="submit">
+                                    Add Dealership &amp; Continue
+                                </button>
+                            </div>
+                            <div class="text-center">
+                                <button
+                                    class="text-sm font-medium text-[var(--primary-color)] hover:text-blue-700"
+                                    onclick="showDashboard()"
+                                    type="button"
+                                >
+                                    Skip for now
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="step-3-user" style="display: none">
+                        <div class="mb-8">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="flex-shrink-0 w-10 h-10 bg-[var(--primary-color)] rounded-full flex items-center justify-center text-white font-bold text-lg"
+                                >
+                                    3
+                                </div>
+                                <div>
+                                    <h2
+                                        class="text-2xl font-bold text-[var(--text-primary)]"
+                                    >
+                                        Invite a User
+                                    </h2>
+                                    <p
+                                        class="text-md text-[var(--text-secondary)] mt-1"
+                                    >
+                                        Add a team member to your organization.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="space-y-6">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="user-email"
+                                    >User Email</label
+                                >
+                                <div class="mt-1">
+                                    <input
+                                        class="input_field"
+                                        id="user-email"
+                                        name="user-email"
+                                        placeholder="teammate@example.com"
+                                        type="email"
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700"
+                                    for="user-permissions"
+                                    >Permissions</label
+                                >
+                                <div class="mt-1">
+                                    <select
+                                        class="input_field"
+                                        id="user-permissions"
+                                        name="user-permissions"
+                                    >
+                                        <option>Admin (All Dealerships)</option>
+                                        <option>
+                                            Manager (Specific Dealership)
+                                        </option>
+                                        <option>
+                                            Sales (Specific Dealership)
+                                        </option>
+                                        <option>Viewer (Read-only)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div
+                                class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4"
+                            >
+                                <button
+                                    class="button_secondary"
+                                    onclick="showDashboard()"
+                                    type="button"
+                                >
+                                    Skip
+                                </button>
+                                <button class="button_primary" type="submit">
+                                    Invite User &amp; Finish
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function showStep2() {
+                document.getElementById("step-1-organization").style.display =
+                    "none";
+                document.getElementById("step-2-dealership").style.display =
+                    "block";
+            }
+            function showStep3() {
+                document.getElementById("step-2-dealership").style.display =
+                    "none";
+                document.getElementById("step-3-user").style.display = "block";
+            }
+            function showDashboard() {
+                // In a real app, this would redirect to the dashboard
+                document.body.innerHTML = `<div class="min-h-screen flex items-center justify-center"><h1 class="text-3xl font-bold">Welcome to your DealerFlow Dashboard!</h1></div>`;
+            }
+            // Auto-generate database name from organization name
+            const orgNameInput = document.getElementById("org-name");
+            const dbNameInput = document.getElementById("db-name");
+            orgNameInput.addEventListener("keyup", () => {
+                const orgName = orgNameInput.value
+                    .toLowerCase()
+                    .replace(/\s+/g, "-")
+                    .replace(/[^a-z0-9-]/g, "");
+                dbNameInput.value = `${orgName}-db`;
+            });
+        </script>
+    </body>
+</html>

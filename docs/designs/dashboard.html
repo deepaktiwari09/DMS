@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>MotoCorp - Dashboard</title>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+            crossorigin=""
+            href="https://fonts.gstatic.com"
+            rel="preconnect"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style type="text/tailwindcss">
+            :root {
+                --primary-color: #3d98f4;
+                --secondary-color: #e0f2fe;
+                --background-color: #f9f9f9;
+                --text-primary: #111827;
+                --text-secondary: #6b7280;
+                --accent-color: #bfdbfe;
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: var(--background-color);
+                color: var(--text-primary);
+            }
+            .button_primary {
+                @apply bg-[var(--primary-color)] hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md;
+            }
+            .button_secondary {
+                @apply bg-[var(--secondary-color)] hover:bg-blue-100 text-[var(--primary-color)] font-bold py-2 px-4 rounded-md;
+            }
+            .typography_h1 {
+                @apply text-3xl font-bold text-[var(--text-primary)];
+            }
+            .typography_h2 {
+                @apply text-xl font-semibold text-[var(--text-primary)];
+            }
+            .typography_body {
+                @apply text-base text-[var(--text-secondary)];
+            }
+            .card {
+                @apply bg-white rounded-lg shadow-sm p-6;
+            }
+            .kpi-value {
+                @apply text-3xl font-bold text-[var(--text-primary)];
+            }
+            .kpi-label {
+                @apply text-sm text-[var(--text-secondary)] mt-1;
+            }
+            .kpi-change-up {
+                @apply text-green-500 text-sm font-medium;
+            }
+            .kpi-change-down {
+                @apply text-red-500 text-sm font-medium;
+            }
+        </style>
+    </head>
+    <body class="bg-[var(--background-color)]">
+        <div class="flex min-h-screen">
+            <aside class="w-64 bg-white shadow-md flex-shrink-0">
+                <div class="p-6">
+                    <h1
+                        class="typography_h2 !text-2xl font-bold text-[var(--primary-color)]"
+                    >
+                        MotoCorp
+                    </h1>
+                </div>
+                <nav class="mt-6">
+                    <a
+                        class="flex items-center px-6 py-3 bg-[var(--secondary-color)] text-[var(--primary-color)] font-semibold"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Dashboard</span>
+                    </a>
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Inventory</span>
+                    </a>
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01M12 6v-1m0-1V4m0 2.01v.01M12 16.01V16m0-8v.01M12 4c-4.418 0-8 2.686-8 6s3.582 6 8 6 8-2.686 8-6-3.582-6-8-6z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Sales</span>
+                    </a>
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                            <path
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Service</span>
+                    </a>
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-1a6 6 0 00-6-6m6 6v-1a6 6 0 00-6-6"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Customers</span>
+                    </a>
+                </nav>
+                <div class="absolute bottom-0 w-64">
+                    <a
+                        class="flex items-center px-6 py-3 text-[var(--text-secondary)] hover:bg-[var(--secondary-color)] hover:text-[var(--primary-color)]"
+                        href="#"
+                    >
+                        <svg
+                            class="h-6 w-6 mr-3"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                            <path
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                            ></path>
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </aside>
+            <main class="flex-1 p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 class="typography_h1">Dashboard</h1>
+                        <p class="typography_body mt-1">
+                            Welcome back, get a quick overview of your
+                            dealership's performance.
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <select class="input pr-8">
+                                <option>Last 30 Days</option>
+                                <option>Last 60 Days</option>
+                                <option>Last 90 Days</option>
+                            </select>
+                        </div>
+                        <button class="button_primary">Customize</button>
+                    </div>
+                </div>
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+                >
+                    <div class="card">
+                        <p class="kpi-label">Total Sales (MTD)</p>
+                        <p class="kpi-value">$256,480</p>
+                        <div class="flex items-center mt-2">
+                            <span class="kpi-change-up">▲ 12.5%</span>
+                            <p
+                                class="text-sm text-[var(--text-secondary)] ml-2"
+                            >
+                                vs. last month
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p class="kpi-label">Service Appointments</p>
+                        <p class="kpi-value">124</p>
+                        <div class="flex items-center mt-2">
+                            <span class="kpi-change-up">▲ 5.2%</span>
+                            <p
+                                class="text-sm text-[var(--text-secondary)] ml-2"
+                            >
+                                vs. last week
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p class="kpi-label">Inventory Level</p>
+                        <p class="kpi-value">2,348</p>
+                        <div class="flex items-center mt-2">
+                            <span class="kpi-change-down">▼ 1.8%</span>
+                            <p
+                                class="text-sm text-[var(--text-secondary)] ml-2"
+                            >
+                                vs. last month
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <p class="kpi-label">New Customers</p>
+                        <p class="kpi-value">82</p>
+                        <div class="flex items-center mt-2">
+                            <span class="kpi-change-up">▲ 8.1%</span>
+                            <p
+                                class="text-sm text-[var(--text-secondary)] ml-2"
+                            >
+                                vs. last month
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 card">
+                        <h2 class="typography_h2 mb-4">Sales Trends (YTD)</h2>
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    <div class="card">
+                        <h2 class="typography_h2 mb-4">Inventory Breakdown</h2>
+                        <canvas id="inventoryChart"></canvas>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+                    <div class="card">
+                        <h2 class="typography_h2 mb-4">
+                            Upcoming Service Appointments
+                        </h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium">
+                                        John Doe - 2023 Road King
+                                    </p>
+                                    <p
+                                        class="text-sm text-[var(--text-secondary)]"
+                                    >
+                                        10,000 Mile Service
+                                    </p>
+                                </div>
+                                <span class="text-sm font-medium text-gray-800"
+                                    >Today, 10:00 AM</span
+                                >
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium">
+                                        Jane Smith - 2022 Street Glide
+                                    </p>
+                                    <p
+                                        class="text-sm text-[var(--text-secondary)]"
+                                    >
+                                        Oil Change
+                                    </p>
+                                </div>
+                                <span class="text-sm font-medium text-gray-800"
+                                    >Today, 2:30 PM</span
+                                >
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium">
+                                        Mike Johnson - Brake Pads
+                                    </p>
+                                    <p
+                                        class="text-sm text-[var(--text-secondary)]"
+                                    >
+                                        Part Pickup
+                                    </p>
+                                </div>
+                                <span class="text-sm font-medium text-gray-800"
+                                    >Tomorrow, 9:00 AM</span
+                                >
+                            </li>
+                            <li class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-medium">
+                                        Emily White - 2023 Sportster
+                                    </p>
+                                    <p
+                                        class="text-sm text-[var(--text-secondary)]"
+                                    >
+                                        Tire Replacement
+                                    </p>
+                                </div>
+                                <span class="text-sm font-medium text-gray-800"
+                                    >Tomorrow, 11:15 AM</span
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h2 class="typography_h2 mb-4">
+                            Recent Customer Activity
+                        </h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <span
+                                    class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4"
+                                >
+                                    <svg
+                                        class="h-6 w-6 text-blue-500"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                        ></path>
+                                    </svg>
+                                </span>
+                                <div>
+                                    <p class="font-medium">
+                                        David Chen purchased a 2023 Road King
+                                    </p>
+                                    <p
+                                        class="text-sm text-[var(--text-secondary)]"
+                                    >
+                                        1 hour ago
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex items-center">
+                                <span
+                                    class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-4"
+                                >
+                                    <svg
+                                        class="h-6 w-6 text-green-500"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                        ></path>
+                                    </svg>
+                                </span>
+                                <div>
+                                    <p class="font-medium">
+                                        John Doe scheduled a service
+                                    </p>
+                                    <p
+                                        class="text-sm text-[var(--text-secondary)]"
+                                    >
+                                        3 hours ago
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="flex items-center">
+                                <span
+                                    class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-4"
+                                >
+                                    <svg
+                                        class="h-6 w-6 text-yellow-500"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                        ></path>
+                                    </svg>
+                                </span>
+                                <div>
+                                    <p class="font-medium">
+                                        Sarah Lee purchased accessories
+                                    </p>
+                                    <p
+                                        class="text-sm text-[var(--text-secondary)]"
+                                    >
+                                        Yesterday
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+        </div>
+        <script>
+            const salesCtx = document
+                .getElementById("salesChart")
+                .getContext("2d");
+            const salesChart = new Chart(salesCtx, {
+                type: "line",
+                data: {
+                    labels: [
+                        "Jan",
+                        "Feb",
+                        "Mar",
+                        "Apr",
+                        "May",
+                        "Jun",
+                        "Jul",
+                        "Aug",
+                        "Sep",
+                        "Oct",
+                        "Nov",
+                        "Dec",
+                    ],
+                    datasets: [
+                        {
+                            label: "Sales ($)",
+                            data: [
+                                120000, 150000, 180000, 160000, 210000, 240000,
+                                220000, 250000, 280000, 310000, 290000, 330000,
+                            ],
+                            backgroundColor: "rgba(61, 152, 244, 0.2)",
+                            borderColor: "rgba(61, 152, 244, 1)",
+                            borderWidth: 2,
+                            tension: 0.4,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    return "$" + value / 1000 + "k";
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+            const inventoryCtx = document
+                .getElementById("inventoryChart")
+                .getContext("2d");
+            const inventoryChart = new Chart(inventoryCtx, {
+                type: "doughnut",
+                data: {
+                    labels: ["Motorcycles", "Parts", "Accessories"],
+                    datasets: [
+                        {
+                            label: "Inventory Breakdown",
+                            data: [45, 35, 20],
+                            backgroundColor: ["#3d98f4", "#60a5fa", "#93c5fd"],
+                            hoverOffset: 4,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: "bottom",
+                        },
+                    },
+                },
+            });
+        </script>
+    </body>
+</html>

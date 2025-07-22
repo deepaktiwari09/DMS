@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>DealerFlow - Login</title>
+        <link href="https://fonts.googleapis.com" rel="preconnect" />
+        <link
+            crossorigin=""
+            href="https://fonts.gstatic.com/"
+            rel="preconnect"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <style type="text/tailwindcss">
+            :root {
+                --primary-color: #0d6efd;
+                --background-color: #f8f9fa;
+                --card-background-color: #ffffff;
+                --text-primary: #212529;
+                --text-secondary: #6c757d;
+                --border-color: #dee2e6;
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: var(--background-color);
+                color: var(--text-primary);
+            }
+            .input_field {
+                @apply block w-full px-4 py-3 rounded-lg border-[var(--border-color)] shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-shadow;
+            }
+        </style>
+    </head>
+    <body class="antialiased">
+        <div
+            class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
+        >
+            <div class="absolute inset-0">
+                <img
+                    alt="Background image of a sports car"
+                    class="w-full h-full object-cover"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR81gHjKmqJQkV9CY8YkRfGfxfiVbubIuPvoiFeWESyglb0L3GrBaKXusQnb2iEvy3DIr_rz8hRpOTAN1uiZLmvSn2qAiDacB0aymanbnKtSO5YVHPLyOAbLq4Jat0Ro-LCAeTMHB724mpa2xWkhMuHU3ZiqCTDsMtfiTidjBJQJ-m_zDH944VKVaJAC93ieSuPpREQVtKue50zvnkxhTGNSPNd_h9BHEBtIajA2kqdVKiezSQCgRJ8mWseKxq1z31wOeItQZuOUSD"
+                />
+                <div class="absolute inset-0 bg-black opacity-50"></div>
+            </div>
+            <div class="relative z-10 w-full max-w-md space-y-8">
+                <div
+                    class="bg-[var(--card-background-color)] p-8 sm:p-10 rounded-xl shadow-2xl"
+                >
+                    <div class="text-center mb-8">
+                        <svg
+                            class="mx-auto h-12 w-auto text-[var(--primary-color)]"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 4.5v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 1 6.375 7.5h1.5m17.25 4.5v-1.875a3.375 3.375 0 0 1-3.375-3.375h-1.5a1.125 1.125 0 0 0-1.125 1.125v1.5A3.375 3.375 0 0 0 17.625 15h1.5m-7.5-6.375a3.375 3.375 0 0 0-3.375-3.375h-1.5a3.375 3.375 0 0 0-3.375 3.375V9.75"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            ></path>
+                        </svg>
+                        <h1
+                            class="text-3xl font-bold text-[var(--text-primary)] mt-4"
+                        >
+                            DealerFlow DMS
+                        </h1>
+                        <p class="text-md text-[var(--text-secondary)] mt-2">
+                            Access your dealership management system.
+                        </p>
+                    </div>
+                    <form action="#" class="space-y-6" method="POST">
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-[var(--text-secondary)]"
+                                for="username"
+                                >Username or Email</label
+                            >
+                            <div class="mt-1">
+                                <input
+                                    class="input_field"
+                                    id="username"
+                                    name="username"
+                                    placeholder="e.g., yourname@example.com"
+                                    required=""
+                                    type="text"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-[var(--text-secondary)]"
+                                for="password"
+                                >Password</label
+                            >
+                            <div class="mt-1">
+                                <input
+                                    class="input_field"
+                                    id="password"
+                                    name="password"
+                                    placeholder="Enter your password"
+                                    required=""
+                                    type="password"
+                                />
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <input
+                                    class="h-4 w-4 text-[var(--primary-color)] focus:ring-[var(--primary-color)] border-[var(--border-color)] rounded"
+                                    id="remember-me"
+                                    name="remember-me"
+                                    type="checkbox"
+                                />
+                                <label
+                                    class="ml-2 block text-sm text-[var(--text-secondary)]"
+                                    for="remember-me"
+                                    >Remember me</label
+                                >
+                            </div>
+                            <div class="text-sm">
+                                <a
+                                    class="font-medium text-[var(--primary-color)] hover:text-blue-700"
+                                    href="#"
+                                    >Forgot Password?</a
+                                >
+                            </div>
+                        </div>
+                        <div>
+                            <button
+                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[var(--primary-color)] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all"
+                                type="submit"
+                            >
+                                Login
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <p class="text-center text-sm text-gray-200">
+                    Don't have an account?
+                    <a
+                        class="font-medium text-white hover:text-gray-100"
+                        href="#"
+                        >Contact Support</a
+                    >
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
