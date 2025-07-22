@@ -2,12 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 import { RegisterForm } from './RegisterForm'
 
-const mockOrganizations = [
-  { id: '1', name: 'Velocity Auto Group', memberCount: 24 },
-  { id: '2', name: 'Two-Wheel Titans', memberCount: 8 },
-  { id: '3', name: 'Premium Motors', memberCount: 15 }
-]
-
 const meta: Meta<typeof RegisterForm> = {
   title: 'Auth/RegisterForm',
   component: RegisterForm,
@@ -15,7 +9,7 @@ const meta: Meta<typeof RegisterForm> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Registration form component with fields for user details, organization selection, and role assignment.'
+        component: 'Registration form component with fields for user personal details and password confirmation.'
       }
     }
   },
@@ -29,8 +23,9 @@ const meta: Meta<typeof RegisterForm> = {
       control: 'boolean',
       description: 'Show loading state on form submission'
     },
-    availableOrganizations: {
-      description: 'List of organizations user can join'
+    error: {
+      control: 'text',
+      description: 'API error message to display'
     }
   },
   decorators: [
@@ -50,13 +45,12 @@ export const Default: Story = {
     onSubmit: async (data) => {
       console.log('Register data:', data)
       await new Promise(resolve => setTimeout(resolve, 1000))
-    },
-    availableOrganizations: mockOrganizations
+    }
   },
   parameters: {
     docs: {
       description: {
-        story: 'Default registration form with all required fields and organization selection.'
+        story: 'Default registration form with personal details and password confirmation fields.'
       }
     }
   }
@@ -67,8 +61,7 @@ export const Loading: Story = {
     isLoading: true,
     onSubmit: async (data) => {
       console.log('Register data:', data)
-    },
-    availableOrganizations: mockOrganizations
+    }
   },
   parameters: {
     docs: {
@@ -79,17 +72,17 @@ export const Loading: Story = {
   }
 }
 
-export const NoOrganizations: Story = {
+export const WithAPIError: Story = {
   args: {
+    error: 'A user with this email address already exists.',
     onSubmit: async (data) => {
       console.log('Register data:', data)
-    },
-    availableOrganizations: []
+    }
   },
   parameters: {
     docs: {
       description: {
-        story: 'Registration form when no organizations are available for selection.'
+        story: 'Registration form showing API error message for duplicate email.'
       }
     }
   }
@@ -101,8 +94,7 @@ export const WithCallback: Story = {
       console.log('Register data:', data)
       await new Promise(resolve => setTimeout(resolve, 2000))
       alert(`Creating account for: ${data.firstName} ${data.lastName} (${data.email})`)
-    },
-    availableOrganizations: mockOrganizations
+    }
   },
   parameters: {
     docs: {
@@ -115,8 +107,7 @@ export const WithCallback: Story = {
 
 export const MobileView: Story = {
   args: {
-    onSubmit: async (data) => console.log('Register data:', data),
-    availableOrganizations: mockOrganizations
+    onSubmit: async (data) => console.log('Register data:', data)
   },
   parameters: {
     viewport: {
@@ -134,8 +125,7 @@ export const WithValidationErrors: Story = {
   args: {
     onSubmit: async () => {
       // Form will show validation errors for empty fields
-    },
-    availableOrganizations: mockOrganizations
+    }
   },
   parameters: {
     docs: {

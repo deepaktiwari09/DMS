@@ -5,12 +5,22 @@
 
 /* Design System CSS Variables - Exact match from HTML prototypes */
 :root {
-  --primary-color: #3d98f4;
-  --secondary-color: #e0f2fe;
-  --background-color: #f9f9f9;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --accent-color: #bfdbfe;
+  /* Primary theme colors - used across login/forgot password */
+  --primary-color: #0d6efd;
+  --primary-color-alt: #3b82f6; /* Alternative blue used in register/onboarding */
+  --background-color: #f8f9fa;
+  --card-background-color: #ffffff;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --border-color: #dee2e6;
+  
+  /* Register/Onboarding specific colors */
+  --register-primary-color: #3b82f6;
+  --register-secondary-color: #f9fafb;
+  --register-background-color: #f3f4f6;
+  --register-text-primary: #1f2937;
+  --register-text-secondary: #6b7280;
+  --register-accent-color: #e5e7eb;
 }
 
 @layer base {
@@ -33,11 +43,11 @@
 @layer components {
   /* Button Components - Exact match from HTML prototypes */
   .button_primary {
-    @apply bg-[var(--primary-color)] text-white rounded-md px-4 py-2 font-bold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors;
+    @apply w-full bg-[var(--primary-color)] text-white rounded-lg py-3 px-4 font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all shadow-sm;
   }
 
   .button_secondary {
-    @apply bg-[var(--secondary-color)] text-[var(--primary-color)] rounded-md px-4 py-2 font-bold hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors;
+    @apply w-full bg-white text-[var(--text-secondary)] border border-gray-300 rounded-md py-3 px-4 font-semibold hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors;
   }
 
   /* Typography Components - Exact match from HTML prototypes */
@@ -62,13 +72,19 @@
     @apply bg-white rounded-lg shadow-md p-6;
   }
 
-  /* Input Components - From customer.html and auth.html */
+  /* Input Components - Exact match from HTML prototypes */
   .input {
     @apply w-full bg-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-[var(--primary-color)];
   }
 
+  /* Auth input styling - matches login.html and forgotpassword.html */
   .input_field {
-    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--primary-color)] focus:ring-[var(--primary-color)] sm:text-sm;
+    @apply block w-full px-4 py-3 rounded-lg border-[var(--border-color)] shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)] focus:border-transparent transition-shadow;
+  }
+
+  /* Register/Onboarding input styling - matches register.html and onboarding.html */
+  .input_field_register {
+    @apply block w-full rounded-md border-gray-300 shadow-sm focus:border-[var(--register-primary-color)] focus:ring-[var(--register-primary-color)] sm:text-sm;
   }
 
   /* Auth-specific button styles - From auth.html */

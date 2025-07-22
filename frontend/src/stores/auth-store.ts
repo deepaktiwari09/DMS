@@ -61,10 +61,10 @@ export const useAuthStore = create<AuthStore>()(
           
           const response = await authService.login(credentials)
           
-          authUtils.setToken(response.token)
+          authUtils.setToken(response.accessToken)
           set({
             user: response.user,
-            token: response.token,
+            token: response.accessToken,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -82,12 +82,14 @@ export const useAuthStore = create<AuthStore>()(
         try {
           set({ isLoading: true, error: null })
           
-          const response = await authService.register(userData)
+          // Remove confirmPassword before sending to API
+          const { confirmPassword, ...apiData } = userData
+          const response = await authService.register(apiData)
           
-          authUtils.setToken(response.token)
+          authUtils.setToken(response.accessToken)
           set({
             user: response.user,
-            token: response.token,
+            token: response.accessToken,
             isAuthenticated: true,
             isLoading: false,
             error: null,

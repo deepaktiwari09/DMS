@@ -33,8 +33,8 @@ export interface User {
 
 export interface AuthResponse {
   user: User
-  token: string
-  expiresIn: string
+  accessToken: string
+  expiresIn?: string
 }
 
 export interface Organization {

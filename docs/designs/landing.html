@@ -36,7 +36,7 @@
                 @apply bg-[var(--accent-color)] text-[var(--text-primary)] rounded-md px-6 py-3 font-bold hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors;
             }
             .typography_h1 {
-                @apply text-4xl lg:text-5xl font-extrabold text-[var(--text-primary)] mb-4 tracking-tighter;
+                @apply text-4xl lg:text-6xl font-black text-white mb-4 tracking-tighter;
             }
             .typography_h2 {
                 @apply text-3xl font-bold text-[var(--text-primary)] mb-3;
@@ -44,16 +44,34 @@
             .typography_body {
                 @apply text-base lg:text-lg text-[var(--text-secondary)] leading-relaxed;
             }
+            @keyframes slide-in {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .feature-card {
+                animation: slide-in 0.6s ease-out forwards;
+                animation-play-state: paused;
+                opacity: 0;
+            }
+            .feature-card.animate-on-scroll {
+                animation-play-state: running;
+            }
         </style>
     </head>
     <body class="antialiased">
         <div class="relative min-h-screen flex flex-col">
-            <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-sm">
+            <header class="absolute top-0 z-50 w-full">
                 <div class="container mx-auto px-6 py-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <svg
-                                class="h-8 w-8 text-[var(--primary-color)]"
+                                class="h-8 w-8 text-white"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -66,43 +84,41 @@
                                     stroke-width="2"
                                 ></path>
                             </svg>
-                            <h2
-                                class="text-xl font-bold text-[var(--text-primary)]"
-                            >
+                            <h2 class="text-xl font-bold text-white">
                                 DealerFlow
                             </h2>
                         </div>
                         <nav class="hidden md:flex items-center gap-8">
                             <a
-                                class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+                                class="text-white/80 hover:text-white transition-colors"
                                 href="#"
                                 >Home</a
                             >
                             <a
-                                class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+                                class="text-white/80 hover:text-white transition-colors"
                                 href="#"
-                                >Modules</a
+                                >Features</a
                             >
                             <a
-                                class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+                                class="text-white/80 hover:text-white transition-colors"
                                 href="#"
                                 >Pricing</a
                             >
                             <a
-                                class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors"
+                                class="text-white/80 hover:text-white transition-colors"
                                 href="#"
                                 >Contact</a
                             >
                         </nav>
                         <div class="hidden md:flex items-center gap-4">
                             <a
-                                class="text-[var(--text-secondary)] hover:text-[var(--primary-color)] transition-colors font-medium"
+                                class="text-white/80 hover:text-white transition-colors font-medium"
                                 href="#"
                                 >Login</a
                             >
                             <a class="button_primary" href="#">Register</a>
                         </div>
-                        <button class="md:hidden text-[var(--text-primary)]">
+                        <button class="md:hidden text-white">
                             <svg
                                 class="w-6 h-6"
                                 fill="none"
@@ -122,222 +138,357 @@
                 </div>
             </header>
             <main class="flex-grow">
-                <section class="relative">
-                    <div
-                        class="container mx-auto px-6 py-24 lg:py-32 flex flex-col lg:flex-row items-center"
-                    >
-                        <div class="lg:w-1/2 text-center lg:text-left">
-                            <h1 class="typography_h1">
-                                The Ultimate DMS for Car &amp; Motorbike
-                                Dealerships
-                            </h1>
-                            <p
-                                class="typography_body mt-4 mb-8 max-w-xl mx-auto lg:mx-0"
-                            >
-                                DealerFlow is the complete Dealership Management
-                                System designed to streamline your operations,
-                                from sales and service to inventory and customer
-                                relations. Drive efficiency and boost profits.
-                            </p>
+                <section
+                    class="relative h-[600px] lg:h-screen flex items-center justify-center text-center bg-black"
+                >
+                    <div class="absolute inset-0 z-0">
+                        <img
+                            alt="Modern dealership showroom with sleek cars"
+                            class="w-full h-full object-cover opacity-50"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr2tn2ZMs7WvI83XLl68DNg94hdI6rRPrmJpDfsZsPN_c4etiE-seMrIoKfKE_yp4y-c9i8LXbua94tRaRBDf-iwAAkMcHVKQtgkrSNXALhLuu4gxpgg4t2rOk8_P5J-gbD6tt2mJERzC8Txv5oThpND2XOVvo22mSB1s2W9QGbr0iNMtTXPFbPjN8GgL708XptYYfi5pWYTO09xXr9YQC6KsOgR8XGM3x6lFZIGET3bwE5yXURiJUXSqRAKjFWFQ7b69Oe4-pFfvG"
+                        />
+                    </div>
+                    <div class="relative z-10 container mx-auto px-6">
+                        <h1 class="typography_h1">
+                            Streamline. Sell. Succeed.
+                        </h1>
+                        <p
+                            class="text-lg lg:text-xl text-white/90 mt-4 mb-8 max-w-2xl mx-auto"
+                        >
+                            The all-in-one DMS built to accelerate growth for
+                            car and motorbike dealerships. Manage everything,
+                            from showroom to service bay, with one intuitive
+                            platform.
+                        </p>
+                        <div
+                            class="flex flex-col sm:flex-row gap-4 justify-center"
+                        >
                             <a class="button_primary text-lg" href="#"
                                 >Request a Demo</a
                             >
-                        </div>
-                        <div class="lg:w-1/2 mt-12 lg:mt-0">
-                            <img
-                                alt="Modern car and motorbike dealership showroom"
-                                class="rounded-lg shadow-2xl"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDlU7G45r5z653XF0t7l7P2C-c089k4R8L3p8383-Y-eJ6H52Q8jU7bX71c35N4i6W8sC8d3qT8t1n4j9h6t5p4v3w2x1a0f5g6h7i8j9k0l1m2n3o4p5q6r7s8t9u0v1w2x3y4z"
-                            />
+                            <a
+                                class="bg-white/20 text-white backdrop-blur-sm rounded-md px-6 py-3 font-bold hover:bg-white/30 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-opacity-50 transition-colors text-lg"
+                                href="#"
+                                >Explore Features</a
+                            >
                         </div>
                     </div>
                 </section>
-                <section class="bg-[var(--secondary-color)] py-20">
+                <section
+                    class="bg-[var(--secondary-color)] py-20"
+                    id="features"
+                >
                     <div class="container mx-auto px-6">
-                        <div class="text-center mb-12">
+                        <div class="text-center mb-16">
                             <h2 class="typography_h2">
-                                Powerful Modules to Drive Your Business
+                                Key Features to Drive Your Success
                             </h2>
                             <p class="typography_body max-w-3xl mx-auto">
-                                DealerFlow integrates every aspect of your
-                                dealership into one seamless platform, giving
-                                you complete control and visibility.
+                                DealerFlow integrates every part of your
+                                dealership into a single, powerful system.
+                                Discover the features designed to boost your
+                                efficiency and profitability.
                             </p>
                         </div>
-                        <div
-                            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8"
-                        >
+                        <div class="relative max-w-5xl mx-auto">
                             <div
-                                class="bg-white p-6 rounded-lg shadow-md text-center"
-                            >
-                                <div class="flex justify-center mb-4">
-                                    <div
-                                        class="bg-[var(--primary-color)]/10 text-[var(--primary-color)] rounded-full p-3"
-                                    >
-                                        <svg
-                                            class="w-8 h-8"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="1.5"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                class="absolute left-1/2 top-0 h-full w-0.5 bg-gray-300 hidden md:block"
+                            ></div>
+                            <div class="space-y-12 md:space-y-0">
+                                <div
+                                    class="feature-card md:flex items-center md:justify-end md:gap-8"
+                                >
+                                    <div class="md:w-5/12 md:text-right">
+                                        <h3
+                                            class="text-2xl font-bold text-[var(--text-primary)] mb-3"
                                         >
-                                            <path
-                                                d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25a2.25 2.25 0 01-2.25-2.25v-2.25z"
+                                            Dashboard
+                                        </h3>
+                                        <p class="typography_body">
+                                            Get a 360° real-time overview of
+                                            your entire operation. Monitor sales
+                                            performance, service appointments,
+                                            and inventory levels at a glance.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="relative md:w-1/12 flex justify-center my-4 md:my-0"
+                                    >
+                                        <div
+                                            class="absolute md:relative z-10 bg-blue-500 text-white rounded-full h-16 w-16 flex items-center justify-center ring-4 ring-[var(--secondary-color)] md:ring-8"
+                                        >
+                                            <svg
+                                                class="w-8 h-8"
+                                                fill="none"
+                                                stroke="currentColor"
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
-                                            ></path>
-                                        </svg>
+                                                stroke-width="2"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M3 12l3-3m0 0l3 3m-3-3v12m15-9l-3 3m0 0l-3-3m3 3V3m-9 9l3 3m0 0l3-3m-3 3v-6m-6 3h12"
+                                                ></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="md:w-5/12 bg-white p-6 rounded-lg shadow-lg"
+                                    >
+                                        <h4
+                                            class="font-semibold text-lg text-[var(--text-primary)]"
+                                        >
+                                            Centralized Control
+                                        </h4>
+                                        <p
+                                            class="text-sm text-[var(--text-secondary)] mt-1"
+                                        >
+                                            Make informed decisions instantly
+                                            with all key metrics in one place.
+                                        </p>
                                     </div>
                                 </div>
-                                <h3
-                                    class="text-xl font-bold text-[var(--text-primary)] mb-2"
+                                <div
+                                    class="feature-card md:flex flex-row-reverse items-center md:justify-end md:gap-8"
                                 >
-                                    Dashboard
-                                </h3>
-                                <p class="typography_body">
-                                    Get a 360° view of your dealership's
-                                    performance with real-time data and
-                                    analytics.
-                                </p>
-                            </div>
-                            <div
-                                class="bg-white p-6 rounded-lg shadow-md text-center"
-                            >
-                                <div class="flex justify-center mb-4">
-                                    <div
-                                        class="bg-[var(--primary-color)]/10 text-[var(--primary-color)] rounded-full p-3"
-                                    >
-                                        <svg
-                                            class="w-8 h-8"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="1.5"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                    <div class="md:w-5/12">
+                                        <h3
+                                            class="text-2xl font-bold text-[var(--text-primary)] mb-3"
                                         >
-                                            <path
-                                                d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.826-1.106-2.156 0-2.982C10.544 7.719 11.275 7.5 12 7.5c.883 0 1.697.234 2.372.658"
+                                            Sales
+                                        </h3>
+                                        <p class="typography_body">
+                                            Empower your sales team with tools
+                                            to manage leads, track customer
+                                            interactions, and close deals
+                                            faster.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="relative md:w-1/12 flex justify-center my-4 md:my-0"
+                                    >
+                                        <div
+                                            class="absolute md:relative z-10 bg-green-500 text-white rounded-full h-16 w-16 flex items-center justify-center ring-4 ring-[var(--secondary-color)] md:ring-8"
+                                        >
+                                            <svg
+                                                class="h-8 w-8"
+                                                fill="none"
+                                                stroke="currentColor"
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
-                                            ></path>
-                                        </svg>
+                                                stroke-width="2"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                                                ></path>
+                                                <path d="M16 8l-6 6-3-3"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="md:w-5/12 bg-white p-6 rounded-lg shadow-lg"
+                                    >
+                                        <h4
+                                            class="font-semibold text-lg text-[var(--text-primary)]"
+                                        >
+                                            Streamlined Pipeline
+                                        </h4>
+                                        <p
+                                            class="text-sm text-[var(--text-secondary)] mt-1"
+                                        >
+                                            From initial contact to final
+                                            signature, our system simplifies the
+                                            entire sales process.
+                                        </p>
                                     </div>
                                 </div>
-                                <h3
-                                    class="text-xl font-bold text-[var(--text-primary)] mb-2"
+                                <div
+                                    class="feature-card md:flex items-center md:justify-end md:gap-8"
                                 >
-                                    Sales
-                                </h3>
-                                <p class="typography_body">
-                                    Manage leads, track deals, and close sales
-                                    faster with our intuitive sales pipeline.
-                                </p>
-                            </div>
-                            <div
-                                class="bg-white p-6 rounded-lg shadow-md text-center"
-                            >
-                                <div class="flex justify-center mb-4">
-                                    <div
-                                        class="bg-[var(--primary-color)]/10 text-[var(--primary-color)] rounded-full p-3"
-                                    >
-                                        <svg
-                                            class="w-8 h-8"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="1.5"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                    <div class="md:w-5/12 md:text-right">
+                                        <h3
+                                            class="text-2xl font-bold text-[var(--text-primary)] mb-3"
                                         >
-                                            <path
-                                                d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.664 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.474-4.474c-.048-.58-.122-1.193-.266-1.743M11.42 15.17l-4.655 5.653"
+                                            Service
+                                        </h3>
+                                        <p class="typography_body">
+                                            Optimize your workshop's workflow.
+                                            Manage appointments, assign tasks,
+                                            track progress, and handle invoicing
+                                            seamlessly.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="relative md:w-1/12 flex justify-center my-4 md:my-0"
+                                    >
+                                        <div
+                                            class="absolute md:relative z-10 bg-yellow-500 text-white rounded-full h-16 w-16 flex items-center justify-center ring-4 ring-[var(--secondary-color)] md:ring-8"
+                                        >
+                                            <svg
+                                                class="h-8 w-8"
+                                                fill="none"
+                                                stroke="currentColor"
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
-                                            ></path>
-                                        </svg>
+                                                stroke-width="2"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.4-2.4c.4-.5.4-1.1 0-1.5z"
+                                                ></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="md:w-5/12 bg-white p-6 rounded-lg shadow-lg"
+                                    >
+                                        <h4
+                                            class="font-semibold text-lg text-[var(--text-primary)]"
+                                        >
+                                            Efficient Management
+                                        </h4>
+                                        <p
+                                            class="text-sm text-[var(--text-secondary)] mt-1"
+                                        >
+                                            Enhance customer satisfaction and
+                                            workshop productivity with optimized
+                                            workflows.
+                                        </p>
                                     </div>
                                 </div>
-                                <h3
-                                    class="text-xl font-bold text-[var(--text-primary)] mb-2"
+                                <div
+                                    class="feature-card md:flex flex-row-reverse items-center md:justify-end md:gap-8"
                                 >
-                                    Service
-                                </h3>
-                                <p class="typography_body">
-                                    Streamline service appointments, manage work
-                                    orders, and enhance customer satisfaction.
-                                </p>
-                            </div>
-                            <div
-                                class="bg-white p-6 rounded-lg shadow-md text-center"
-                            >
-                                <div class="flex justify-center mb-4">
-                                    <div
-                                        class="bg-[var(--primary-color)]/10 text-[var(--primary-color)] rounded-full p-3"
-                                    >
-                                        <svg
-                                            class="w-8 h-8"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="1.5"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                    <div class="md:w-5/12">
+                                        <h3
+                                            class="text-2xl font-bold text-[var(--text-primary)] mb-3"
                                         >
-                                            <path
-                                                d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                                            Inventory
+                                        </h3>
+                                        <p class="typography_body">
+                                            Gain complete control over your
+                                            vehicle and parts inventory.
+                                            Automate stock tracking, manage
+                                            supplier data, and get low-stock
+                                            alerts.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="relative md:w-1/12 flex justify-center my-4 md:my-0"
+                                    >
+                                        <div
+                                            class="absolute md:relative z-10 bg-red-500 text-white rounded-full h-16 w-16 flex items-center justify-center ring-4 ring-[var(--secondary-color)] md:ring-8"
+                                        >
+                                            <svg
+                                                class="h-8 w-8"
+                                                fill="none"
+                                                stroke="currentColor"
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
-                                            ></path>
-                                        </svg>
+                                                stroke-width="2"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M21 16V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2h14a2 2 0 002-2z"
+                                                ></path>
+                                                <line
+                                                    x1="3"
+                                                    x2="21"
+                                                    y1="10"
+                                                    y2="10"
+                                                ></line>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="md:w-5/12 bg-white p-6 rounded-lg shadow-lg"
+                                    >
+                                        <h4
+                                            class="font-semibold text-lg text-[var(--text-primary)]"
+                                        >
+                                            Intelligent Control
+                                        </h4>
+                                        <p
+                                            class="text-sm text-[var(--text-secondary)] mt-1"
+                                        >
+                                            Prevent costly shortages or
+                                            overstock with automated and
+                                            intelligent inventory management.
+                                        </p>
                                     </div>
                                 </div>
-                                <h3
-                                    class="text-xl font-bold text-[var(--text-primary)] mb-2"
+                                <div
+                                    class="feature-card md:flex items-center md:justify-end md:gap-8"
                                 >
-                                    Inventory
-                                </h3>
-                                <p class="typography_body">
-                                    Track vehicle and parts inventory with
-                                    precision, from acquisition to sale.
-                                </p>
-                            </div>
-                            <div
-                                class="bg-white p-6 rounded-lg shadow-md text-center"
-                            >
-                                <div class="flex justify-center mb-4">
-                                    <div
-                                        class="bg-[var(--primary-color)]/10 text-[var(--primary-color)] rounded-full p-3"
-                                    >
-                                        <svg
-                                            class="w-8 h-8"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="1.5"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
+                                    <div class="md:w-5/12 md:text-right">
+                                        <h3
+                                            class="text-2xl font-bold text-[var(--text-primary)] mb-3"
                                         >
-                                            <path
-                                                d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.67c.12-.14.237-.28.348-.432m-6.076-3.07a6.375 6.375 0 01-4.242-4.242 6.375 6.375 0 017.598-2.285A6.375 6.375 0 0115 9.421a6.375 6.375 0 01-2.924 5.603z"
+                                            Customer Management
+                                        </h3>
+                                        <p class="typography_body">
+                                            Build lasting relationships and
+                                            drive repeat business. Maintain
+                                            detailed customer profiles and track
+                                            communication history.
+                                        </p>
+                                    </div>
+                                    <div
+                                        class="relative md:w-1/12 flex justify-center my-4 md:my-0"
+                                    >
+                                        <div
+                                            class="absolute md:relative z-10 bg-purple-500 text-white rounded-full h-16 w-16 flex items-center justify-center ring-4 ring-[var(--secondary-color)] md:ring-8"
+                                        >
+                                            <svg
+                                                class="h-8 w-8"
+                                                fill="none"
+                                                stroke="currentColor"
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
-                                            ></path>
-                                        </svg>
+                                                stroke-width="2"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"
+                                                ></path>
+                                                <circle
+                                                    cx="9"
+                                                    cy="7"
+                                                    r="4"
+                                                ></circle>
+                                                <path
+                                                    d="M23 21v-2a4 4 0 00-3-3.87"
+                                                ></path>
+                                                <path
+                                                    d="M16 3.13a4 4 0 010 7.75"
+                                                ></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="md:w-5/12 bg-white p-6 rounded-lg shadow-lg"
+                                    >
+                                        <h4
+                                            class="font-semibold text-lg text-[var(--text-primary)]"
+                                        >
+                                            Integrated CRM
+                                        </h4>
+                                        <p
+                                            class="text-sm text-[var(--text-secondary)] mt-1"
+                                        >
+                                            Personalize marketing efforts and
+                                            foster loyalty with a comprehensive
+                                            customer view.
+                                        </p>
                                     </div>
                                 </div>
-                                <h3
-                                    class="text-xl font-bold text-[var(--text-primary)] mb-2"
-                                >
-                                    Customer Mgt.
-                                </h3>
-                                <p class="typography_body">
-                                    Build lasting customer relationships with
-                                    integrated CRM and communication tools.
-                                </p>
                             </div>
-                        </div>
-                        <div class="text-center mt-12">
-                            <a class="button_secondary" href="#"
-                                >Explore All Modules</a
-                            >
                         </div>
                     </div>
                 </section>
@@ -439,6 +590,211 @@
                         </div>
                     </div>
                 </section>
+                <section class="bg-white py-20">
+                    <div class="container mx-auto px-6">
+                        <div class="text-center mb-16">
+                            <h2 class="typography_h2">
+                                Frequently Asked Questions
+                            </h2>
+                            <p class="typography_body max-w-3xl mx-auto">
+                                Have questions? We've got answers. Here are some
+                                of the most common queries from dealerships like
+                                yours.
+                            </p>
+                        </div>
+                        <div class="max-w-4xl mx-auto">
+                            <div class="space-y-4" x-data="{ open: null }">
+                                <div
+                                    class="bg-gray-50 rounded-lg border border-gray-200"
+                                >
+                                    <button
+                                        @click="open = open === 1 ? null : 1"
+                                        class="w-full flex justify-between items-center text-left text-xl font-semibold text-[var(--text-primary)] p-6"
+                                    >
+                                        <span
+                                            >Is DealerFlow suitable for both car
+                                            and motorbike dealerships?</span
+                                        >
+                                        <svg
+                                            :class="{'rotate-180': open === 1}"
+                                            class="w-6 h-6 transform transition-transform duration-300"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="px-6 pb-6 pt-2"
+                                        x-collapse=""
+                                        x-show="open === 1"
+                                    >
+                                        <p class="typography_body">
+                                            Absolutely! DealerFlow is designed
+                                            from the ground up to be flexible.
+                                            Whether you sell cars, motorbikes,
+                                            or both, our system can be
+                                            configured to meet the specific
+                                            needs of your inventory, sales, and
+                                            service processes.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-gray-50 rounded-lg border border-gray-200"
+                                >
+                                    <button
+                                        @click="open = open === 2 ? null : 2"
+                                        class="w-full flex justify-between items-center text-left text-xl font-semibold text-[var(--text-primary)] p-6"
+                                    >
+                                        <span
+                                            >How long does it take to set up and
+                                            start using the system?</span
+                                        >
+                                    </button>
+                                    <button
+                                        @click="open = open === 2 ? null : 2"
+                                        class="w-full flex justify-between items-center text-left text-xl font-semibold text-[var(--text-primary)] p-6"
+                                    >
+                                        <span
+                                            >How long does it take to set up and
+                                            start using the system?</span
+                                        >
+                                        <svg
+                                            :class="{'rotate-180': open === 2}"
+                                            class="w-6 h-6 transform transition-transform duration-300"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="px-6 pb-6 pt-2"
+                                        x-collapse=""
+                                        x-show="open === 2"
+                                    >
+                                        <p class="typography_body">
+                                            Our onboarding process is designed
+                                            to be quick and efficient. For our
+                                            Starter and Professional plans, you
+                                            can be up and running within a few
+                                            business days. The Enterprise plan
+                                            includes dedicated onboarding and
+                                            training, with a timeline tailored
+                                            to your dealership's scale and
+                                            complexity.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-gray-50 rounded-lg border border-gray-200"
+                                >
+                                    <button
+                                        @click="open = open === 3 ? null : 3"
+                                        class="w-full flex justify-between items-center text-left text-xl font-semibold text-[var(--text-primary)] p-6"
+                                    >
+                                        <span
+                                            >Can DealerFlow integrate with our
+                                            existing accounting software?</span
+                                        >
+                                        <svg
+                                            :class="{'rotate-180': open === 3}"
+                                            class="w-6 h-6 transform transition-transform duration-300"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="px-6 pb-6 pt-2"
+                                        x-collapse=""
+                                        x-show="open === 3"
+                                    >
+                                        <p class="typography_body">
+                                            Yes, our Professional and Enterprise
+                                            plans come with API access, which
+                                            allows for seamless integration with
+                                            a wide range of third-party
+                                            applications, including popular
+                                            accounting software like QuickBooks
+                                            and Xero. This ensures your
+                                            financial data stays perfectly in
+                                            sync.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div
+                                    class="bg-gray-50 rounded-lg border border-gray-200"
+                                >
+                                    <button
+                                        @click="open = open === 4 ? null : 4"
+                                        class="w-full flex justify-between items-center text-left text-xl font-semibold text-[var(--text-primary)] p-6"
+                                    >
+                                        <span
+                                            >Is my dealership's data secure on
+                                            your platform?</span
+                                        >
+                                        <svg
+                                            :class="{'rotate-180': open === 4}"
+                                            class="w-6 h-6 transform transition-transform duration-300"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M19 9l-7 7-7-7"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="px-6 pb-6 pt-2"
+                                        x-collapse=""
+                                        x-show="open === 4"
+                                    >
+                                        <p class="typography_body">
+                                            Data security is our top priority.
+                                            We use industry-leading encryption
+                                            standards for data in transit and at
+                                            rest. Our platform is hosted on
+                                            secure, cloud-based infrastructure
+                                            with regular backups and security
+                                            audits to ensure your sensitive
+                                            business and customer information is
+                                            always protected.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 <section class="bg-[var(--secondary-color)] py-20">
                     <div class="container mx-auto px-6">
                         <div class="text-center mb-12">
@@ -489,7 +845,7 @@
                                                 stroke-linecap="round"
                                                 stroke-linejoin="round"
                                             ></path></svg
-                                        >Core DMS Modules
+                                        >Core DMS Features
                                     </li>
                                     <li class="flex items-center">
                                         <svg
@@ -796,5 +1152,30 @@
                 </div>
             </footer>
         </div>
+        <script
+            defer=""
+            src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"
+        ></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const featureCards = document.querySelectorAll(".feature-card");
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add("animate-on-scroll");
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    {
+                        threshold: 0.1,
+                    },
+                );
+                featureCards.forEach((card) => {
+                    observer.observe(card);
+                });
+            });
+        </script>
     </body>
 </html>

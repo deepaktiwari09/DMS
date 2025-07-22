@@ -26,6 +26,10 @@ const meta: Meta<typeof LoginForm> = {
     onForgotPassword: {
       action: 'forgot password clicked',
       description: 'Callback when forgot password link is clicked'
+    },
+    error: {
+      control: 'text',
+      description: 'API error message to display'
     }
   },
   decorators: [
@@ -100,6 +104,22 @@ export const WithValidationErrors: Story = {
     docs: {
       description: {
         story: 'Try submitting the form empty to see validation errors in action.'
+      }
+    }
+  }
+}
+
+export const WithAPIError: Story = {
+  args: {
+    error: 'Invalid email or password',
+    onSubmit: async (data) => {
+      console.log('Login data:', data)
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Login form showing API error message for invalid credentials.'
       }
     }
   }

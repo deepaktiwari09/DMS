@@ -2,7 +2,7 @@ import { InputHTMLAttributes, forwardRef } from 'react'
 import { cn } from '../../lib/utils'
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string
+  label?: string | React.ReactNode
   error?: string
   helperText?: string
   leftIcon?: React.ReactNode
@@ -78,7 +78,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                   ></path>
                 </svg>
               ) : (
-                <span className="text-text-secondary">{rightIcon}</span>
+                <div className="text-text-secondary">{rightIcon}</div>
               )}
             </div>
           )}

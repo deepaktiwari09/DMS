@@ -1,3 +1,4 @@
 export { LoginPage } from './LoginPage'
-export { AuthPage } from './AuthPage'
-export { ResetPasswordPage } from './ResetPasswordPage'
+export { RegisterPage } from './RegisterPage'
+export { ForgotPasswordPage } from './ForgotPasswordPage'
+export { OnboardingPage } from './OnboardingPage'
